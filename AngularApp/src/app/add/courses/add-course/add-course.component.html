@@ -1,0 +1,87 @@
+<h4 class="text-orng">{{Title}}</h4>
+<hr class="line-orng">
+<div>
+  <div>
+     <form [formGroup]="Form" (submit)="onSubmit()">
+      <input class="input-small" type="hidden" formControlName="ID" />
+      <input class="input-small" type="text" formControlName="Name" placeholder="subject name e.g : math" #NameInput />
+      <select [(ngModel)]="dropdownval" style="border-color: coral;border-radius: 3px" class="input-small" formControlName = "Class" (change)="changeVal($event)">
+        <option>
+              Select Class
+        </option>
+        <option *ngFor="let item of DistinctClass" > 
+              {{item}}th
+        </option>
+      </select>
+      <button [disabled]="Form.invalid" class="btn-orange" type="submit">Add</button>
+    </form>
+  </div>
+  <div class="err-div">
+    <ul class="error">
+      <li *ngIf="Form.get('Name').touched && Form.get('Name').errors?.required">Class Name is required</li>
+      <li *ngIf="Form.get('Name').errors?.max || Form.get('Name').errors?.min">Class Name is incorrect only use from 0 to 10 </li>
+    </ul>
+  </div>
+</div>
+
+<div *ngIf = "EditMode != 'true'" >
+  <h5 class="text-orng text-center">Subjects</h5>
+  <hr class="line-orng" />
+  <div class="full-width" style="padding-right: 2%">
+    <div style="padding-left: 10px;width: 30%;float: left;display: table-cell;vertical-align: bottom">
+        <div style="width: 100%">
+            <label class="full-width" > showing page {{CurrentPage}} of {{TotalPages}}</label>
+        </div>
+        <button class="btn-pagination extra-padding" *ngIf="CurrentPage > 1" (click)="previouspage()" >
+          previous  
+        </button>
+        <button class="btn-pagination" *ngIf="CurrentPage < TotalPages" (click)="nextpage()" >
+            next  
+        </button> 
+       </div>
+    <div style="float: right;width: 40%" >
+        <input [(ngModel)]="searchText" class="input-small full-width " placeholder="search class or subject " />  
+    </div>
+
+  </div>
+  <div  class="full-width" style="max-height : 600px;height : 600px;">
+    <table class="Table-orng">
+      <thead>
+        <tr>
+          <th> <i class="fa fa-sort" (click) = "SortBy('name' , 'string')" ></i> Subject</th>
+          <th> <i class="fa fa-sort" (click) = "SortBy('class' , 'string')" ></i> Class</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+  <tbody *ngFor="let course of courses | slice : SkipEl | filter:searchText let i = index ">
+      <tr *ngIf="i < PageSize" style="padding-left: 5% !important" >    
+          <td >{{course.name | uppercase}}</td>
+          <td>{{course.class}}</td>
+          <td> <button class="btn btn-success" (click)="Edit(course.id)" >Edit</button> </td> 
+          <td> <button class="btn btn-danger " (click) = "ConfirmDelete(course.id)" >Delete</button> </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<ng-template #DeleteTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title">Confirm Delete operation</h4>
+    <i class="fa fa-close" aria-hidden="true" (click)="modalRef.hide()" ></i>
+  </div>
+  <h5 class="modal-body text-center">
+      Are you sure to complete this operation?
+  </h5>
+  <div> 
+      <button class="btn btn-primary" (click)="modalRef.hide()"  style="width: 20%;float:right" >no</button>
+      <button class="btn btn-danger" (click)="modalRef.hide()" (click)="Delete()" style="width: 20%;float:right;">yes</button>
+  </div>
+</ng-template>
+
+
+
+
+
+

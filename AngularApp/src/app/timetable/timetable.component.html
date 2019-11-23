@@ -1,0 +1,146 @@
+<h4 class="text-orng">{{Title}}</h4>
+<hr class="line-orng">
+
+  <input style="float: left;width: 10%;" class="btn-orange" type="button" value="Download" (click)="print()"/>  
+
+<table id="contentToConvert" class="Table-orng onPointer" border="1">
+    <thead>
+          <tr>
+              <td>Classes</td>
+              <td colspan="9" class="text-center">Periods</td>
+          </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                 Name   
+            </td>
+            <td>
+                1
+            </td>
+            <td>
+                2
+            </td>
+
+            <td>
+                3
+            </td>
+
+            <td>
+                4
+            </td>
+
+            <td>
+                5
+            </td>
+            <td>
+                6
+            </td>
+
+            <td>
+                7
+            </td>
+
+            <td>
+                8
+            </td>
+
+            <td>
+                9
+            </td>
+
+        </tr>
+        <tr *ngFor = "let period of periods">
+                        <td  >{{period.class.name+ "th " + period.class.section | uppercase }}</td>      
+                        <td  (click)= "SetPeriod(period.class.name , 1 , period.class.section)" >
+                            <div class="border" *ngFor="let p of period.p1" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                        </td>
+                        <td  (click)= "SetPeriod(period.class.name , 2 , period.class.section)" >
+                            <div class="border" *ngFor="let p of period.p2" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}" >{{p.teacher.name}}</p></div>    
+                        </td>
+                        <td (click)= "SetPeriod(period.class.name , 3 , period.class.section)" >
+                            <div class="border" *ngFor="let p of period.p3" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                        </td>
+                        <td (click)= "SetPeriod(period.class.name , 4 , period.class.section)" >
+                            <div class="border" *ngFor="let p of period.p4" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                        </td>
+                        <td (click)= "SetPeriod(period.class.name , 5 , period.class.section)" >
+                            <div class="border" *ngFor="let p of period.p5" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                        </td>
+                        <td (click)= "SetPeriod(period.class.name , 6 , period.class.section)" >
+                            <div class="border" *ngFor="let p of period.p6" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                        </td>
+                        <td (click)= "SetPeriod(period.class.name , 7 , period.class.section)" >
+                            <div class="border" *ngFor="let p of period.p7" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                        </td>
+                        <td (click)= "SetPeriod(period.class.name , 8 , period.class.section)" >
+                            <div class="border" *ngFor="let p of period.p8" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                        </td>
+                        <td (click)= "SetPeriod(period.class.name , 9 , period.class.section)" >
+                            <div class="border" *ngFor="let p of period.p9" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                        </td>
+                 </tr>
+    </tbody>
+</table>
+
+<ng-template #FormTemplate>
+    <div>
+        <i style="text-align: right" class="fa fa-close" style="float: right" aria-hidden="true" (click)="modalRef.hide()" ></i>
+    </div>
+        <div style="border-bottom: solid 1px">
+          <p class="text-center">Set <strong> {{Form.get('Period').value}}th </strong> period for Class <strong> {{Form.get('Class').value}}th </strong> </p>
+        </div>
+        <div class="modal-body" >
+                <form [formGroup]="Form" (submit) = "onSubmit()" >
+                    <div style="display: block;padding-left: 80px;padding-right: 80px">
+                        <select  style="width: 100%;border-radius: 3px" class="input-small" formControlName = "Subject" (change)="changecourse($event)">
+                            <option>
+                                  Select Subject
+                            </option>
+                            <option *ngFor="let course of courses" > 
+                              {{course.name| uppercase}} 
+                            </option>
+                          </select>                        
+                    </div>
+                    <br/>
+                    <div style="display: block;padding-left: 80px;padding-right: 80px">
+                        <select  style="width: 100%;border-radius: 3px" class="input-small" formControlName = "Teacher" (change)="changeteahcer($event)">
+                            <option>
+                                  Select Teachers
+                            </option>
+                            <option *ngFor="let teacher of teachers" > 
+                              {{teacher.name| uppercase}} 
+                            </option>
+                          </select>                        
+                    </div>
+                   
+                    <div style="display: block" >
+                        <button [disabled]="Form.invalid"  type="submit" style="width: 62%" class="btn-orange" (click)="modalRef.hide()" >Add</button>        
+                    </div>   
+                </form>
+        </div>
+      </ng-template>
+<style>
+
+    td
+    {
+        position:relative;
+        overflow: hidden;
+
+    }
+    .showdetails
+    {
+        background-color: green;
+        color:white;
+    }
+    td div
+    {
+        overflow: auto ;
+        position:absolute;top:0;bottom:0;left: 0;right: 0;width:100%;
+    }
+    ::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+</style>

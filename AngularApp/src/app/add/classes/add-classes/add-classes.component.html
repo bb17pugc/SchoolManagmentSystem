@@ -1,0 +1,79 @@
+<h4 class="text-orng">{{Title}}</h4>
+<hr class="line-orng">
+<div>
+  <div>
+     <form [formGroup]="Form" (submit)="onSubmit()">
+      <input class="input-small" type="hidden" formControlName="ID" />
+      <input class="input-small" type="number" formControlName="Name" placeholder="class name e.g : 3" #NameInput />
+      <input class="input-small" type="number" formControlName="Fee" placeholder="class Fee e.g : 300" />
+      <input class="input-small" type="text" pattern="[a-zA-Z]{1}" title="one alphabet is allowed like A,B etc " formControlName="Section" placeholder="class section e.g : A" />
+      <button [disabled]="Form.invalid" class="btn-orange" type="submit">Add</button>
+    </form>
+  </div>
+  <div class="err-div">
+    <ul class="error">
+      <li *ngIf="Form.get('Name').touched && Form.get('Name').errors?.required">Class Name is required</li>
+      <li *ngIf="Form.get('Name').errors?.max || Form.get('Name').errors?.min">Class Name is incorrect only use from 0 to 10 </li>
+      <li *ngIf="Form.get('Fee').touched && Form.get('Fee').errors?.required">Class Fee is required</li>
+      <li *ngIf="Form.get('Fee').errors?.min">Class Fee cannot be negative</li>
+      <li *ngIf="Form.get('Section').touched && Form.get('Section').errors?.required">Class section is required</li>
+      <li *ngIf="Form.get('Section').errors?.pattern">only single alphabet is allowed</li>
+    </ul>
+  </div>
+</div>
+<div *ngIf="EditMode !=  'true' ">
+  <h5 class="text-orng text-center">Classes</h5>
+  <hr class="line-orng" />
+  <div class="full-width" style="padding-right: 2%">
+    <div style="padding-left: 10px;width: 30%;float: left;display: table-cell;vertical-align: bottom">
+        <div style="width: 100%">
+            <label class="full-width" > showing page {{currentpage}} of {{totalpages}}</label>
+        </div>
+      <button class="btn-pagination extra-padding " *ngIf="currentpage > 1" (click)="previouspage()" >
+            previous  
+        </button>
+      <button class="btn-pagination" *ngIf="currentpage < totalpages" (click)="nextpage()" >
+              next  
+      </button>
+    </div>
+    <div style="float: right;width: 40%" >
+        <input class="input-small full-width " (keyup)="search(inpvalue.value)" #inpvalue   placeholder="search here" />  
+    </div>
+  </div>
+  <div class="full-width" style="max-height : 600px;height : 600px;">
+    <table class="Table-orng">
+      <thead>
+        <tr>
+          <th> <i (click)="sortby('name' , 'number')" class="fa fa-sort"></i> Class</th>
+          <th> <i (click)="sortby('fee' , 'number')" class="fa fa-sort"></i> Fee</th>
+          <th> <i (click)="sortby('section' , 'string')" class="fa fa-sort"></i> Section</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let class of classes | slice:skipel | filter : searchText ; let i=index ">
+      <tr *ngIf="i < pagesize" style="padding-left: 5% !important">    
+          <td >{{class.name}}th</td>
+          <td>{{class.fee}}</td>
+          <td>{{class.section | uppercase}}</td>
+          <td> <button class="btn btn-success" (click)="Edit(class.id)" >Edit</button> </td> 
+          <td> <button class="btn btn-danger " (click)="ConfirmDelete(class.id)" >Delete</button> </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<ng-template #editTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title">Confirm Delete operation</h4>
+       <i class="fa fa-close" aria-hidden="true" (click)="modalRef.hide()" ></i>
+  </div>
+  <h5 class="modal-body text-center">
+      Are you sure to complete this operation?
+  </h5>
+  <div> 
+      <button class="btn btn-primary" (click)="modalRef.hide()"  style="width: 20%;float:right" >no</button>
+      <button class="btn btn-danger" (click)="modalRef.hide()" (click)="Delete()" style="width: 20%;float:right;">yes</button>
+  </div>
+</ng-template>

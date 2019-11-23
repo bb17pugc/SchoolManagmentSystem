@@ -1,0 +1,41 @@
+<h4 class="text-orng">{{Title}}</h4>
+<hr class="line-orng">
+<div>
+<div>
+    <form  style="text-align: center" [formGroup]="Form" (submit)="onSubmit()">
+      <input  type="hidden" formControlName="ID" />
+    <div style="display: block">
+      <label style="width: 30%;text-align: right"> Name: </label>
+      <input  class="input-center" type="text" formControlName="Name" placeholder="name" #NameInput /> 
+    </div>
+    <div style="display: block">
+      <label style="width: 30%;text-align: right"> CNIC: </label>
+      <input class="input-center" type="text" formControlName="Cnic" placeholder="cnic : xxxxx-xxxxxx-x" /> 
+    </div>
+    <div>
+      <label style="width: 30%;text-align: right;"> Qualification: </label>
+      <textarea style="vertical-align: middle" cols="6" rows="4" type="text" formControlName="Education" placeholder="qualification"></textarea>
+    </div>
+    <div style="display: block">
+      <label style="width: 30%;text-align: right" > Institute or University: </label>
+      <input class="input-center" type="text" formControlName="Institute" placeholder="institute or university" />
+     </div>
+    <div>
+      <label style="width: 30%;text-align: right" > Qualification Completion Date: </label>   
+      <input class="input-center" type="date" formControlName="CompletionDate" placeholder="degree complete date" />
+    </div>
+    <button   class="btn-orange input-center" [disabled]="Form.invalid" type="submit">Add</button> 
+  </form>
+ </div>
+ <div class="err-div">
+   <ul class="error">
+     <li *ngIf="Form.get('Name').touched && Form.get('Name').errors?.required">Name is required</li>
+     <li *ngIf="Form.get('Name').errors?.pattern">Name is incorrect only use only alphabets </li>
+     <li *ngIf="Form.get('Cnic').touched && Form.get('Cnic').errors?.required">Class Fee is required</li>
+     <li *ngIf="Form.get('Cnic').errors?.pattern">Invalid cnic</li>
+     <li *ngIf="Form.get('Education').touched && Form.get('Education').errors?.required">Education section is required</li>
+     <li *ngIf="Form.get('Institute').touched && Form.get('Institute').errors?.required"> Institute is required </li>
+     <li *ngIf="Form.get('CompletionDate').errors?.invalidDate"> invalid date , date should be less than today </li>
+    </ul>
+    </div>
+</div>

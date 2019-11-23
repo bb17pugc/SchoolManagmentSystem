@@ -1,0 +1,29 @@
+<h3 class="text-orng text-center">Register Now</h3>
+<div class="jumbotron text-center">
+  <div class="text-center" >
+    <form style="text-align: center" [formGroup]="Form" (submit)="onSubmit()" autocomplete="on">
+      <input formControlName="FullName" type="text" class="input-small" placeholder="type full name" required>
+      <br />
+      <input formControlName="Email" class="input-small" placeholder="type your email" />
+      <br />
+      <input formControlName="Password" class="input-small" type="password" placeholder="password" />
+      <br />
+      <input formControlName="ConfirmPassword" class="input-small" placeholder="confirm your password" type="password" />
+      <br />
+      <input [disabled]="Form.invalid" type="submit" class="btn-orange" value="Register" />
+    </form>
+    <div class="err-div text-center">
+      <ul class="error">
+        <li *ngIf="Form.get('FullName').touched && Form.get('FullName').errors?.required">Name is required</li>
+        <li *ngIf="Form.get('FullName').errors?.pattern">Name is incorrect use only english alphabets, for example : john </li>
+        <li *ngIf="Form.get('Email').touched && Form.get('Email').errors?.required">Email is required</li>
+        <li *ngIf="Form.get('Email').touched && Form.get('Email').errors?.email">Email is incorrect</li>
+        <li *ngIf="Form.get('Password').touched && Form.get('Password').errors?.required">Password is required</li>
+        <li *ngIf="Form.get('Password').errors?.minlength">Password should have 7 characters</li>
+        <li *ngIf="Form.get('ConfirmPassword').errors?.mustMatch">Password and Confirm password not match</li>
+        <li *ngIf="Reg_Error">{{Reg_Error}}</li>
+      </ul>
+    </div>
+  </div>
+  <p class="text-center" style="font-size:smaller;color :red" *ngIf="Form.invalid">* Fill all the fields then click register</p>
+</div>
