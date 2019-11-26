@@ -10,7 +10,7 @@ namespace Api.Models
     {
         public int ID { get; set; }
         [Required]
-        [RegularExpression("^[a-z A-Z]+$" , ErrorMessage ="The name is incorrect use only alphabets")]
+        [RegularExpression("^[a-z A-Z]+$", ErrorMessage = "The name is incorrect use only alphabets")]
         public string Name { get; set; }
         [Required]
         [RegularExpression("^[0-9]{5}-[0-9]{7}-[0-9]$", ErrorMessage = "The name is incorrect use only alphabets")]
@@ -23,5 +23,6 @@ namespace Api.Models
         [DataType(DataType.Date)]
         [Required]
         public string CompletionDate { get; set; }
+        public int CountPeriod { get; set; }
     }
 }

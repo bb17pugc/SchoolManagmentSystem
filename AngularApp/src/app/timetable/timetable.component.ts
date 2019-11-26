@@ -39,6 +39,7 @@ export class TimetableComponent implements OnInit {
   period : Periods = new Periods();
   id : number;
   TeacherDetail : string;
+  NotFree : any[] = [];
   constructor(private p :  PrintService , private timetableserv : TimetableService , private teacherserv : TeacherService , private coursesserv : CourseserviceService  , private fb : FormBuilder , private modalservice : BsModalService , private classserv : AddService , private sort : Sorting ) 
   {
 
@@ -56,16 +57,18 @@ export class TimetableComponent implements OnInit {
 
   ngOnInit() 
   {
+    
     this.Form = this.fb.group({
       ID : [0],
       Class : [''],
       Section : [''],
       Period : [''],
       Teacher : ['' , Validators.required],
+      TeacherId : [''],
+      SubjectId : [''],
       Subject : ['' , Validators.required],
     }); 
     this.GetClasses();
-    this.GetTeachers();
     this.List();
   }
   GetCourses()
@@ -81,7 +84,11 @@ export class TimetableComponent implements OnInit {
   {
       this.Teachers$ = this.teacherserv.List();
       this.Teachers$.subscribe(list => {
-           this.teachers = list       
+           this.teachers = list;
+      });
+      console.log(this.NotFree); 
+      this.NotFree.forEach(b => {
+        this.teachers = this.teachers.filter(a => a !== b);  
       });
   }
   changecourse(e) 
@@ -101,6 +108,7 @@ export class TimetableComponent implements OnInit {
     this.Form.controls['Period'].setValue(Period);
     this.modalRef = this.modalservice.show(this.FormTemplate);
     this.GetCourses();
+    this.GetTeachers();
     this.id=0;
   }
 Edit(id)
@@ -109,8 +117,9 @@ Edit(id)
 }
   onSubmit()
   {
-      this.timetableserv.Add(this.Form).subscribe(res=>
+      this.timetableserv.Add(this.Form).subscribe((res : any[])=>
         {
+          this.NotFree = res;
           this.List();
         } 
         ,
@@ -119,6 +128,7 @@ Edit(id)
             alert(err.message);
          }
          );
+         this.GetTeachers();
   }
   List()
   {
@@ -143,7 +153,6 @@ Edit(id)
                  ); 
 
               });  
-              console.log(this.periods);
       });
   }
   GetClasses()

@@ -67,7 +67,7 @@
                         <td (click)= "SetPeriod(period.class.name , 5 , period.class.section)" >
                             <div class="border" *ngFor="let p of period.p5" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
                         </td>
-                        <td (click)= "SetPeriod(period.class.name , 6 , period.class.section)" >
+                        <td id="cont" (click)= "SetPeriod(period.class.name , 6 , period.class.section)" >
                             <div class="border" *ngFor="let p of period.p6" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
                         </td>
                         <td (click)= "SetPeriod(period.class.name , 7 , period.class.section)" >
@@ -94,10 +94,8 @@
                 <form [formGroup]="Form" (submit) = "onSubmit()" >
                     <div style="display: block;padding-left: 80px;padding-right: 80px">
                         <select  style="width: 100%;border-radius: 3px" class="input-small" formControlName = "Subject" (change)="changecourse($event)">
-                            <option>
-                                  Select Subject
-                            </option>
-                            <option *ngFor="let course of courses" > 
+                            
+                            <option *ngFor="let course of courses" [value] = "course.id" > 
                               {{course.name| uppercase}} 
                             </option>
                           </select>                        
@@ -105,10 +103,8 @@
                     <br/>
                     <div style="display: block;padding-left: 80px;padding-right: 80px">
                         <select  style="width: 100%;border-radius: 3px" class="input-small" formControlName = "Teacher" (change)="changeteahcer($event)">
-                            <option>
-                                  Select Teachers
-                            </option>
-                            <option *ngFor="let teacher of teachers" > 
+                        
+                            <option *ngFor="let teacher of teachers" [value] = "teacher.id" > 
                               {{teacher.name| uppercase}} 
                             </option>
                           </select>                        
@@ -132,6 +128,7 @@
     {
         background-color: green;
         color:white;
+        transition: 1s;
     }
     td div
     {
@@ -144,3 +141,4 @@
 }
 
 </style>
+

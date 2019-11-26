@@ -1,0 +1,7 @@
+Install @angular-devkit/build-angular as dev dependency. This package is newly introduced in Angular 6.0
+
+npm install --save-dev @angular-devkit/build-angular
+
+or,
+
+yarn add @angular-devkit/build-angular --dev

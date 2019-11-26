@@ -11,7 +11,7 @@ namespace Api.Models
         public int Classes { get; set;}
         public string Section { get; set; }
         public int Period { get; set; }
-        public string Course { get; set; }
-        public string Teacher { get; set; }
+        public int Course { get; set; }
+        public int Teacher { get; set; }
     }
 }

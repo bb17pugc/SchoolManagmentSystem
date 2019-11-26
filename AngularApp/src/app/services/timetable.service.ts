@@ -23,8 +23,9 @@ export class TimetableService {
           Section : Form.value.Section,
           Period : Form.value.Period,
           Course : Form.value.Subject,
-          Teacher : Form.value.Teacher,
+          Teacher : Form.value.Teacher
       }
+      
    return this.http.post(this.BaseUrl+'/TimeTable/Add' , body , {headers : this.reqheaders})
   }
   List()

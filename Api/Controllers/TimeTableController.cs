@@ -27,11 +27,13 @@ namespace Api.Controllers
         {
             if(ModelState.IsValid)
             {
+                var Teachers = authDb.PeriodDetail.GroupBy(a=>a.Teacher).Select(b => new { teacher = b.Key , periods = b.Count() });
+                var NotFreeTeachers = Teachers.Where(a => a.periods > 9);
                 PeriodDetail model = new PeriodDetail
                 {
                     ID = recored.ID,
-                    Course = authDb.Courses.Where(a => a.Name == recored.Course).FirstOrDefault(),
-                    Teacher = authDb.Teachers.Where(a => a.Name == recored.Teacher).FirstOrDefault(),
+                    Course = authDb.Courses.Where(a => a.ID == recored.Course).FirstOrDefault(),
+                    Teacher = authDb.Teachers.Where(a => a.ID == recored.Teacher).FirstOrDefault(),
                     Classes= authDb.Classes.Where(a => a.Name == recored.Classes && a.Section == recored.Section).FirstOrDefault(),
                     Period = recored.Period,
                 };
@@ -44,9 +46,10 @@ namespace Api.Controllers
                     await Task.Run(() => authDb.AddAsync(model));
                 }
                 await authDb.SaveChangesAsync();
+                return Ok(NotFreeTeachers);
             } 
              await authDb.SaveChangesAsync();
-            return Ok("added");
+            return BadRequest("data is not valid");
         }
     }
 }

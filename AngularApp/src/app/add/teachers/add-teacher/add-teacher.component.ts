@@ -6,6 +6,7 @@ import { TeacherService } from 'src/app/services/teacher.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Teahcer } from 'src/app/models/teahcer';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Alert } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-add-teacher',
@@ -69,13 +70,14 @@ export class AddTeacherComponent implements OnInit {
          this.Form.controls['Education'].setValue(data.education);
          this.Form.controls['Institute'].setValue(data.institute);
          this.Form.controls['Completiondate'].setValue(data.completionDate);
-          this.EditMode = "true"
       }
       ,
       (err : HttpErrorResponse) =>
       {
         alert("server is offline");
-      });       
+      });
+      this.EditMode = "true";
+      this.Title = "Edit Teacher";       
   }
   onSubmit()
   {
@@ -89,6 +91,7 @@ export class AddTeacherComponent implements OnInit {
            {
              this.router.navigate(['add/list-teachers']);
              this.EditMode = "false";
+            
            }
         } 
         ,
