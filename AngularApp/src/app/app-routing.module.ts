@@ -11,6 +11,7 @@ import { AddCourseComponent } from './add/courses/add-course/add-course.componen
 import { AddTeacherComponent } from './add/teachers/add-teacher/add-teacher.component';
 import { ListComponent } from './add/teachers/list/list.component';
 import { TimetableComponent } from './timetable/timetable.component';
+import { SubaccountsComponent } from './add/subaccounts/subaccounts.component';
 
 const routes: Routes = [
 
@@ -24,7 +25,8 @@ const routes: Routes = [
     { path: 'add-classes', component: AddClassesComponent } , 
     { path: 'add-courses', component: AddCourseComponent }  ,
     { path: 'add-teachers', component: AddTeacherComponent },
-    { path: 'list-teachers', component: ListComponent },  
+    { path: 'list-teachers', component: ListComponent } ,
+    { path: 'sub-accounts', component: SubaccountsComponent },    
   ]
   
   , canActivate: [AuthGuard]

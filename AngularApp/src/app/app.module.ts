@@ -29,6 +29,7 @@ import { TeacherService } from './services/teacher.service';
 import { TimetableComponent } from './timetable/timetable.component';
 import { TimetableService } from './services/timetable.service';
 import { PrintService } from './services/print.service';
+import { SubaccountsComponent } from './add/subaccounts/subaccounts.component';
 
 
 
@@ -47,6 +48,7 @@ import { PrintService } from './services/print.service';
     ListComponent,
     AddTeacherComponent,
     TimetableComponent,
+    SubaccountsComponent,
   ],
   exports : [SearchFilterPipe],
   imports: [

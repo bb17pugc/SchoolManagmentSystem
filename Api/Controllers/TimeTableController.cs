@@ -20,15 +20,15 @@ namespace Api.Controllers
         }
         public async Task<Object> List()
         {
+            var Teachers = authDb.PeriodDetail.GroupBy(a => a.Teacher).Select(b => new { teacher = b.Key, periods = b.Count() });
+            var NotFreeTeachers = Teachers.Where(a => a.periods > 9);
             var List = await Task.Run(() => authDb.PeriodDetail.Include(a=>  a.Course).Include(a => a.Teacher).Include(a => a.Classes));
-            return Ok(List.ToList());
+            return Ok( new { list = List.ToList() , notfree = NotFreeTeachers} );
         }
         public async Task<Object> Add(PeriodRecored recored)
         {
             if(ModelState.IsValid)
             {
-                var Teachers = authDb.PeriodDetail.GroupBy(a=>a.Teacher).Select(b => new { teacher = b.Key , periods = b.Count() });
-                var NotFreeTeachers = Teachers.Where(a => a.periods > 9);
                 PeriodDetail model = new PeriodDetail
                 {
                     ID = recored.ID,
@@ -46,7 +46,7 @@ namespace Api.Controllers
                     await Task.Run(() => authDb.AddAsync(model));
                 }
                 await authDb.SaveChangesAsync();
-                return Ok(NotFreeTeachers);
+                return Ok();
             } 
              await authDb.SaveChangesAsync();
             return BadRequest("data is not valid");

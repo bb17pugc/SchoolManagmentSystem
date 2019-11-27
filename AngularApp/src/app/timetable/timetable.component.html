@@ -56,28 +56,28 @@
                             <div class="border" *ngFor="let p of period.p1" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
                         </td>
                         <td  (click)= "SetPeriod(period.class.name , 2 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p2" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}" >{{p.teacher.name}}</p></div>    
+                            <div class="border" *ngFor="let p of period.p2" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}" >{{p.teacher.name}}</p></div>    
                         </td>
                         <td (click)= "SetPeriod(period.class.name , 3 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p3" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                            <div class="border" *ngFor="let p of period.p3" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
                         </td>
                         <td (click)= "SetPeriod(period.class.name , 4 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p4" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                            <div class="border" *ngFor="let p of period.p4" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
                         </td>
                         <td (click)= "SetPeriod(period.class.name , 5 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p5" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                            <div class="border" *ngFor="let p of period.p5" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
                         </td>
                         <td id="cont" (click)= "SetPeriod(period.class.name , 6 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p6" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                            <div class="border" *ngFor="let p of period.p6" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
                         </td>
                         <td (click)= "SetPeriod(period.class.name , 7 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p7" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                            <div class="border" *ngFor="let p of period.p7" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
                         </td>
                         <td (click)= "SetPeriod(period.class.name , 8 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p8" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                            <div class="border" *ngFor="let p of period.p8" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
                         </td>
                         <td (click)= "SetPeriod(period.class.name , 9 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p9" (click)="Edit(p.id)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                            <div class="border" *ngFor="let p of period.p9" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
                         </td>
                  </tr>
     </tbody>
@@ -94,7 +94,6 @@
                 <form [formGroup]="Form" (submit) = "onSubmit()" >
                     <div style="display: block;padding-left: 80px;padding-right: 80px">
                         <select  style="width: 100%;border-radius: 3px" class="input-small" formControlName = "Subject" (change)="changecourse($event)">
-                            
                             <option *ngFor="let course of courses" [value] = "course.id" > 
                               {{course.name| uppercase}} 
                             </option>

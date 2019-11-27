@@ -39,7 +39,7 @@ export class TimetableComponent implements OnInit {
   period : Periods = new Periods();
   id : number;
   TeacherDetail : string;
-  NotFree : any[] = [];
+  NotFree : any[] ;
   constructor(private p :  PrintService , private timetableserv : TimetableService , private teacherserv : TeacherService , private coursesserv : CourseserviceService  , private fb : FormBuilder , private modalservice : BsModalService , private classserv : AddService , private sort : Sorting ) 
   {
 
@@ -85,11 +85,11 @@ export class TimetableComponent implements OnInit {
       this.Teachers$ = this.teacherserv.List();
       this.Teachers$.subscribe(list => {
            this.teachers = list;
-      });
-      console.log(this.NotFree); 
-      this.NotFree.forEach(b => {
-        this.teachers = this.teachers.filter(a => a !== b);  
-      });
+           console.log(this.teachers);
+           this.NotFree.forEach(b => {
+            this.teachers = this.teachers.filter(a => a.id !== b.teacher.id);  
+          });
+      }); 
   }
   changecourse(e) 
   {
@@ -133,8 +133,9 @@ Edit(id)
   List()
   {
       this.perioddetail$ = this.timetableserv.List();
-      this.perioddetail$.subscribe(list => {
-           this.perioddetails = list;
+      this.perioddetail$.subscribe((obj : any) => {
+            this.NotFree=obj.notfree;
+           this.perioddetails = obj.list;
            this.periods.length = 0;
            this.classes.forEach(element => {
                this.periods.push(
