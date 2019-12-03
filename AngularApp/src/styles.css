@@ -231,7 +231,7 @@ apper .dataTables_paginate .paginate_button.disabled,
   .text-orng 
   {
      color : coral;
-     font-weight : 900;
+     font-weight : 400;
      text-align : center;
   }
   
@@ -2683,6 +2683,10 @@ textarea.form-control {
 .extra-padding
 {
   width: 40% !important;
+}
+select
+{
+  border-width: 0.5px;
 }
 i
 {

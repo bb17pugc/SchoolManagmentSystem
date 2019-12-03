@@ -12,7 +12,9 @@ import { AddTeacherComponent } from './add/teachers/add-teacher/add-teacher.comp
 import { ListComponent } from './add/teachers/list/list.component';
 import { TimetableComponent } from './timetable/timetable.component';
 import { SubaccountsComponent } from './add/subaccounts/subaccounts.component';
-
+import { StudentComponent } from './add/student/student.component';
+import { AddstudentComponent } from './add/student/addstudent/addstudent.component';
+import { ListStudentsComponent } from './add/student/list/list.component';
 const routes: Routes = [
 
   {path:'home' , component:HomeComponent  ,canActivate: [AuthGuard] },
@@ -26,7 +28,9 @@ const routes: Routes = [
     { path: 'add-courses', component: AddCourseComponent }  ,
     { path: 'add-teachers', component: AddTeacherComponent },
     { path: 'list-teachers', component: ListComponent } ,
-    { path: 'sub-accounts', component: SubaccountsComponent },    
+    { path: 'sub-accounts', component: SubaccountsComponent },
+    { path: 'student', component: AddstudentComponent },
+    { path: 'students-list', component: ListStudentsComponent },        
   ]
   
   , canActivate: [AuthGuard]

@@ -1,0 +1,38 @@
+<h4 class="text-orng">{{Title}}</h4>
+<hr class="line-orng">
+<div>
+<div>
+    <form  style="text-align: center" [formGroup]="Form" (submit)="onSubmit()">
+      <input  type="hidden" formControlName="ID" />
+    <div style="display: block">
+      <input  class="input-center" type="text" formControlName = "Name"  placeholder="Enter Student Name" #NameInput /> 
+    </div>
+    <div style="display: block">
+      <input class="input-center" type="text" formControlName = "Father" placeholder="Enter Father Name" /> 
+    </div>
+    <div style="display: block">
+        <select  class="input-center Class-dropdown"  formControlName="Class" >
+            <option *ngFor="let item of Classes" value={{item.id}} > 
+                  {{item.name}}th {{item.section | uppercase }} 
+            </option>
+          </select>
+     </div>
+    <div style="display: block">   
+      <input class="input-center" type="date" formControlName="DateOfBirth" placeholder="Date Of Birth" />
+      <br/>
+      <label style="width: 30%;text-align: center" > Date Of Birth </label>
+    </div>
+    <button   class="btn-orange input-center" [disabled]="Form.invalid"  type="submit">Add</button> 
+  </form>
+ </div>
+ <div class="err-div">
+    <ul class="error">
+      <li *ngIf="Form.get('Name').touched && Form.get('Name').errors?.required">Name is required</li>
+      <li *ngIf="Form.get('Name').errors?.pattern">Name is incorrect only use only alphabets </li>
+      <li *ngIf="Form.get('Father').touched && Form.get('Father').errors?.required">Father Name is required</li>
+      <li *ngIf="Form.get('Father').errors?.pattern">Father Name is incorrect only use only alphabets </li>
+      <li *ngIf="Form.get('Class').touched && Form.get('Class').errors?.required">Class  is required</li>
+      <li *ngIf="Form.get('DateOfBirth').errors?.invalidDate"> invalid date , date should be less than today </li>
+     </ul>
+     </div>
+ </div>

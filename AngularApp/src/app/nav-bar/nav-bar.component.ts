@@ -8,6 +8,9 @@ import { Router } from '@angular/router';
 })
 export class NavBarComponent implements OnInit {
   ShowMenu: boolean;
+  username : string;
+  fullname : string;
+
   ngOnInit(): void {
     if (localStorage.getItem('jwttoken') != null) {
       this.ShowMenu = true;
@@ -16,8 +19,9 @@ export class NavBarComponent implements OnInit {
     {
       this.ShowMenu = false;
     }
-
-    }
+    this.fullname=localStorage.getItem('fullname');
+      
+  }
   constructor(private router: Router)
   {
   }
@@ -25,6 +29,8 @@ export class NavBarComponent implements OnInit {
   logout()
   {
     localStorage.removeItem('jwttoken');
+    localStorage.removeItem('fullname');
+    localStorage.removeItem('username');
     location.reload();
     this.router.navigateByUrl('/login'); 
   }

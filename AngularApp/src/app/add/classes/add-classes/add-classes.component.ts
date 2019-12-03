@@ -4,10 +4,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AddService } from 'src/app/services/add.service';
 import { RetrieveService } from 'src/app/services/retrieve.service';
 import { DataTableDirective } from 'angular-datatables';
-import { Subject, Observable, Subscription, from } from 'rxjs';
+import { Subject, Observable, Subscription, from, ReplaySubject } from 'rxjs';
 import { ClassModel } from 'src/app/models/class-model';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Sorting } from 'src/app/sorting/sorting';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -16,6 +17,7 @@ import { Sorting } from 'src/app/sorting/sorting';
   styleUrls: ['./add-classes.component.css']
 })
 export class AddClassesComponent implements OnInit {
+  private Destroyed : ReplaySubject<Boolean> = new ReplaySubject(1);
   @ViewChild('NameInput' , {static : true}) NameInput: ElementRef; 
   Title : string = "Add New Class";
   Form: FormGroup;
@@ -55,7 +57,7 @@ export class AddClassesComponent implements OnInit {
   { 
     this.appserv.Clear();
     this.Classes$ = this.appserv.GetClasses();
-    this.subs = this.Classes$.subscribe(res =>
+    this.subs = this.Classes$.pipe(takeUntil(this.Destroyed)).subscribe(res =>
       {
          this.classes = res ;   
          this.totalpages = this.classes.length / this.pagesize;
@@ -70,26 +72,13 @@ export class AddClassesComponent implements OnInit {
     
     if(this.asc == "true")
       {
-        if(datatype == "string")
-        {
-          this.classes.sort(this.sort.SortString(col , "dsc" ));   
-        }
-        else
-        {
-          this.classes.sort(this.sort.SortNumbers(col , "dsc" ));   
-        }
+        this.classes.sort(this.sort.SortData(col , "dsc" , datatype ));   
         this.asc = "false";
       }
       else
       {
-        if(datatype == "string")
-        {
-          this.classes.sort(this.sort.SortString(col , "asc" ));   
-        }
-        else
-        {
-          this.classes.sort(this.sort.SortNumbers(col , "asc" ));   
-        }  this.asc = "true";  
+        this.classes.sort(this.sort.SortData(col , "asc" , datatype ));   
+        this.asc = "true";  
       }
   }
   
@@ -176,5 +165,8 @@ export class AddClassesComponent implements OnInit {
         }
       );    
     }
-  
+    ngOnDestroy() {
+      this.Destroyed.next(true);
+      this.Destroyed.complete();
+    }
 }

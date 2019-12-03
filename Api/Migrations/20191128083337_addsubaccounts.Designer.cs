@@ -4,14 +4,16 @@ using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Api.Migrations
 {
     [DbContext(typeof(AuthDb))]
-    partial class AuthDbModelSnapshot : ModelSnapshot
+    [Migration("20191128083337_addsubaccounts")]
+    partial class addsubaccounts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,28 +82,7 @@ namespace Api.Migrations
                     b.ToTable("PeriodDetail");
                 });
 
-            modelBuilder.Entity("Api.Models.Students", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ClassID");
-
-                    b.Property<DateTime>("DateOfBirth");
-
-                    b.Property<string>("Father");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ClassID");
-
-                    b.ToTable("Students");
-                });
-
-            modelBuilder.Entity("Api.Models.SubAccountsDetails", b =>
+            modelBuilder.Entity("Api.Models.tblSubAccounts", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -110,8 +91,6 @@ namespace Api.Migrations
                     b.Property<string>("Name");
 
                     b.Property<string>("Password");
-
-                    b.Property<string>("Role");
 
                     b.Property<string>("UserId");
 
@@ -350,14 +329,7 @@ namespace Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Api.Models.Students", b =>
-                {
-                    b.HasOne("Api.Models.Classes", "Class")
-                        .WithMany()
-                        .HasForeignKey("ClassID");
-                });
-
-            modelBuilder.Entity("Api.Models.SubAccountsDetails", b =>
+            modelBuilder.Entity("Api.Models.tblSubAccounts", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()

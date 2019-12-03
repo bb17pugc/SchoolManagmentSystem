@@ -4,11 +4,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CourseserviceService } from 'src/app/services/courseservice.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CourseModel } from 'src/app/models/course-model';
-import { Observable , Subscription, Subject } from 'rxjs';
+import { Observable , Subscription, Subject, ReplaySubject } from 'rxjs';
 import { AddService } from 'src/app/services/add.service';
 import { Sorting } from 'src/app/sorting/sorting';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 
 
 
@@ -18,6 +18,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./add-course.component.css']
 })
 export class AddCourseComponent implements OnInit {
+  private Destroyed  : ReplaySubject<boolean> = new ReplaySubject();
   @ViewChild('NameInput' , {static : true}) NameInput: ElementRef; 
   @ViewChild('DeleteTemplate' , {static : false}) Deletetemplate : TemplateRef<any>;
   Title : string = "Add New Subject";
@@ -84,7 +85,7 @@ SortBy(col , datatype)
 
 Edit(id)
 {
-   this.courseserv.Edit(id).subscribe((res : any) =>
+   this.courseserv.Edit(id).pipe(takeUntil(this.Destroyed)).subscribe((res : any) =>
      {
         this.Form.controls['ID'].setValue(res.id);
         this.Form.controls['Name'].setValue(res.name);
@@ -163,5 +164,8 @@ Delete()
         alert(err.error);
       });  
 }
-
+ngOnDestroy() {
+  this.Destroyed.next(true);
+  this.Destroyed.complete();
+}
 }

@@ -1,12 +1,24 @@
 <h4 class="text-orng">Create Sub Accounts</h4>
 <hr class="line-orng">
 <div style="width: 100%;text-align: center;">
-    <form [formGroup] = "Form" (submit) = "onSubmit()"  >
+    <form [formGroup] = "Form" (submit) = "onSubmit()" autocomplete="on"  >
         <input type="text" formControlName = "Name" class="input-small" placeholder="Enter name" />
         <br/>
         <input type="password" formControlName = "Password" class="input-small" placeholder="Enter password" />    
         <br/>
-        <input type="submit" class="input-small" value="Create" class="btn-orange" />    
+        <input type="submit" [disabled]="Form.invalid" class="input-small" value="Create" class="btn-orange" />    
     </form>
 </div>
+<div class="err-div text-center">
+        <ul class="error">
+          <li *ngIf="Form.get('Name').touched && Form.get('Name').errors?.required">Name is required</li>
+          <li *ngIf="Form.get('Name').errors?.pattern">Invalid name</li>
+        </ul>
+</div>
 <hr class="line-orng" style="margin-top: 30px;" >
+<style>
+     input::disabled
+     {
+         color : red; 
+     }
+</style>

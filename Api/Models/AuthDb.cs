@@ -23,5 +23,7 @@ namespace Api.Models
         public DbSet<Course> Courses { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<PeriodDetail> PeriodDetail { get; set; }
+        public DbSet<SubAccountsDetails> SubAccounts { get; set; }
+        public DbSet<Students> Students { get; set; }
     }
 }

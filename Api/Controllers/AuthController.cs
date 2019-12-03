@@ -25,9 +25,11 @@ namespace Api.Controllers
         private readonly   UserManager<CustomizeUser> userManager;
         private readonly SignInManager<CustomizeUser>  signinManager;
         private string message = "";
+        private readonly AuthDb authDb;
 
-        public AuthController(IOptions<AppSetting> options ,  IConfiguration iconfig,UserManager<CustomizeUser> _userManager , SignInManager<CustomizeUser> _signInManager)
+        public AuthController(AuthDb db , IOptions<AppSetting> options ,  IConfiguration iconfig,UserManager<CustomizeUser> _userManager , SignInManager<CustomizeUser> _signInManager)
         {
+            authDb = db;
             userManager = _userManager;
             signinManager = _signInManager;
             configuration = iconfig;
@@ -114,6 +116,7 @@ namespace Api.Controllers
         [Route("Login")]
         public async Task<object> Login( Login user)
         {
+
             var USER = await userManager.FindByNameAsync(user.UserName);
             if ((USER != null ? true : SetMessage(3)) && (await userManager.CheckPasswordAsync(USER, user.Password) ? true : SetMessage(1)) && (USER.EmailConfirmed ? true : SetMessage(2)))
             {
@@ -128,7 +131,8 @@ namespace Api.Controllers
                 var tokenhandler = new JwtSecurityTokenHandler();
                 var securitytoken = tokenhandler.CreateToken(tokendescriptor);
                 var token = tokenhandler.WriteToken(securitytoken);
-                return Ok(new { token });
+                //var role = authDb
+                return Ok(new {jwttoken=token , username = USER.UserName , fullname = USER.FullName  });
             }
             return BadRequest(message);
         }

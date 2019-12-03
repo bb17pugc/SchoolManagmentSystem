@@ -96,10 +96,10 @@ export class AddTeacherComponent implements OnInit {
         } 
         ,
          (err : HttpErrorResponse) =>
-          {
+        {
               alert(err.error);
-          });
-        }
+        });
+    }
   
-    } 
+   } 
 }

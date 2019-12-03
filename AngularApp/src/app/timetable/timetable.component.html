@@ -1,88 +1,89 @@
 <h4 class="text-orng">{{Title}}</h4>
 <hr class="line-orng">
-<div style="padding-bottom: 50px;">
-       <input style="float: right;width: 10%;margin: 0 !important;" class="btn-orange" type="button" value="Download pdf" (click)="print()"/>  
+<div style="padding: 10px;padding-top: 10px;">
+    <input style="float: right;width: 10%;margin: 0 !important;margin-bottom: 5px !important;" class="btn-orange" type="button" value="Download pdf" (click)="print()"/>    
+    
+    <table id="contentToConvert" class="Table-orng onPointer" border="1">
+                <thead>
+                      <tr>
+                          <td>Classes</td>
+                          <td colspan="9" class="text-center">Periods</td>
+                      </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                             Name   
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            2
+                        </td>
+            
+                        <td>
+                            3
+                        </td>
+            
+                        <td>
+                            4
+                        </td>
+            
+                        <td>
+                            5
+                        </td>
+                        <td>
+                            6
+                        </td>
+            
+                        <td>
+                            7
+                        </td>
+            
+                        <td>
+                            8
+                        </td>
+            
+                        <td>
+                            9
+                        </td>
+            
+                    </tr>
+                    <tr *ngFor = "let period of periods">
+                                    <td  >{{period.class.name+ "th " + period.class.section | uppercase }}</td>      
+                                    <td  (click)= "SetPeriod(period.class.name , 1 , period.class.section)" >
+                                        <div class="border" *ngFor="let p of period.p1" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                                    </td>
+                                    <td  (click)= "SetPeriod(period.class.name , 2 , period.class.section)" >
+                                        <div class="border" *ngFor="let p of period.p2" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}" >{{p.teacher.name}}</p></div>    
+                                    </td>
+                                    <td (click)= "SetPeriod(period.class.name , 3 , period.class.section)" >
+                                        <div class="border" *ngFor="let p of period.p3" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                                    </td>
+                                    <td (click)= "SetPeriod(period.class.name , 4 , period.class.section)" >
+                                        <div class="border" *ngFor="let p of period.p4" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                                    </td>
+                                    <td (click)= "SetPeriod(period.class.name , 5 , period.class.section)" >
+                                        <div class="border" *ngFor="let p of period.p5" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                                    </td>
+                                    <td id="cont" (click)= "SetPeriod(period.class.name , 6 , period.class.section)" >
+                                        <div class="border" *ngFor="let p of period.p6" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                                    </td>
+                                    <td (click)= "SetPeriod(period.class.name , 7 , period.class.section)" >
+                                        <div class="border" *ngFor="let p of period.p7" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                                    </td>
+                                    <td (click)= "SetPeriod(period.class.name , 8 , period.class.section)" >
+                                        <div class="border" *ngFor="let p of period.p8" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                                    </td>
+                                    <td (click)= "SetPeriod(period.class.name , 9 , period.class.section)" >
+                                        <div class="border" *ngFor="let p of period.p9" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
+                                    </td>
+                             </tr>
+                </tbody>
+            </table>
+            
 </div>
-
-<table id="contentToConvert" class="Table-orng onPointer" border="1">
-    <thead>
-          <tr>
-              <td>Classes</td>
-              <td colspan="9" class="text-center">Periods</td>
-          </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                 Name   
-            </td>
-            <td>
-                1
-            </td>
-            <td>
-                2
-            </td>
-
-            <td>
-                3
-            </td>
-
-            <td>
-                4
-            </td>
-
-            <td>
-                5
-            </td>
-            <td>
-                6
-            </td>
-
-            <td>
-                7
-            </td>
-
-            <td>
-                8
-            </td>
-
-            <td>
-                9
-            </td>
-
-        </tr>
-        <tr *ngFor = "let period of periods">
-                        <td  >{{period.class.name+ "th " + period.class.section | uppercase }}</td>      
-                        <td  (click)= "SetPeriod(period.class.name , 1 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p1" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
-                        </td>
-                        <td  (click)= "SetPeriod(period.class.name , 2 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p2" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}" >{{p.teacher.name}}</p></div>    
-                        </td>
-                        <td (click)= "SetPeriod(period.class.name , 3 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p3" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
-                        </td>
-                        <td (click)= "SetPeriod(period.class.name , 4 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p4" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
-                        </td>
-                        <td (click)= "SetPeriod(period.class.name , 5 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p5" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
-                        </td>
-                        <td id="cont" (click)= "SetPeriod(period.class.name , 6 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p6" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
-                        </td>
-                        <td (click)= "SetPeriod(period.class.name , 7 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p7" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
-                        </td>
-                        <td (click)= "SetPeriod(period.class.name , 8 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p8" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
-                        </td>
-                        <td (click)= "SetPeriod(period.class.name , 9 , period.class.section)" >
-                            <div class="border" *ngFor="let p of period.p9" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)"  ><strong>{{p.course.name | uppercase}}</strong><p [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}"  >{{p.teacher.name}}</p></div>    
-                        </td>
-                 </tr>
-    </tbody>
-</table>
 
 <ng-template #FormTemplate>
     <div>

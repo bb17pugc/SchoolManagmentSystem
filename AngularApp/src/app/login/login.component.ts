@@ -12,6 +12,8 @@ import { AuthServicesService } from '../services/auth-services.service';
 export class LoginComponent implements OnInit {
   Form: FormGroup;
   LoginError: string
+  fullname : string;
+  username : string; 
   constructor(private lc: Location, private fb: FormBuilder, private service: AuthServicesService, private router: Router) {
 
   } 
@@ -30,7 +32,9 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     this.service.Login(this.Form).subscribe(
       (res: any) => {
-        localStorage.setItem('jwttoken', res.token);
+        localStorage.setItem('jwttoken', res.jwttoken);
+        localStorage.setItem('fullname', res.fullname);
+        localStorage.setItem('username', res.username);
         location.reload();
         this.router.navigateByUrl('/home');
       },

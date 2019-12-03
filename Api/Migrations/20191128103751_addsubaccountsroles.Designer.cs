@@ -4,14 +4,16 @@ using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Api.Migrations
 {
     [DbContext(typeof(AuthDb))]
-    partial class AuthDbModelSnapshot : ModelSnapshot
+    [Migration("20191128103751_addsubaccountsroles")]
+    partial class addsubaccountsroles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,27 +80,6 @@ namespace Api.Migrations
                     b.HasIndex("TeacherID");
 
                     b.ToTable("PeriodDetail");
-                });
-
-            modelBuilder.Entity("Api.Models.Students", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ClassID");
-
-                    b.Property<DateTime>("DateOfBirth");
-
-                    b.Property<string>("Father");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ClassID");
-
-                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("Api.Models.SubAccountsDetails", b =>
@@ -348,13 +329,6 @@ namespace Api.Migrations
                         .WithMany()
                         .HasForeignKey("TeacherID")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Api.Models.Students", b =>
-                {
-                    b.HasOne("Api.Models.Classes", "Class")
-                        .WithMany()
-                        .HasForeignKey("ClassID");
                 });
 
             modelBuilder.Entity("Api.Models.SubAccountsDetails", b =>

@@ -3,8 +3,8 @@
     <td style="width: 20%">
       <b class="header-name">My School</b> 
     </td>
-    <td>
-      <ul class="Navbar" *ngIf="ShowMenu" >
+    <td *ngIf="ShowMenu">
+      <ul class="Navbar">
         <li [routerLinkActive]='["link-active"]'>
           <a [routerLink]='["/add/add-classes"]'>Add </a>
         </li>
@@ -26,7 +26,12 @@
         <li>
             <a (click)="logout()">Log out</a>
         </li>
+        <li>
+         </li>
       </ul>
+    </td>
+    <td *ngIf="ShowMenu" >
+        {{fullname}}
     </td>
     <td align="right">
       <ul class="Navbar right"  *ngIf="!ShowMenu">

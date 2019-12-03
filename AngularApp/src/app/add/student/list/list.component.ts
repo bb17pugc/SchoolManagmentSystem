@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
+import { Student } from 'src/app/models/student';
+import { StudentService } from 'src/app/services/student.service';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Teahcer } from 'src/app/models/teahcer';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Router } from '@angular/router';
 import { TeacherService } from 'src/app/services/teacher.service';
 import { Sorting } from 'src/app/sorting/sorting';
-import { Route, Router, NavigationExtras } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -13,8 +15,10 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit {
+export class ListStudentsComponent implements OnInit {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  Students$ : Observable<Student[]>;
+  Students : Student[];
   @ViewChild('editTemplate' , {static : false}) edtitemplate : TemplateRef<any>;
   teachers$ : Observable<Teahcer[]>;
   teachers : Teahcer[];
@@ -28,33 +32,31 @@ export class ListComponent implements OnInit {
   modalRef : BsModalRef;
   DeleteItemId: any;
 
-  constructor(private modalservice : BsModalService , private router : Router , private teacherserv : TeacherService , private sort : Sorting) { }
+  constructor(private StdServ : StudentService , private modalservice : BsModalService , private router : Router , private teacherserv : TeacherService , private sort : Sorting) { }
 
   ngOnInit() 
   {
-      this.List();
+      this.GetStudents();
   }
-  SortBy(col)
+  SortBy(col : string , type : string)
   {
     if(this.Asc == "true")
   {
-    this.teachers.sort(this.sort.SortString(col , "dsc"));
+    this.Students.sort(this.sort.SortData(col , "dsc" , type));
     this.Asc = "false";
   }
   else
   {
-    this.teachers.sort(this.sort.SortString(col , "asc"));
+    this.Students.sort(this.sort.SortData(col , "asc" , type));
     this.Asc = "true";
   }
   }
   List()
   {
       this.teachers$ = this.teacherserv.List();
-      this.teachers$.pipe(takeUntil(this.destroyed$)).subscribe(res => 
+      this.teachers$.subscribe(res => 
         {
            this.teachers = res;
-           this.TotalPages = this.teachers.length / this.PageSize;
-           this.TotalPages = Math.ceil(this.TotalPages);
         });
 
   }
@@ -75,7 +77,7 @@ export class ListComponent implements OnInit {
   }
   Edit(id)
   {
-     this.router.navigate(['add/add-teachers'] , {queryParams : {id : id}});
+     this.router.navigate(['add/student'] , {queryParams : {id : id}});
   }
 Delete()
 {
@@ -89,4 +91,22 @@ Delete()
         alert(err.error);
       });
 }
+GetStudents()
+{
+     this.Students$ = this.StdServ.List(); 
+    this.Students$.pipe(takeUntil(this.destroyed$)).subscribe(res => 
+      {
+            this.Students = res;
+            this.TotalPages = this.Students.length / this.PageSize;
+            this.TotalPages = Math.ceil(this.TotalPages); 
+            
+      }
+       , 
+      (err : HttpErrorResponse)=>
+      {
+
+      });   
+    }
+
 }
+

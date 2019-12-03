@@ -6,6 +6,43 @@ import { Injectable } from '@angular/core';
 
 export class Sorting 
 {
+
+  SortData(property : string , order : string , type : string)
+  {
+     if(type == 'string')
+     {
+      if(order == "asc")
+      {
+        return function (a,b) {
+          return a[property].localeCompare(b[property]);        
+         }
+      }
+      else
+      {
+        return function (a,b) {
+          return b[property].localeCompare(a[property]);        
+          }
+        }    
+     }
+     else
+     {
+      if(order == "asc")
+      {
+        return function(a, b) 
+        {
+          return a[property] - b[property]; 
+        }     
+      }
+      else
+      {
+        return function(a, b) 
+        {
+          return b[property] - a[property]; 
+        }           
+      }
+     }
+  } 
+
   SortNumbers(pro , order)
   {
     if(order == "asc")
@@ -23,7 +60,8 @@ export class Sorting
       }           
     }
   }
-  SortString(property , order) {
+  SortString(property : string , order : string) 
+  {
   if(order == "asc")
   {
     return function (a,b) {

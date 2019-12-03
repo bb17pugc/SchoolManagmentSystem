@@ -26,7 +26,7 @@ export class TeacherService {
          Institute : Form.value.Institute,
          CompletionDate : Form.value.CompletionDate,
       }
-        return this.http.post(this.BaseUrl + '/Teacher/Add' , body , {headers : this.reqheaders})
+        return this.http.post(this.BaseUrl + '/Teacher/Add' , body , {headers : this.reqheaders});
   }
   Edit(id)
   {

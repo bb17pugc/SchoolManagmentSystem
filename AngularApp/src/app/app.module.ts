@@ -30,6 +30,10 @@ import { TimetableComponent } from './timetable/timetable.component';
 import { TimetableService } from './services/timetable.service';
 import { PrintService } from './services/print.service';
 import { SubaccountsComponent } from './add/subaccounts/subaccounts.component';
+import { StudentService } from './services/student.service';
+import { AddstudentComponent } from './add/student/addstudent/addstudent.component';
+import { ListStudentsComponent } from './add/student/list/list.component';
+import { StudentComponent } from './add/student/student.component';
 
 
 
@@ -49,6 +53,9 @@ import { SubaccountsComponent } from './add/subaccounts/subaccounts.component';
     AddTeacherComponent,
     TimetableComponent,
     SubaccountsComponent,
+    AddstudentComponent,
+    StudentComponent,
+    ListStudentsComponent
   ],
   exports : [SearchFilterPipe],
   imports: [
@@ -64,7 +71,7 @@ import { SubaccountsComponent } from './add/subaccounts/subaccounts.component';
     Ng2SearchPipeModule
     
   ],
-  providers: [AuthServicesService , AddService , RetrieveService , CourseserviceService , TeacherService , TimetableService , PrintService ],
+  providers: [AuthServicesService , AddService , RetrieveService , CourseserviceService , TeacherService , TimetableService , PrintService , StudentService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

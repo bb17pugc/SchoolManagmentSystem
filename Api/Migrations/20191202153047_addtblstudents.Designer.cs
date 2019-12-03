@@ -4,14 +4,16 @@ using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Api.Migrations
 {
     [DbContext(typeof(AuthDb))]
-    partial class AuthDbModelSnapshot : ModelSnapshot
+    [Migration("20191202153047_addtblstudents")]
+    partial class addtblstudents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,7 +88,7 @@ namespace Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClassID");
+                    b.Property<string>("Class");
 
                     b.Property<DateTime>("DateOfBirth");
 
@@ -95,8 +97,6 @@ namespace Api.Migrations
                     b.Property<string>("Name");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("ClassID");
 
                     b.ToTable("Students");
                 });
@@ -348,13 +348,6 @@ namespace Api.Migrations
                         .WithMany()
                         .HasForeignKey("TeacherID")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Api.Models.Students", b =>
-                {
-                    b.HasOne("Api.Models.Classes", "Class")
-                        .WithMany()
-                        .HasForeignKey("ClassID");
                 });
 
             modelBuilder.Entity("Api.Models.SubAccountsDetails", b =>
