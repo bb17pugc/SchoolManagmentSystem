@@ -29,17 +29,43 @@ namespace Api.Controllers
             NewStudent.ID = model.ID;
             NewStudent.Name = model.Name;
             NewStudent.Father = model.Father;
-            NewStudent.Class = authDb.Classes.Where(a => a.ID == model.ClassId).FirstOrDefault() ;
-            NewStudent.DateOfBirth= model.DateOfBirth;
-            await Task.Run(() => authDb.AddAsync(NewStudent));
+            NewStudent.Class = authDb.Classes.Where(a => a.ID == model.ClassId).FirstOrDefault();
+            NewStudent.DateOfBirth = model.DateOfBirth;
+            if (NewStudent.ID != 0)
+            {
+                authDb.Entry(NewStudent).State = EntityState.Modified;
+            }
+            else
+            {
+                await Task.Run(() => authDb.AddAsync(NewStudent));
+            }
             await authDb.SaveChangesAsync();
             return Ok();
         }
-        [Route("/{id}")]
+        [Route("{id}")]
         public async Task<object> Edit( int ? id)
         {
              var student =  await authDb.Students.FindAsync(id);
             return Ok(student);
+        }
+        [Route("{id}")]
+        public async Task<object> Delete(int? id)
+        {
+            if (id != 0)
+            {
+                var student = await authDb.Students.FindAsync(id);
+                if (student != null)
+                {
+                    authDb.Remove(student);
+                    await authDb.SaveChangesAsync();
+                    return Ok("Deleted successfully");
+                }
+                else
+                {
+                    BadRequest("No recored found");
+                }
+            }
+             return BadRequest("invalid id");
         }
     }
 }

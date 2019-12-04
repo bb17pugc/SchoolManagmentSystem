@@ -40,7 +40,7 @@
         </button> 
        </div>
     <div style="float: right;width: 40%" >
-        <input [(ngModel)]="searchText" class="input-small full-width " placeholder="search class or subject " />  
+        <input [(ngModel)]="searchText" class="input-small full-width " placeholder=" search by name " />  
     </div>
 
   </div>
@@ -54,7 +54,7 @@
           <th></th>
         </tr>
       </thead>
-  <tbody *ngFor="let course of courses | slice : SkipEl | filter:searchText let i = index ">
+  <tbody *ngFor="let course of courses | slice : SkipEl | filter:searchText ; let i = index ">
       <tr *ngIf="i < PageSize" style="padding-left: 5% !important" >    
           <td >{{course.name | uppercase}}</td>
           <td>{{course.class}}</td>
@@ -68,8 +68,8 @@
 </div>
 <ng-template #DeleteTemplate>
   <div class="modal-header">
+      <i class="fa fa-close" aria-hidden="true" (click)="modalRef.hide()" ></i>
     <h4 class="modal-title">Confirm Delete operation</h4>
-    <i class="fa fa-close" aria-hidden="true" (click)="modalRef.hide()" ></i>
   </div>
   <h5 class="modal-body text-center">
       Are you sure to complete this operation?

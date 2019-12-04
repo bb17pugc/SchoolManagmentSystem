@@ -9,7 +9,11 @@ html {
   {
     float: right;
   }
-
+  i
+  {
+     float: right;
+     top: 0;
+  }
   .dataTable tr
   {
     text-align: center;
@@ -279,7 +283,10 @@ apper .dataTables_paginate .paginate_button.disabled,
     padding: 0;
     padding-top : 10px;
   }
-  
+  p
+  {
+     display: inline;
+  }
     .navbar-verticall li {
       margin-right: -15px;
       display: block;
@@ -6174,7 +6181,6 @@ a.close.disabled {
 }
 
 .modal-header {
-  display: flex;
   padding: 1rem 1rem;
 }
 

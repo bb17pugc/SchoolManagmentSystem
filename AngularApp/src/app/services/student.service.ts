@@ -11,7 +11,7 @@ import { shareReplay } from 'rxjs/operators';
 export class StudentService {
 
   Students$ : Observable<Student[]>;
-  readonly BaseUrl = 'https://localhost:44361/api'
+  readonly BaseUrl = 'https://localhost:44361/api/Students'
   readonly reqheaders = new HttpHeaders().set("Content-Type" , "application/json").set("accept" , "application/json");          
   model = new Student();
   constructor( private http : HttpClient ) 
@@ -28,12 +28,11 @@ Add(Form)
     ClassId : Form.value.Class,
     DateOfBirth : Form.value.DateOfBirth, 
   };
-
-   return this.http.post(this.BaseUrl + '/Students/Add', body , {headers : this.reqheaders} );
+   return this.http.post(this.BaseUrl + '/Add', body , {headers : this.reqheaders} );
 }
 Edit(id)
 {
-    return this.http.get(this.BaseUrl + 'Edit/'+id);   
+    return this.http.get(this.BaseUrl + '/Edit/'+id , {headers : this.reqheaders});   
 }
 Clear()
 {
@@ -42,10 +41,15 @@ Clear()
 
 List()
 {
+  this.Clear();
     if(!this.Students$)
     {
-      return this.http.get<Student[]>(this.BaseUrl+'/Students/List').pipe(shareReplay());
+      return this.http.get<Student[]>(this.BaseUrl+'/List').pipe(shareReplay());
     }
     return this.Students$;
+}
+Delete(id)
+{
+   return this.http.delete(this.BaseUrl+'/Delete/'+id , {headers : this.reqheaders} );
 }
 }

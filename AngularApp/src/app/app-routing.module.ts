@@ -15,10 +15,19 @@ import { SubaccountsComponent } from './add/subaccounts/subaccounts.component';
 import { StudentComponent } from './add/student/student.component';
 import { AddstudentComponent } from './add/student/addstudent/addstudent.component';
 import { ListStudentsComponent } from './add/student/list/list.component';
+import { ExaminationComponent } from './examination/examination.component';
+import { DatesheetComponent } from './examination/datesheet/datesheet.component';
 const routes: Routes = [
 
   {path:'home' , component:HomeComponent  ,canActivate: [AuthGuard] },
   { path: 'teachers-timetable', component: TimetableComponent ,canActivate: [AuthGuard] },
+  {path : "date-sheet" , component : StudentComponent , canActivate : [AuthGuard]} ,
+  {path : "examination" , component : ExaminationComponent , canActivate : [AuthGuard]},
+  {path : "examination" , component : ExaminationComponent , 
+    children : 
+    [{path : "datesheet" , component : DatesheetComponent  , canActivate : [AuthGuard]}]
+  }
+  ,
   {
     path: 'add', component: AddComponent , 
   

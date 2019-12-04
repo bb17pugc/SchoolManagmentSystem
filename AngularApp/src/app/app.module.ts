@@ -18,7 +18,6 @@ import { RetrieveService } from './services/retrieve.service';
 import { DataTablesModule } from 'angular-datatables';
 import { AddCourseComponent } from './add/courses/add-course/add-course.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { SearchFilterPipe } from './search-filter.pipe';
 import { OrderModule } from 'ngx-order-pipe';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { CourseserviceService } from './services/courseservice.service';
@@ -34,7 +33,8 @@ import { StudentService } from './services/student.service';
 import { AddstudentComponent } from './add/student/addstudent/addstudent.component';
 import { ListStudentsComponent } from './add/student/list/list.component';
 import { StudentComponent } from './add/student/student.component';
-
+import { ExaminationComponent } from './examination/examination.component';
+import { DatesheetComponent } from './examination/datesheet/datesheet.component';
 
 
 @NgModule({
@@ -48,16 +48,17 @@ import { StudentComponent } from './add/student/student.component';
     AddComponent,
     AddClassesComponent,
     AddCourseComponent,
-    SearchFilterPipe,
     ListComponent,
     AddTeacherComponent,
     TimetableComponent,
     SubaccountsComponent,
     AddstudentComponent,
     StudentComponent,
-    ListStudentsComponent
+    ListStudentsComponent,
+    ExaminationComponent,
+    DatesheetComponent,
   ],
-  exports : [SearchFilterPipe],
+  exports : [],
   imports: [
     BrowserModule,
     AppRoutingModule,

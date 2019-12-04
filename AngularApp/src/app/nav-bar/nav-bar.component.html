@@ -9,7 +9,7 @@
           <a [routerLink]='["/add/add-classes"]'>Add </a>
         </li>
         <li [routerLinkActive]='["link-active"]'>
-          <a [routerLink]='["/fetch-data"]'>Examinations</a>
+          <a [routerLink]='["/examination"]'>Examinations</a>
         </li>
         <li [routerLinkActive]='["link-active"]'>
           <a [routerLink]='["/fdgdfsg"]'>Results</a>
@@ -31,7 +31,7 @@
       </ul>
     </td>
     <td *ngIf="ShowMenu" >
-        {{fullname}}
+        <strong>{{fullname | uppercase}}</strong>
     </td>
     <td align="right">
       <ul class="Navbar right"  *ngIf="!ShowMenu">

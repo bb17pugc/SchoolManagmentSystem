@@ -1,0 +1,16 @@
+<div class="wrapper">
+    <div class="Side-Bar col-md-2" style="padding: 0 !important;" >
+        <ul class="navbar-verticall" >
+          <li [routerLinkActive]='["link-active"]'><a [routerLink]='["/examination/datesheet"]'>Date Sheet</a></li>
+          <li [routerLinkActive]='["link-active"]'><a [routerLink]='["/add/add-courses"]'>Course</a></li>
+          <li [routerLinkActive]='["link-active"]'><a [routerLink]='["/add/add-teachers"]'>Add Teachers</a></li>
+          <li [routerLinkActive]='["link-active"]'><a [routerLink]='["/add/list-teachers"]'>Teachers</a></li>
+          <li [routerLinkActive]='["link-active"]'><a [routerLink]='["/add/sub-accounts"]'>Sub Accounts</a></li>
+          <li [routerLinkActive]='["link-active"]' ><a [routerLink]='["/add/student"]' >New Student</a></li>
+          <li [routerLinkActive]='["link-active"]' ><a [routerLink]='["/add/students-list"]' >Students</a></li>      
+        </ul>  
+      </div>
+      <div class="col-md-10" style="padding-left: 0 ; padding-right:0;overflow:visible;">
+        <router-outlet></router-outlet>
+      </div>
+  </div>

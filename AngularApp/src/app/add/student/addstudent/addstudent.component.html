@@ -32,7 +32,7 @@
       <li *ngIf="Form.get('Father').touched && Form.get('Father').errors?.required">Father Name is required</li>
       <li *ngIf="Form.get('Father').errors?.pattern">Father Name is incorrect only use only alphabets </li>
       <li *ngIf="Form.get('Class').touched && Form.get('Class').errors?.required">Class  is required</li>
-      <li *ngIf="Form.get('DateOfBirth').errors?.invalidDate"> invalid date , date should be less than today </li>
+      <li *ngIf="Form.get('DateOfBirth').errors?.invalidDate"> Student must be greater than 10 years old </li>
      </ul>
      </div>
  </div>

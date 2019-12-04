@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { TeacherService } from 'src/app/services/teacher.service';
 import { Sorting } from 'src/app/sorting/sorting';
 import { takeUntil } from 'rxjs/operators';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-list',
@@ -18,13 +19,13 @@ import { takeUntil } from 'rxjs/operators';
 export class ListStudentsComponent implements OnInit {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   Students$ : Observable<Student[]>;
-  Students : Student[];
+  Students : Array<Student>=[];
   @ViewChild('editTemplate' , {static : false}) edtitemplate : TemplateRef<any>;
   teachers$ : Observable<Teahcer[]>;
   teachers : Teahcer[];
-  searchText : string;
+  searchText : any;
   PageSize : number = 10;
-  Title : string = "Teachers";
+  Title : string = "Students";
   Asc: string;
   CurrentPage : number = 1;
   TotalPages : number = 0;
@@ -38,6 +39,10 @@ export class ListStudentsComponent implements OnInit {
   {
       this.GetStudents();
   }
+  search(value : any)
+  {
+    this.searchText = value;
+  }
   SortBy(col : string , type : string)
   {
     if(this.Asc == "true")
@@ -50,15 +55,6 @@ export class ListStudentsComponent implements OnInit {
     this.Students.sort(this.sort.SortData(col , "asc" , type));
     this.Asc = "true";
   }
-  }
-  List()
-  {
-      this.teachers$ = this.teacherserv.List();
-      this.teachers$.subscribe(res => 
-        {
-           this.teachers = res;
-        });
-
   }
   nextpage()
   {
@@ -81,10 +77,10 @@ export class ListStudentsComponent implements OnInit {
   }
 Delete()
 {
-     this.teacherserv.Delete(this.DeleteItemId).subscribe((res : any) =>
+     this.StdServ.Delete(this.DeleteItemId).subscribe((res : any) =>
      {
-         alert("Deleted successfully");
-         this.List();
+         alert(res);
+         this.GetStudents();
      } ,
       (err : HttpErrorResponse) => 
       {
@@ -96,7 +92,18 @@ GetStudents()
      this.Students$ = this.StdServ.List(); 
     this.Students$.pipe(takeUntil(this.destroyed$)).subscribe(res => 
       {
-            this.Students = res;
+            //this.Students = res;
+            res.forEach(element => {
+                 this.Students.push(
+                   {
+                     id : element.id ,
+                     name : element.name ,
+                     father : element.father ,
+                     class : element.class ,
+                     dateofbirth : element.dateofbirth ,                     
+                   });
+            });
+            console.log(this.Students);
             this.TotalPages = this.Students.length / this.PageSize;
             this.TotalPages = Math.ceil(this.TotalPages); 
             
@@ -104,7 +111,7 @@ GetStudents()
        , 
       (err : HttpErrorResponse)=>
       {
-
+          alert("Error");
       });   
     }
 

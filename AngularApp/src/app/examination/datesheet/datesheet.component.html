@@ -1,0 +1,22 @@
+<h4 class="text-orng">Date Sheet for Examination {{CurrentYear}}</h4>
+<hr class="line-orng">
+<h6 class="text-orng">Select Dates for Examination</h6>
+<div style="margin-top: 0px !important;padding-left: 5px;padding-right: 5px;">
+    <p class="text-orng" >Start:</p><input  type="date" [(ngModel)]="dates" (click)="SetDates(dates)"   class="input-small" style="margin-top: 0px !important"  /><p class="text-orng">End:</p><input type="date" style="margin-top: 0px !important" class="input-small" />
+</div>
+<div style="padding:10px;">
+    <table id="contentToConvert" border="1" class="Table-orng onPointer">
+        <thead>
+              <tr>
+                  <td colspan="15" style="padding: 5px;" ><strong style="float: left;">MY SCHOOL</strong><strong style="float: right;">Date: {{Today}}</strong> </td>
+              </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td *ngFor = "let class of Classes">
+                     <strong>{{class.name}}th {{class.section | uppercase}}</strong>    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
