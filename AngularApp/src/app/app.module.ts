@@ -35,6 +35,7 @@ import { ListStudentsComponent } from './add/student/list/list.component';
 import { StudentComponent } from './add/student/student.component';
 import { ExaminationComponent } from './examination/examination.component';
 import { DatesheetComponent } from './examination/datesheet/datesheet.component';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -72,7 +73,7 @@ import { DatesheetComponent } from './examination/datesheet/datesheet.component'
     Ng2SearchPipeModule
     
   ],
-  providers: [AuthServicesService , AddService , RetrieveService , CourseserviceService , TeacherService , TimetableService , PrintService , StudentService ],
+  providers: [DatePipe , AuthServicesService , AddService , RetrieveService , CourseserviceService , TeacherService , TimetableService , PrintService , StudentService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

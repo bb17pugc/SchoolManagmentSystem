@@ -2,21 +2,72 @@
 <hr class="line-orng">
 <h6 class="text-orng">Select Dates for Examination</h6>
 <div style="margin-top: 0px !important;padding-left: 5px;padding-right: 5px;">
-    <p class="text-orng" >Start:</p><input  type="date" [(ngModel)]="dates" (click)="SetDates(dates)"   class="input-small" style="margin-top: 0px !important"  /><p class="text-orng">End:</p><input type="date" style="margin-top: 0px !important" class="input-small" />
+    <p class="text-orng" >Start:</p>
+    <input  type="date" [(ngModel)]="Sdate" (change)="SetStartDates(Sdate)"   class="input-small" style="margin: 0px !important;width:30%;margin-left: 1% !important;"  />
+    <p class="text-orng" style="margin-left: 1% !important;">End:</p>
+    <input type="date" [(ngModel)]="Edate" (change)="SetEndDates(Edate)" style="margin-top: 0px !important;width:30%;margin: 0 !important;margin-left: 1% !important;" class="input-small" />
+    <input type="submit" class="btn-orange" (click)="SetDates()" value="Set Dates" [disabled]="DateError" style="display: inline;width: 10%;" />
+    <input type="submit" class="btn-orange" (click)="ClearDateSheet()" value="Clear"  style="display: inline;width: 10%;margin: 0 !important;" />
 </div>
+<p *ngIf="DateError" > {{DateError}} </p>
 <div style="padding:10px;">
     <table id="contentToConvert" border="1" class="Table-orng onPointer">
         <thead>
               <tr>
-                  <td colspan="15" style="padding: 5px;" ><strong style="float: left;">MY SCHOOL</strong><strong style="float: right;">Date: {{Today}}</strong> </td>
+                  <td colspan="16" style="padding: 5px;" ><strong style="float: left;">MY SCHOOL</strong><strong style="float: right;">Date: {{Today}}</strong> </td>
               </tr>
         </thead>
         <tbody>
-            <tr>
+            <tr style="background-color: coral;color: white;" >
+                <td>
+                     Dates
+                </td>
                 <td *ngFor = "let class of Classes">
-                     <strong>{{class.name}}th {{class.section | uppercase}}</strong>    
+                     <strong>{{class.name}}th {{class.section | uppercase}} {{class.id}} </strong>    
+                </td>
+            </tr>
+            <tr *ngFor="let item of Dates" >
+                <td style="font-weight:900;">
+                      {{item.date | date: 'dd/MM/yy'}}
+                </td>
+                <td *ngFor="let class of Classes" (click) = "SetSubDetails(item.date  , class)" >
+                    
                 </td>
             </tr>
         </tbody>
     </table>
+    <ng-template #FormTemplate>
+        <div>
+            <i style="text-align: right" class="fa fa-close" style="float: right" aria-hidden="true" (click)="modalRef.hide()" ></i>
+        </div>
+            <div style="border-bottom: solid 1px">
+              <p class="text-center" style="color: coral;display: block;text-align: center;" >Set Paper for <strong> {{PaperClass.name}} </strong> on <strong> {{PaperDate}} </strong> </p>
+            </div>
+            <div class="modal-body" >
+                    <form [formGroup]="Form" (submit) = "onSubmit()" >
+                        <input formControlName="Class"  />
+                        <input formControlName="Date"  />
+                        <div style="display: block;padding-left: 80px;padding-right: 80px">
+                            <select  style="width: 100%;border-radius: 3px" class="input-small" formControlName = "Subject" >
+                                <option *ngFor="let course of courses" [value] = "course.id" > 
+                                  {{course.name| uppercase}} {{course.id}}
+                                </option>
+                              </select>                        
+                        </div>
+                        <br/>
+                        <div style="display: block;padding-left: 80px;padding-right: 80px">
+                            <select  style="width: 100%;border-radius: 3px" class="input-small" formControlName = "Teacher" >
+                            
+                                <option *ngFor="let teacher of teachers" [value] = "teacher.id" > 
+                                  {{teacher.name| uppercase}} {{teacher.id}} 
+                                </option>
+                              </select>                        
+                        </div>
+                       
+                        <div style="display: block" >
+                            <button [disabled]="Form.invalid"  type="submit" style="width: 62%" class="btn-orange" (click)="onSubmit()" >Add</button>        
+                        </div>   
+                    </form>
+            </div>
+          </ng-template>
 </div>

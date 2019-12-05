@@ -5,6 +5,6 @@ export class Student
     name : string;
     father : string;
     class : number;
-    dateofbirth :string;
+  dateOfBirth: string;
     
 }

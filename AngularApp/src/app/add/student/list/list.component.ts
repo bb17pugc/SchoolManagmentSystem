@@ -21,8 +21,6 @@ export class ListStudentsComponent implements OnInit {
   Students$ : Observable<Student[]>;
   Students : Array<Student>=[];
   @ViewChild('editTemplate' , {static : false}) edtitemplate : TemplateRef<any>;
-  teachers$ : Observable<Teahcer[]>;
-  teachers : Teahcer[];
   searchText : any;
   PageSize : number = 10;
   Title : string = "Students";
@@ -93,14 +91,14 @@ GetStudents()
     this.Students$.pipe(takeUntil(this.destroyed$)).subscribe(res => 
       {
             //this.Students = res;
-            res.forEach(element => {
+            res.forEach((element : any) => {
                  this.Students.push(
                    {
                      id : element.id ,
                      name : element.name ,
                      father : element.father ,
-                     class : element.class ,
-                     dateofbirth : element.dateofbirth ,                     
+                     class : element.class.name ,
+                     dateOfBirth : element.dateOfBirth ,                     
                    });
             });
             console.log(this.Students);
