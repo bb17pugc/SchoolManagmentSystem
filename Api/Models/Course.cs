@@ -14,6 +14,6 @@ namespace Api.Models
         public string Name { get; set; }
         [Required]
         [RegularExpression("^([a-z A-Z 0-9]+)$", ErrorMessage = "incorrrect class")]
-        public string Class { get; set; }
+        public int Class { get; set; }
     }
 }

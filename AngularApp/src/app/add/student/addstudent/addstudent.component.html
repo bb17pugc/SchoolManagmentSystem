@@ -12,6 +12,9 @@
     </div>
     <div style="display: block">
         <select  class="input-center Class-dropdown"  formControlName="Class" >
+            <option value="">
+                Select Class
+            </option>
             <option *ngFor="let item of Classes" value={{item.id}} > 
                   {{item.name}}th {{item.section | uppercase }} 
             </option>

@@ -1,0 +1,41 @@
+<h4 class="text-orng">Marks Lists for Examination</h4>
+<hr class="line-orng">
+<h6 class="text-orng">Select class and subject for the list</h6>
+<div style="text-align: center;">
+<Form [formGroup] = "Form">
+         <div *ngIf="!ShowStudents" >
+            <select  style="border-color: coral;border-radius: 3px;width: 20% !important" class="input-small" formControlName = "Class" (click)="changeclass($event)" >
+                  <option value="" > 
+                      Select Class
+                </option>
+                  <option *ngFor="let item of Classes" value="{{item.id}}"> 
+                        {{item.name}}th {{item.section | uppercase }} 
+                  </option>
+                </select>
+                <select style="border-color: coral;border-radius: 3px;width: 20% !important;margin-left: 2%;" class="input-small" formControlName = "Subject">
+                  <option value="" >  
+                      Select Subject
+                </option>
+                  <option *ngFor="let item of courses" > 
+                        {{item.name | uppercase}}
+                  </option>
+                </select>
+             <input class="btn-orange" [disabled]="Form.invalid" style="margin-top: 0 !important;width: 20%;" type="submit" value="Create List" (click)="onSubmit()" />                                    
+
+         </div>
+         <div>
+         <ng-template [ngIf]="ShowStudents">
+             <input  type="text" formControlName="Student" class="input-small" style="margin: 0 !important;width: 30%;" disabled />
+             <input  type="text" formControlName="Marks" class="input-small" style="margin-left: 1% !important;width: 30%;"  #MarksInput/>
+           
+             <input class="btn-orange"  style="margin-left: 1% !important;width: 10%;" type="submit" value="Add" (click)="AddMarks()" />                                    
+             <button class="btn-orange" (click)="DeleteList()" style="margin-left: 1% !important;width: 10%;" >Delete</button>
+            </ng-template>
+      </div>
+      </Form>
+</div>
+    <ng-template>
+          <p>
+                loading...
+          </p>
+    </ng-template>

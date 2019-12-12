@@ -90,12 +90,15 @@
         <i style="text-align: right" class="fa fa-close" style="float: right" aria-hidden="true" (click)="modalRef.hide()" ></i>
     </div>
         <div style="border-bottom: solid 1px">
-          <p class="text-center">Set <strong> {{Form.get('Period').value}}th </strong> period for Class <strong> {{Form.get('Class').value}}th </strong> </p>
+          <p class="text-center" style="display: block;" >Set <strong> {{Form.get('Period').value}}th </strong> period for Class <strong> {{Form.get('Class').value}}th </strong> </p>
         </div>
         <div class="modal-body" >
                 <form [formGroup]="Form" (submit) = "onSubmit()" >
                     <div style="display: block;padding-left: 80px;padding-right: 80px">
-                        <select  style="width: 100%;border-radius: 3px" class="input-small" formControlName = "Subject" (change)="changecourse($event)">
+                        <select  style="width: 100%;border-radius: 3px" class="input-small"  formControlName = "Subject" (change)="changecourse($event)">
+                            <option>
+                                Select Subject
+                            </option>
                             <option *ngFor="let course of courses" [value] = "course.id" > 
                               {{course.name| uppercase}} 
                             </option>
@@ -103,8 +106,10 @@
                     </div>
                     <br/>
                     <div style="display: block;padding-left: 80px;padding-right: 80px">
-                        <select  style="width: 100%;border-radius: 3px" class="input-small" formControlName = "Teacher" (change)="changeteahcer($event)">
-                        
+                        <select  style="width: 100%;border-radius: 3px" class="input-small" formControlName = "Teacher" (change)="changeteahcer($event)">                        
+                            <option>
+                                Select Teacher
+                            </option>
                             <option *ngFor="let teacher of teachers" [value] = "teacher.id" > 
                               {{teacher.name| uppercase}} 
                             </option>
@@ -112,7 +117,7 @@
                     </div>
                    
                     <div style="display: block" >
-                        <button [disabled]="Form.invalid"  type="submit" style="width: 62%" class="btn-orange" (click)="modalRef.hide()" >Add</button>        
+                        <button [disabled]="Form.invalid"  type="submit" style="width: 62%" class="btn-orange" (click)="onSubmit()" >Add</button>        
                     </div>   
                 </form>
         </div>

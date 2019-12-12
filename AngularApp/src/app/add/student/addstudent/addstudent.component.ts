@@ -29,7 +29,7 @@ export class AddstudentComponent implements OnInit {
 
   ngOnInit() 
   {   
-      var textPattern = "^([a-z A-Z]+)$";   
+      var textPattern = "^([a-z A-Z]+)$";         
       this.Form = this.fb.group({
             ID : [0],
             Name : ['' , [Validators.required , Validators.pattern(textPattern)]],
@@ -95,6 +95,7 @@ export class AddstudentComponent implements OnInit {
   }
   onSubmit()
   {
+    alert(this.Form.controls['Class'].value);
     if(this.Form.valid)
     {
       this.studentserv.Add(this.Form).pipe(takeUntil(this.Destroyed)).subscribe(res => 

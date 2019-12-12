@@ -4,14 +4,16 @@ using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Api.Migrations
 {
     [DbContext(typeof(AuthDb))]
-    partial class AuthDbModelSnapshot : ModelSnapshot
+    [Migration("20191211135032_addClassCourse")]
+    partial class addClassCourse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,12 +46,17 @@ namespace Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Class");
+                    b.Property<string>("Class")
+                        .IsRequired();
 
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<int?>("classesID");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("classesID");
 
                     b.ToTable("Courses");
                 });
@@ -330,6 +337,13 @@ namespace Api.Migrations
                     b.ToTable("CustomizeUser");
 
                     b.HasDiscriminator().HasValue("CustomizeUser");
+                });
+
+            modelBuilder.Entity("Api.Models.Course", b =>
+                {
+                    b.HasOne("Api.Models.Classes", "classes")
+                        .WithMany()
+                        .HasForeignKey("classesID");
                 });
 
             modelBuilder.Entity("Api.Models.PeriodDetail", b =>

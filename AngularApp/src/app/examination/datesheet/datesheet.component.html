@@ -11,7 +11,7 @@
 </div>
 <p *ngIf="DateError" > {{DateError}} </p>
 <div style="padding:10px;">
-    <table id="contentToConvert" border="1" class="Table-orng onPointer">
+    <table border="1" class="Table-orng onPointer">
         <thead>
               <tr>
                   <td colspan="16" style="padding: 5px;" ><strong style="float: left;">MY SCHOOL</strong><strong style="float: right;">Date: {{Today}}</strong> </td>
@@ -26,13 +26,18 @@
                      <strong>{{class.name}}th {{class.section | uppercase}} {{class.id}} </strong>    
                 </td>
             </tr>
-            <tr *ngFor="let item of Dates" >
+            <tr *ngFor="let item of Dates" id="datesheet" >
                 <td style="font-weight:900;">
                       {{item.date | date: 'dd/MM/yy'}}
                 </td>
                 <td *ngFor="let class of Classes" (click) = "SetSubDetails(item.date  , class)" >
                     
                 </td>
+            </tr>
+            <tr *ngIf="this.Dates.length === 0" >
+                 <td colspan="16" style="text-align: center;" class="text-orng" >
+                       Select dates from above to create datesheet
+                 </td>
             </tr>
         </tbody>
     </table>

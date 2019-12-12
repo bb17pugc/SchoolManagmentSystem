@@ -63,21 +63,21 @@ export class TimetableComponent implements OnInit {
       Class : [''],
       Section : [''],
       Period : [''],
-      Teacher : ['' , Validators.required],
-      TeacherId : [''],
-      SubjectId : [''],
-      Subject : ['' , Validators.required],
+      Teacher : ['Select Teacher' , Validators.required],
+      Subject : [ 'Select Subject' , Validators.required],
     }); 
     this.GetClasses();
     this.List();
   }
   GetCourses()
   {
-    this.CourseClass = this.CourseClass + "th";
+    this.CourseClass = this.CourseClass;
     this.Courses$ = this.coursesserv.GetList();
     this.Courses$.subscribe((List : CourseModel[] ) => 
       {
-        this.courses = List.filter(a => a.class === this.CourseClass)
+        this.courses = List.filter(a => a.class === +this.CourseClass);
+        console.log(this.courses);
+
       });
   }
   GetTeachers()
@@ -117,6 +117,8 @@ Edit(id)
 }
   onSubmit()
   {
+      if(this.Form.valid)
+      {
       this.timetableserv.Add(this.Form).subscribe((res : any[])=>
         {
           this.NotFree = res;
@@ -129,7 +131,9 @@ Edit(id)
          }
          );
          this.GetTeachers();
-  }
+         this.modalRef.hide();
+        }
+      }
   List()
   {
       this.perioddetail$ = this.timetableserv.List();

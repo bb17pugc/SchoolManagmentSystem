@@ -57,7 +57,7 @@
   <tbody *ngFor="let course of courses | slice : SkipEl | filter:searchText ; let i = index ">
       <tr *ngIf="i < PageSize" style="padding-left: 5% !important" >    
           <td >{{course.name | uppercase}}</td>
-          <td>{{course.class}}</td>
+          <td>{{course.class}}th</td>
           <td> <button class="btn btn-success" (click)="Edit(course.id)" >Edit</button> </td> 
           <td> <button class="btn btn-danger " (click) = "ConfirmDelete(course.id)" >Delete</button> </td>
         </tr>

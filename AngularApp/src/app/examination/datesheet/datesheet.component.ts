@@ -43,7 +43,7 @@ teachers : Teahcer[] = [];
 modalRef : BsModalRef;
 Courses$ : Observable<CourseModel[]>;
 courses : CourseModel[] = [];
-CourseClass : string;
+CourseClass : any;
 Form : FormGroup;
 DateSheetData : Datesheet[];
   constructor(private fb : FormBuilder  , private modalservice : BsModalService , private teacherserv : TeacherService , private coursesserv : CourseserviceService  , private datePipe: DatePipe , private ClassesServ  : AddService , private sort : Sorting) 
@@ -98,7 +98,7 @@ SetSubDetails(item : any ,classVal : any)
   }
 GetCourses()
 {
-  this.CourseClass = this.CourseClass + "th";
+  this.CourseClass = this.CourseClass;
   this.Courses$ = this.coursesserv.GetList();
   this.Courses$.subscribe((List : CourseModel[] ) => 
     {
@@ -144,7 +144,7 @@ SetDates()
 ClearDateSheet()
 {
   sessionStorage.removeItem('DateSheet');
-  this.Dates.length = 0;  
+  this.Dates.length = 0;
 }
 StoreData()
 {

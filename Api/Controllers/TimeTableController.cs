@@ -48,7 +48,6 @@ namespace Api.Controllers
                 await authDb.SaveChangesAsync();
                 return Ok();
             } 
-             await authDb.SaveChangesAsync();
             return BadRequest("data is not valid");
         }
     }

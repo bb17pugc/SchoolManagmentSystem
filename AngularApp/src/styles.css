@@ -86,7 +86,18 @@ a[data-toggle="collapse"] {
 {
   float: right !;
 }
-.onPointer tbody td:hover
+
+#contentToConvert tbody td:hover
+{
+  border : solid ;
+  border-color : lavenderblush ; 
+  background-color: lavenderblush
+}
+button:hover
+{
+  background-color: orangered;
+}
+#datesheet td:hover
 {
   border : solid ;
   border-color : lavenderblush ; 
@@ -550,8 +561,9 @@ label {
   display: inline-block;
 }
 
-button:focus {
+.btn-pagination:focus {
   outline: 1px dotted;
+  background-color: orangered;
   outline: 5px auto -webkit-focus-ring-color;
 }
 
@@ -586,11 +598,11 @@ button,
   -webkit-appearance: button;
 }
 
-button:not(:disabled),
+button::disabled,
 [type="button"]:not(:disabled),
 [type="reset"]:not(:disabled),
-[type="submit"]:not(:disabled) {
-  cursor: pointer;
+[type="submit"]:disabled {
+  background-color: blue;
 }
 
 button::-moz-focus-inner,
