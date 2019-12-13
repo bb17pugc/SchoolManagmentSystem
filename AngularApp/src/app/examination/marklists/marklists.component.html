@@ -30,8 +30,8 @@
          <div>
          <ng-template [ngIf]="ShowStudents"  >
              <p style="color: coral;display:block;margin: 0% !important;">Enter marks below</p>  
-             <label [innerHTML]="StudentData.name | uppercase" style="color: coral;" ></label>
-             <input  type="text" formControlName="Student" class="input-small" style="margin: 0 !important;width: 30%;" disabled />             
+             <label [innerHTML]="CurrentStudent.name | uppercase" style="color: coral;" ></label>
+             <input  type="hidden" formControlName="Student" class="input-small" style="margin: 0 !important;width: 30%;" disabled />             
              <input  type="text" formControlName="Marks" class="input-small" autofocus style="margin-left: 1% !important;width: 30%;"  #MarksInput/>           
              <input class="btn-orange"  style="margin-left: 1% !important;width: 10%;" type="submit" value="Add" (click)="AddMarks()" />                                    
              <button class="btn-orange" (click)="DeleteList()" style="margin-left: 1% !important;width: 10%;" >Delete</button>
