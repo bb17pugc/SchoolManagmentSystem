@@ -72,12 +72,12 @@ SortBy(col , datatype)
 {
   if(this.Asc == "true")
   {
-    this.courses.sort(this.sort.SortString(col , "dsc"));
+    this.courses.sort(this.sort.SortData(col , "dsc" , datatype));
     this.Asc = "false";
   }
   else
   {
-    this.courses.sort(this.sort.SortString(col , "asc"));
+    this.courses.sort(this.sort.SortData(col , "asc" , datatype));
     this.Asc = "true";
   }
 
@@ -106,6 +106,7 @@ List()
        this.Courses$.subscribe(res => 
          {
            this.courses =res;
+           console.log(this.courses);
            this.TotalPages = this.courses.length / this.PageSize;
            this.TotalPages = Math.ceil(this.TotalPages);
          }); 

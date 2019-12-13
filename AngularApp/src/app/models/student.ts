@@ -5,6 +5,7 @@ export class Student
     name : string;
     father : string;
     class : number;
+    section : string;
   dateOfBirth: string;
     
 }

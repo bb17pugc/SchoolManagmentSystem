@@ -98,6 +98,7 @@ GetStudents()
                      name : element.name ,
                      father : element.father ,
                      class : element.class.name ,
+                     section : element.class.section,
                      dateOfBirth : element.dateOfBirth ,                     
                    });
             });

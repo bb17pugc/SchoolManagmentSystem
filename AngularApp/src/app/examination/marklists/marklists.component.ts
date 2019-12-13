@@ -21,27 +21,36 @@ import { Student } from 'src/app/models/student';
 })
 export class MarklistsComponent implements OnInit {
   @ViewChild('MarksInput' , {static : true}) MarksInput: ElementRef;
-  @ViewChild('NameInput' , {static : true}) NameInput: ElementRef; 
+  @ViewChild('dataContainer' , {static : true} ) dataContainer: ElementRef;
 
   private Destroyed : ReplaySubject<boolean> = new ReplaySubject(1);
   Students$ : Observable<Student[]>;
-  Students : any[]; 
+  Students : any[] = []; 
   Classes$ : Observable<ClassModel[]>;
   Classes : ClassModel[] = [];
   Form : FormGroup;   
   CourseClass : any;
+  ClassSubject : any;
   Courses$ : Observable<CourseModel[]>;
   courses : CourseModel[] = [];
   ClassData : ClassModel; 
   ShowStudents : any;
   ArrayInd : number = 0;                                                                                      
-
+  StudentName: any ="" ;
+  StudentData : any;
+  data : any;
   constructor(private studentserv : StudentService , private fb : FormBuilder  , private modalservice : BsModalService , private teacherserv : TeacherService , private coursesserv : CourseserviceService  , private datePipe: DatePipe , private ClassesServ  : AddService , private sort : Sorting) 
   {
   }
 
   ngOnInit() 
   {
+    this.ArrayInd = +localStorage.getItem('ArrayInd');
+    this.data = localStorage.getItem('StudentData');
+    this.StudentData = JSON.parse(this.data);
+    this.CourseClass = localStorage.getItem('CourseClass');
+    this.ClassSubject = localStorage.getItem('ClassSubject');
+    this.ShowStudents = localStorage.getItem('ShowStudents');
     this.Form = this.fb.group({
       Class : ['' , [Validators.required]] , 
       Subject : ['' , [Validators.required]],
@@ -50,6 +59,8 @@ export class MarklistsComponent implements OnInit {
     });
     this.GetClasses();
     this.GetCourses();
+    this.SetCurrentStudent();
+    this.GetStudents();
   }
   GetCourses()
   {
@@ -60,6 +71,10 @@ export class MarklistsComponent implements OnInit {
         this.courses = List.filter(a => a.class === this.CourseClass);
       });
   }
+  GetStudents()
+  {
+     this.onSubmit();
+  }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
   onSubmit()
   {
   if(this.Form.valid)
@@ -69,8 +84,12 @@ export class MarklistsComponent implements OnInit {
         (res : any)=>
         {
            this.ShowStudents=true;
+           localStorage.setItem('ShowStudents' , this.ShowStudents);
            this.Students = res.filter((a : any) => a.class.id === this.ClassData.id);
-           this.Form.controls['Student'].setValue(this.Students[0].name); 
+           console.log(this.Students);
+           this.StudentData = this.Students[this.ArrayInd];
+           console.log(this.Students);
+           this.SetCurrentStudent();
         }
        , (err : HttpErrorResponse)=>
         {
@@ -78,21 +97,43 @@ export class MarklistsComponent implements OnInit {
         });
   }
   }
+  SetCurrentStudent()
+  {
+    localStorage.setItem('StudentData' , JSON.stringify(this.StudentData)) ;
+    this.Form.controls['Student'].setValue(this.StudentData.id);                        
+  }
   AddMarks()
   {
-    this.MarksInput.nativeElement.focus();
-    alert();
+    if(this.ArrayInd < this.Students.length)
+    {
+      this.StudentData = this.Students[++this.ArrayInd];
+      localStorage.setItem('ArrayInd' , JSON.stringify(this.ArrayInd));      
+      localStorage.setItem('StudentData' , JSON.stringify(this.StudentData)) ;
+      this.Form.controls['Student'].setValue(this.StudentData.id);
+      this.Form.reset();    
+    }
   }
   DeleteList()
   {
-     this.ShowStudents = false;
+     this.ShowStudents = "";
+     localStorage.setItem('ShowStudents' , this.ShowStudents);
+     this.CourseClass = "-";
+     localStorage.setItem('CourseClass' , this.CourseClass);
+     this.ClassSubject = "-";
+     localStorage.setItem('ClassSubject' , this.ClassSubject);
+     //localStorage.removeItem('StudentData'); 
   }
   changeclass(e) 
   {
      this.ClassData = this.Classes.find(a => a.id === +e.target.value);     
      this.CourseClass = this.ClassData.name;
-     //console.log(this.CourseClass);     
+     localStorage.setItem('CourseClass' , this.CourseClass);    
      this.GetCourses();
+  }
+  changesubject(e) 
+  {
+     this.ClassSubject = e.target.value;
+     localStorage.setItem('ClassSubject' , this.ClassSubject);         
   }
   GetClasses()
   {
