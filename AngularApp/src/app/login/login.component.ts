@@ -39,14 +39,7 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/home');
       },
       (error: HttpErrorResponse) => {
-        // let validationErrorDictionary = JSON.parse(error.text());
-        // for (var fieldName in validationErrorDictionary) {
-        //     if (validationErrorDictionary.hasOwnProperty(fieldName)) {
-        //         this.errors.push(validationErrorDictionary[fieldName]);
-        //     }
-        // }
-        // this.alertService.errorMsg(this.errors);
-        this.LoginError = error.error;
+        this.LoginError = error.message;
       }
 
     );
