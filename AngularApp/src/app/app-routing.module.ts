@@ -18,6 +18,7 @@ import { ListStudentsComponent } from './add/student/list/list.component';
 import { ExaminationComponent } from './examination/examination.component';
 import { DatesheetComponent } from './examination/datesheet/datesheet.component';
 import { MarklistsComponent } from './examination/marklists/marklists.component';
+import { CreatestudentlistComponent } from './examination/createstudentlist/createstudentlist.component';
 const routes: Routes = [
 
   {path:'home' , component:HomeComponent  ,canActivate: [AuthGuard] },
@@ -27,7 +28,8 @@ const routes: Routes = [
   {path : "examination" , component : ExaminationComponent , 
     children : 
     [{path : "datesheet" , component : DatesheetComponent  , canActivate : [AuthGuard]}
-    , {path : "markslists" , component : MarklistsComponent , canActivate : [AuthGuard]} 
+    , {path : "markslists" , component : MarklistsComponent , canActivate : [AuthGuard]}
+    , {path : "createstudentlist" , component : CreatestudentlistComponent , canActivate : [AuthGuard]}  
   ]
   }
   ,

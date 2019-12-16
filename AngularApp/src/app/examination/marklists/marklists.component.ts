@@ -61,7 +61,7 @@ export class MarklistsComponent implements OnInit {
     this.GetStudents();
     this.GetClasses();
     this.GetCourses();
-    this.SetCurrentStudent();
+   // this.SetCurrentStudent();
   }
 
   GetValuesFromLocalStorage()

@@ -191,8 +191,7 @@ apper .dataTables_paginate .paginate_button.disabled,
   .btn-orange,
    .Navbar ,
     .Side-Bar ,
-    .btn-pagination, 
-    label 
+    .btn-pagination
     {
     background-color: coral !important;
     color: white !important;
@@ -221,7 +220,6 @@ apper .dataTables_paginate .paginate_button.disabled,
     }
   .btn-orange {
     color: white !important;
-    radius: 20%;
     border:10px solid coral;
   }
   
@@ -592,7 +590,7 @@ select {
   word-wrap: normal;
 }
 button {
-  border-radius: 5% !important;
+  border-radius: 3px !important;
 }
 button,
 [type="button"],

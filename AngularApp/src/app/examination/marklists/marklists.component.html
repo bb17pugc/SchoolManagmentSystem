@@ -1,10 +1,6 @@
 <h4 class="text-orng">Marks Lists for Examination</h4>
 <hr class="line-orng">
 <h6 class="text-orng">Select class and subject for the list</h6>
-<div style="color: white;text-align: center;background-color: coral;margin-bottom: 2%;">
-      <label>Class: <strong>{{CourseClass}}th</strong></label>       
-      <label style="margin-left: 5%;" >Subject: <strong>{{ClassSubject}}</strong></label>
-</div>
 <div style="text-align: center;">
 <Form [formGroup] = "Form">
          <div *ngIf="!ShowStudents" >
@@ -24,19 +20,11 @@
                         {{item.name | uppercase}}
                   </option>
                 </select>
+                <input type="number" placeholder="Total" formControlName= "TotalMarks" title="Enter Total Marks" class="input-small" style="width:10% !important;" /> 
              <input class="btn-orange" [disabled]="Form.invalid" style="margin-top: 0 !important;width: 20%;" type="submit" value="Create List" (click)="onSubmit()" />                                    
 
          </div>
-         <div>
-         <ng-template [ngIf]="ShowStudents"  >
-             <p style="padding-right: 5%;color: coral;display:block;margin: 0% !important;text-align: center;"> <strong style="float: left;padding-left: 5%;" > Enter marks below: </strong> <strong style="float: right;" >  Students :{{StudentCount}} </strong></p>  
-             <label  [innerHTML]="CurrentStudent.name | uppercase" style="margin: 0% !important;padding-left:5% !important;padding-right:5% !important;padding-bottom:0.7% !important;padding-top:0.4% !important;font-size:20px;" ></label>
-             <input  type="hidden" formControlName="Student" class="input-small" style="margin: 0% !important;width: 30%;" disabled />             
-             <input  type="text" formControlName="Marks" class="input-small" autofocus style="margin-left: 1% !important;width: 5%;"  #MarksInput/>           
-             <input class="btn-orange"  style="margin-left: 1% !important;width: 10%;margin: 0% !important;" type="submit" value="Add" (click)="AddMarks()" />                                    
-             <button class="btn-orange" (click)="DeleteList()" style="margin-left: 1% !important;width: 10%;margin-top: 0% !important" >Delete</button>
-            </ng-template>
-      </div>
+    
       </Form>
 </div>
  
