@@ -135,7 +135,8 @@ export class AddClassesComponent implements OnInit {
         ,
         (err: HttpErrorResponse) =>
           {
-          alert(err.error);
+          console.log(err.error);
+
         }
       );    
     }

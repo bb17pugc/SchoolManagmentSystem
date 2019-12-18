@@ -95,12 +95,11 @@ export class AddstudentComponent implements OnInit {
   }
   onSubmit()
   {
-    alert(this.Form.controls['Class'].value);
     if(this.Form.valid)
     {
       this.studentserv.Add(this.Form).pipe(takeUntil(this.Destroyed)).subscribe(res => 
       {
-        if(this.EditMode == "true")
+        if(this.EditMode === "true")
         {
              this.EditMode = "false";
              this.router.navigate(['/add/students-list']);    

@@ -5,11 +5,11 @@
      <form [formGroup]="Form" (submit)="onSubmit()">
       <input class="input-small" type="hidden" formControlName="ID" />
       <input class="input-small" type="text" formControlName="Name" placeholder="subject name e.g : math" #NameInput />
-      <select [(ngModel)]="dropdownval" style="border-color: coral;border-radius: 3px" class="input-small" formControlName = "Class" (change)="changeVal($event)">
-        <option>
+      <select style="border-color: coral;border-radius: 3px" class="input-small" formControlName = "Class">
+        <option value="">
               Select Class
         </option>
-        <option *ngFor="let item of DistinctClass" > 
+        <option *ngFor="let item of DistinctClass" value={{item}} > 
               {{item}}th
         </option>
       </select>
@@ -19,7 +19,7 @@
   <div class="err-div">
     <ul class="error">
       <li *ngIf="Form.get('Name').touched && Form.get('Name').errors?.required">Class Name is required</li>
-      <li *ngIf="Form.get('Name').errors?.max || Form.get('Name').errors?.min">Class Name is incorrect only use from 0 to 10 </li>
+      <li *ngIf="Form.get('Name').errors?.pattern">invalid course name </li>
     </ul>
   </div>
 </div>

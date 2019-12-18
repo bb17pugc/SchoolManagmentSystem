@@ -20,11 +20,16 @@
                         {{item.name | uppercase}}
                   </option>
                 </select>
-                <input type="number" placeholder="Total" formControlName= "TotalMarks" title="Enter Total Marks" class="input-small" style="width:10% !important;" /> 
+                <input type="number" placeholder="Total" formControlName= "Total" title="Enter Total Marks" class="input-small" style="width:10% !important;" /> 
              <input class="btn-orange" [disabled]="Form.invalid" style="margin-top: 0 !important;width: 20%;" type="submit" value="Create List" (click)="onSubmit()" />                                    
 
          </div>
     
       </Form>
 </div>
+<div class="err-div">
+      <ul class="error">
+        <li *ngIf="Form.get('Total').touched && Form.get('Total').errors?.min">invalid marks</li>
+      </ul>
+    </div>
  

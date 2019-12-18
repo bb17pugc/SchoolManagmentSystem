@@ -51,7 +51,7 @@ export class AddCourseComponent implements OnInit {
     this.Form = this.fb.group({
     ID:[0],
     Name : ['' , [Validators.required , Validators.pattern(unamePattern)]] , 
-    Class : ['' , Validators.required] 
+    Class : ['' , [Validators.required]] 
      });
    this.NameInput.nativeElement.focus(); 
    this.ClassesList();
@@ -114,16 +114,16 @@ List()
       }
 
 
-      changeVal(e) 
-      {
-         this.Form.get['Class'].set(e.target.value);
-}
+     // changeVal(e) 
+      //{
+        // this.Form.get['Class'].set(e.target.value);
+//}
       
 onSubmit()
 {
   if(this.Form.valid)
   {
-     this.courseserv.Add(this.Form).subscribe(
+     this.courseserv.Add(this.Form).pipe(takeUntil(this.Destroyed)).subscribe(
        res => 
        {
           this.Form.controls['Name'].setValue("");
@@ -131,12 +131,13 @@ onSubmit()
           this.List();
           if(this.EditMode == "true")
           {
+            this.Title = "Add Course";
             this.EditMode = "false";
           }
        } ,
         (err : HttpErrorResponse) =>
          {
-            alert(err.error);
+            console.log(err.error);
          });
 }
 }

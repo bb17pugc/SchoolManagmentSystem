@@ -11,7 +11,7 @@ import { shareReplay } from 'rxjs/operators';
 export class StudentService {
 
   Students$ : Observable<Student[]>;
-  readonly BaseUrl = 'https://localhost:44361/api/Students'
+  readonly BaseUrl = 'https://localhost:44361/api/Students';
   readonly reqheaders = new HttpHeaders().set("Content-Type" , "application/json").set("accept" , "application/json");          
   model = new Student();
   constructor( private http : HttpClient ) 

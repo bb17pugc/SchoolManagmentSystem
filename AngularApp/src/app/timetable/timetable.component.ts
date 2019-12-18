@@ -145,19 +145,19 @@ Edit(id)
                this.periods.push(
                   {
                     class : element,
-                    p1 : this.perioddetails.filter(a => a.classes.id === element.id && a.period == '1'),
-                    p2 : this.perioddetails.filter(a => a.classes.id === element.id && a.period == '2'), 
-                    p3 : this.perioddetails.filter(a => a.classes.id === element.id && a.period == '3'), 
-                    p4 : this.perioddetails.filter(a => a.classes.id === element.id && a.period == '4'), 
-                    p5 : this.perioddetails.filter(a => a.classes.id === element.id && a.period == '5'), 
-                    p6 : this.perioddetails.filter(a => a.classes.id === element.id && a.period == '6'), 
-                    p7 : this.perioddetails.filter(a => a.classes.id === element.id && a.period == '7'), 
-                    p8 : this.perioddetails.filter(a => a.classes.id === element.id && a.period == '8'), 
-                    p9 : this.perioddetails.filter(a => a.classes.id === element.id && a.period == '9'), 
+                    p1 : this.perioddetails.filter(a => ((a.classes === null) ? 0 : a.classes.id) === element.id && a.period == '1'),
+                    p2 : this.perioddetails.filter(a => ((a.classes === null) ? 0 : a.classes.id) === element.id && a.period == '2'), 
+                    p3 : this.perioddetails.filter(a => ((a.classes === null) ? 0 : a.classes.id) === element.id && a.period == '3'), 
+                    p4 : this.perioddetails.filter(a => ((a.classes === null) ? 0 : a.classes.id) === element.id && a.period == '4'), 
+                    p5 : this.perioddetails.filter(a => ((a.classes === null) ? 0 : a.classes.id) === element.id && a.period == '5'), 
+                    p6 : this.perioddetails.filter(a => ((a.classes === null) ? 0 : a.classes.id) === element.id && a.period == '6'), 
+                    p7 : this.perioddetails.filter(a => ((a.classes === null) ? 0 : a.classes.id) === element.id && a.period == '7'), 
+                    p8 : this.perioddetails.filter(a => ((a.classes === null) ? 0 : a.classes.id) === element.id && a.period == '8'), 
+                    p9 : this.perioddetails.filter(a => ((a.classes === null) ? 0 : a.classes.id) === element.id && a.period == '9'), 
                   }
                  ); 
-
-              });  
+              });
+              console.log(this.periods);  
       });
   }
   GetClasses()
