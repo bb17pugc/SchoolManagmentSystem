@@ -57,7 +57,7 @@ namespace Api.Controllers
             {
                 return BadRequest("No data found");
             }
-            MarkslistData data = authDb.Markslists.Include(w => w.Classes).Include(c => c.Course).Include(s => s.Students).SingleOrDefault(a => a.ID == id);            
+            MarkslistData data =  authDb.Markslists.Include(w => w.Classes).Include(c => c.Course).Include(s => s.Students).SingleOrDefault(a => a.ID == id);            
             return Ok(data);
         }
         [Route("{id}")]

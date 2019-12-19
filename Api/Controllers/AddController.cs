@@ -26,6 +26,7 @@ namespace Api.Controllers
         }
 
         public async Task<Object> AddClass(Classes model)
+
         {
             if (ModelState.IsValid)
             {

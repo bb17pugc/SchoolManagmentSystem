@@ -24,9 +24,8 @@ export class TimetableService {
           Period : Form.value.Period,
           Course : Form.value.Subject,
           Teacher : Form.value.Teacher
-      }
-      
-   return this.http.post(this.BaseUrl+'/TimeTable/Add' , body , {headers : this.reqheaders})
+      };
+   return this.http.post(this.BaseUrl+'/TimeTable/Add' , body , {headers : this.reqheaders});
   }
   List()
   {

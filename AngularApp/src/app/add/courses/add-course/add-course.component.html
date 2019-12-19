@@ -9,8 +9,8 @@
         <option value="">
               Select Class
         </option>
-        <option *ngFor="let item of DistinctClass" value={{item}} > 
-              {{item}}th
+        <option *ngFor="let item of Classes" value={{item.id}} > 
+              {{item.name}}th
         </option>
       </select>
       <button [disabled]="Form.invalid" class="btn-orange" type="submit">Add</button>
@@ -57,7 +57,7 @@
   <tbody *ngFor="let course of courses | slice : SkipEl | filter:searchText ; let i = index ">
       <tr *ngIf="i < PageSize" style="padding-left: 5% !important" >    
           <td >{{course.name | uppercase}}</td>
-          <td>{{course.class}}th</td>
+          <td>{{course.classes.name}}th</td>
           <td> <button class="btn btn-success" (click)="Edit(course.id)" >Edit</button> </td> 
           <td> <button class="btn btn-danger " (click) = "ConfirmDelete(course.id)" >Delete</button> </td>
         </tr>

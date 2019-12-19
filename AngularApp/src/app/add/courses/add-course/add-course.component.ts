@@ -9,6 +9,7 @@ import { AddService } from 'src/app/services/add.service';
 import { Sorting } from 'src/app/sorting/sorting';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { map, takeUntil } from 'rxjs/operators';
+import { unique } from 'jquery';
 
 
 
@@ -100,7 +101,7 @@ Edit(id)
      });
 }
 List()
-{
+{ 
        this.courseserv.Clear();
        this.Courses$ = this.courseserv.GetList();      
        this.Courses$.subscribe(res => 
@@ -145,9 +146,9 @@ ClassesList()
 {
     this.classserv.Clear();
      this.Classes$ = this.classserv.GetClasses();
-     this.Classes$.subscribe((res : ClassModel[]) => {
-            this.DistinctClass = [...new Set(res.map(item => item.name))];
-            ;
+     this.Classes$.subscribe((res : ClassModel[]) => {            
+            this.Classes = res.filter(obj => !unique[obj.name] && (unique[obj.name] = true));
+            
      } );     
 }
 ConfirmDelete(id)

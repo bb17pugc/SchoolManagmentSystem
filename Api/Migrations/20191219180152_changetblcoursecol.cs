@@ -2,29 +2,23 @@
 
 namespace Api.Migrations
 {
-    public partial class applydataannotations : Migration
+    public partial class changetblcoursecol : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
                 name: "ClassesID",
-                table: "PeriodDetail",
+                table: "Courses",
                 nullable: true);
 
-            migrationBuilder.AddColumn<int>(
-                name: "Period",
-                table: "PeriodDetail",
-                nullable: false,
-                defaultValue: 0);
-
             migrationBuilder.CreateIndex(
-                name: "IX_PeriodDetail_ClassesID",
-                table: "PeriodDetail",
+                name: "IX_Courses_ClassesID",
+                table: "Courses",
                 column: "ClassesID");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_PeriodDetail_Classes_ClassesID",
-                table: "PeriodDetail",
+                name: "FK_Courses_Classes_ClassesID",
+                table: "Courses",
                 column: "ClassesID",
                 principalTable: "Classes",
                 principalColumn: "ID",
@@ -34,20 +28,16 @@ namespace Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_PeriodDetail_Classes_ClassesID",
-                table: "PeriodDetail");
+                name: "FK_Courses_Classes_ClassesID",
+                table: "Courses");
 
             migrationBuilder.DropIndex(
-                name: "IX_PeriodDetail_ClassesID",
-                table: "PeriodDetail");
+                name: "IX_Courses_ClassesID",
+                table: "Courses");
 
             migrationBuilder.DropColumn(
                 name: "ClassesID",
-                table: "PeriodDetail");
-
-            migrationBuilder.DropColumn(
-                name: "Period",
-                table: "PeriodDetail");
+                table: "Courses");
         }
     }
 }

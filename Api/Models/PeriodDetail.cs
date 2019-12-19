@@ -9,11 +9,12 @@ namespace Api.Models
     public class PeriodDetail
     {
         public int ID { get; set; }
-        public Classes Classes { get; set; }
-        public int Period { get; set; }
         [Required]
         public Course Course { get; set; }
         [Required]
         public Teacher Teacher { get; set; }
+        [Required]
+        public Classes Classes { get; set; }
+        public int Period { get; set; }
     }
 }

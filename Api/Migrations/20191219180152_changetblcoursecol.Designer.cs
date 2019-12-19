@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Migrations
 {
     [DbContext(typeof(AuthDb))]
-    [Migration("20191217052737_addtest")]
-    partial class addtest
+    [Migration("20191219180152_changetblcoursecol")]
+    partial class changetblcoursecol
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,12 +46,14 @@ namespace Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Class");
+                    b.Property<int?>("ClassesID");
 
                     b.Property<string>("Name")
                         .IsRequired();
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ClassesID");
 
                     b.ToTable("Courses");
                 });
@@ -62,23 +64,23 @@ namespace Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("ClassesID");
+
+                    b.Property<int?>("CourseID");
+
                     b.Property<int>("Marks");
+
+                    b.Property<int?>("StudentsID");
 
                     b.Property<int>("Total");
 
-                    b.Property<int?>("classesID");
-
-                    b.Property<int?>("courseID");
-
-                    b.Property<int?>("studentsID");
-
                     b.HasKey("ID");
 
-                    b.HasIndex("classesID");
+                    b.HasIndex("ClassesID");
 
-                    b.HasIndex("courseID");
+                    b.HasIndex("CourseID");
 
-                    b.HasIndex("studentsID");
+                    b.HasIndex("StudentsID");
 
                     b.ToTable("Markslists");
                 });
@@ -89,7 +91,7 @@ namespace Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClassesID");
+                    b.Property<int>("ClassesID");
 
                     b.Property<int>("CourseID");
 
@@ -176,36 +178,6 @@ namespace Api.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Teachers");
-                });
-
-            modelBuilder.Entity("Api.Models.test1", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("son");
-                });
-
-            modelBuilder.Entity("Api.Models.test2", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.Property<int?>("tstID");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("tstID");
-
-                    b.ToTable("father");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -391,26 +363,34 @@ namespace Api.Migrations
                     b.HasDiscriminator().HasValue("CustomizeUser");
                 });
 
+            modelBuilder.Entity("Api.Models.Course", b =>
+                {
+                    b.HasOne("Api.Models.Classes", "Classes")
+                        .WithMany()
+                        .HasForeignKey("ClassesID");
+                });
+
             modelBuilder.Entity("Api.Models.MarkslistData", b =>
                 {
-                    b.HasOne("Api.Models.Classes", "classes")
+                    b.HasOne("Api.Models.Classes", "Classes")
                         .WithMany()
-                        .HasForeignKey("classesID");
+                        .HasForeignKey("ClassesID");
 
-                    b.HasOne("Api.Models.Course", "course")
+                    b.HasOne("Api.Models.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("courseID");
+                        .HasForeignKey("CourseID");
 
-                    b.HasOne("Api.Models.Students", "students")
+                    b.HasOne("Api.Models.Students", "Students")
                         .WithMany()
-                        .HasForeignKey("studentsID");
+                        .HasForeignKey("StudentsID");
                 });
 
             modelBuilder.Entity("Api.Models.PeriodDetail", b =>
                 {
                     b.HasOne("Api.Models.Classes", "Classes")
                         .WithMany()
-                        .HasForeignKey("ClassesID");
+                        .HasForeignKey("ClassesID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Api.Models.Course", "Course")
                         .WithMany()
@@ -435,13 +415,6 @@ namespace Api.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Api.Models.test2", b =>
-                {
-                    b.HasOne("Api.Models.test1", "tst")
-                        .WithMany()
-                        .HasForeignKey("tstID");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

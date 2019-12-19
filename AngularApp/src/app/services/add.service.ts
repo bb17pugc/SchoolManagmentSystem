@@ -40,11 +40,12 @@ export class AddService {
   AddClasses(Form) {
     var body =
     {
-      ID: Form.value.ID != 0?Form.value.ID:0,
+      ID: (Form.value.ID > 0)?Form.value.ID:0,
       Name: Form.value.Name,
       Fee: Form.value.Fee,
       Section: Form.value.Section,
     }
+    console.log(Form);
     return this.http.post(this.BaseUrl + '/Add/AddClass', body, { headers: this.reqheaders });
   }
 

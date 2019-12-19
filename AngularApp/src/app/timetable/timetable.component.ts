@@ -39,7 +39,7 @@ export class TimetableComponent implements OnInit {
   period : Periods = new Periods();
   id : number;
   TeacherDetail : string;
-  NotFree : any[] ;
+  NotFree : any[] = [];
   constructor(private p :  PrintService , private timetableserv : TimetableService , private teacherserv : TeacherService , private coursesserv : CourseserviceService  , private fb : FormBuilder , private modalservice : BsModalService , private classserv : AddService , private sort : Sorting ) 
   {
 
@@ -73,11 +73,9 @@ export class TimetableComponent implements OnInit {
   {
     this.CourseClass = this.CourseClass;
     this.Courses$ = this.coursesserv.GetList();
-    this.Courses$.subscribe((List : CourseModel[] ) => 
-      {
-        this.courses = List.filter(a => a.class === +this.CourseClass);
-        console.log(this.courses);
-
+    this.Courses$.subscribe((List : any[] ) => 
+      { 
+        this.courses = List.filter(a => a.classes.name === this.CourseClass);
       });
   }
   GetTeachers()
@@ -130,7 +128,7 @@ Edit(id)
             alert(err.message);
          }
          );
-         this.GetTeachers();
+           this.GetTeachers();
          this.modalRef.hide();
         }
       }

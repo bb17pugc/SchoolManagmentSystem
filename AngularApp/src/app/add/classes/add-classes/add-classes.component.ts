@@ -45,7 +45,7 @@ export class AddClassesComponent implements OnInit {
     this.NameInput.nativeElement.focus(); 
     var unamePattern = "^([a-z A-Z]+)$";   
     this.Form = this.fb.group({
-      ID: [''],
+      ID: [0],
       Name: ['', [Validators.required, , Validators.min(1), Validators.max(10)]],
       Fee: ['', [Validators.required, Validators.min(0)]],
       Section: ['', [Validators.required, Validators.maxLength(1), Validators.pattern(unamePattern)]],
@@ -124,19 +124,18 @@ export class AddClassesComponent implements OnInit {
         this.appserv.AddClasses(this.Form).subscribe(
         (res: any) =>
         {
-          this.Form.reset();
           this.NameInput.nativeElement.focus();
           if(this.EditMode == "true")
           {
              this.EditMode = "false";
           }
-          this.ListClasses();   
+          this.ListClasses();
+          this.Form.reset();   
         }
         ,
         (err: HttpErrorResponse) =>
           {
           console.log(err.error);
-
         }
       );    
     }

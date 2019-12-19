@@ -23,9 +23,9 @@ namespace Api.Models
     public class MarkslistData
     {
         public int ID { get; set; }
-        public virtual Classes Classes { get; set; }
-        public virtual Course  Course{ get; set; }
-        public virtual Students Students { get; set; }
+        public  Classes Classes { get; set; }
+        public  Course  Course{ get; set; }
+        public  Students Students { get; set; }
         public int Marks{ get; set; }
         public int Total{ get; set; }
     }

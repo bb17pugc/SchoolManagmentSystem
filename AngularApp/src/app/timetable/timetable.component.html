@@ -93,7 +93,7 @@
           <p class="text-center" style="display: block;" >Set <strong> {{Form.get('Period').value}}th </strong> period for Class <strong> {{Form.get('Class').value}}th </strong> </p>
         </div>
         <div class="modal-body" >
-                <form [formGroup]="Form" (submit) = "onSubmit()" >
+                <form [formGroup]="Form">
                     <div style="display: block;padding-left: 80px;padding-right: 80px">
                         <select  style="width: 100%;border-radius: 3px" class="input-small"  formControlName = "Subject" (change)="changecourse($event)">
                             <option>
@@ -117,7 +117,7 @@
                     </div>
                    
                     <div style="display: block" >
-                        <button [disabled]="Form.invalid"  type="submit" style="width: 62%" class="btn-orange" (click)="onSubmit()" >Add</button>        
+                        <button [disabled]="Form.invalid" (click)="onSubmit()" type="submit" style="width: 62%" class="btn-orange"  >Add</button>        
                     </div>   
                 </form>
         </div>

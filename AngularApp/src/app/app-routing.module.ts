@@ -24,13 +24,14 @@ const routes: Routes = [
   {path:'home' , component:HomeComponent  ,canActivate: [AuthGuard] },
   { path: 'teachers-timetable', component: TimetableComponent ,canActivate: [AuthGuard] },
   {path : "date-sheet" , component : StudentComponent , canActivate : [AuthGuard]} ,
-  {path : "examination" , component : ExaminationComponent , canActivate : [AuthGuard]},
   {path : "examination" , component : ExaminationComponent , 
     children : 
     [{path : "datesheet" , component : DatesheetComponent  , canActivate : [AuthGuard]}
     , {path : "markslists" , component : MarklistsComponent , canActivate : [AuthGuard]}
     , {path : "createstudentlist" , component : CreatestudentlistComponent , canActivate : [AuthGuard]}  
   ]
+  ,
+  canActivate : [AuthGuard]
   }
   ,
   {

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Api.Models;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers
 {
@@ -35,7 +37,7 @@ namespace Api.Controllers
         }
         public async Task<Object> List()
         {
-            var List = await Task.Run(() => authDb.Courses.ToList());
+            var List = await Task.Run(() => authDb.Courses.Include(a => a.Classes).ToList());
             return Ok(List);
         }
         [Route("{id}")]
@@ -57,7 +59,7 @@ namespace Api.Controllers
             }
             return BadRequest("invalid id");
         }
-        public async Task<Object> Add(Course course)
+        public async Task<Object> Add(CourseViewModel course)
         {
             if(ModelState.IsValid)
             {
@@ -65,7 +67,7 @@ namespace Api.Controllers
                 {
                     ID = course.ID,
                     Name = course.Name,
-                    Class = course.Class
+                    Classes = authDb.Classes.Where(a => a.ID == course.Class).FirstOrDefault()
                 };
 
                 if (newrecord.ID != 0)
@@ -74,7 +76,8 @@ namespace Api.Controllers
                 }
                 else
                 {
-                    var checkrecored = await Task.Run(() => authDb.Courses.Where(a => a.Name == course.Name && a.Class == course.Class).FirstOrDefault());
+
+                    var checkrecored = await Task.Run(() => authDb.Courses.Where(a => a.Name == newrecord.Name && a.Classes == newrecord.Classes).FirstOrDefault());
                     if (checkrecored != null)
                     {
                         return BadRequest("recored of subject " + course.Name + " in class " + course.Class + " is already added");
