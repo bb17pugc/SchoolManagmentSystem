@@ -146,7 +146,7 @@ ClassesList()
 {
     this.classserv.Clear();
      this.Classes$ = this.classserv.GetClasses();
-     this.Classes$.subscribe((res : ClassModel[]) => {            
+     this.Classes$.pipe(takeUntil(this.Destroyed)).subscribe((res : ClassModel[]) => {            
             this.Classes = res.filter(obj => !unique[obj.name] && (unique[obj.name] = true));
             
      } );     

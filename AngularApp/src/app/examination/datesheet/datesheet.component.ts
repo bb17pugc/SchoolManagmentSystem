@@ -14,7 +14,7 @@ import { CourseModel } from 'src/app/models/course-model';
 import { TeacherService } from 'src/app/services/teacher.service';
 import { CourseserviceService } from 'src/app/services/courseservice.service';
 import { takeUntil } from 'rxjs/operators';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Datesheet } from 'src/app/models/datesheet';
 
 @Component({
@@ -53,17 +53,19 @@ DateSheetData : Datesheet[];
 
   ngOnInit() 
   {
-    this.Today = this.CurrentDate.toDateString();
-    this.GetClasses();
-    this.CurrentYear = this.CurrentDate.getFullYear();
-    this.Dates = JSON.parse(this.GetDates());
     
     this.Form = this.fb.group({
-       Class : [''],
-       Date : [''],
-       Subject : [''],
-       Teacher : [''],
-    });
+      Class : ['' , [Validators.required]],
+      Date : ['' , [Validators.required]],
+      Subject : ['' , [Validators.required]],
+      Teacher : ['' , [Validators.required]],
+   });
+    this.Today = this.CurrentDate.toDateString();
+    this.GetClasses();
+    this.GetCourses();
+    this.GetTeachers();
+    this.CurrentYear = this.CurrentDate.getFullYear();
+    this.Dates = JSON.parse(this.GetDates());    
   }
   
 SetStartDates(val)
@@ -87,28 +89,27 @@ onSubmit()
 }
 SetSubDetails(item : any ,classVal : any)
 {
+   this.Form.reset();
    this.PaperClass = classVal;
    this.CourseClass = classVal.name;
    this.PaperDate = this.datePipe.transform(item, 'dd-MM-yyyy');
    this.modalRef = this.modalservice.show(this.FormTemplate);
    this.Form.controls['Class'].setValue(classVal.id);
-   this.Form.controls['Date'].setValue(this.PaperDate);
-   this.GetCourses();
-   this.GetTeachers();
+   this.Form.controls['Date'].setValue(this.PaperDate);   
   }
 GetCourses()
 {
   this.CourseClass = this.CourseClass;
   this.Courses$ = this.coursesserv.GetList();
-  this.Courses$.subscribe((List : CourseModel[] ) => 
+  this.Courses$.pipe(takeUntil(this.Destroyed)).subscribe((List : any[] ) => 
     {
-      this.courses = List.filter(a => a.class === this.CourseClass)
+      this.courses = List.filter(a => a.classes.name === this.CourseClass)
     });
 }
 GetTeachers()
 {
     this.Teachers$ = this.teacherserv.List();
-    this.Teachers$.pipe(takeUntil(this.Destroyed)).subscribe(list => {
+    this.Teachers$.pipe(takeUntil(this.Destroyed)).subscribe((list : any[]) => {
          this.teachers = list;
     }); 
 }
@@ -118,9 +119,11 @@ SetEndDates(val)
   this.ClearDateSheet();
   if( val != null)
   {
-    if(val <= this.StartDate)
-    {
-      this.DateError = "End date must be greater than start";
+
+    if(new Date(Date.parse(val)) <= this.StartDate)
+    {      
+      this.DateError = "End date must be greater than start date";
+      console.log(this.DateError);
     }
     else
     {
@@ -168,6 +171,7 @@ GetDates()
     this.Classes$.pipe(takeUntil(this.Destroyed)).subscribe((res : any)=>
     {
           this.Classes = res;
+          console.log(this.Classes);
           this.CountClasses = this.Classes.length;
           this.Classes.sort(this.sort.SortData("name" , "asc" , "number"));    
         } ,

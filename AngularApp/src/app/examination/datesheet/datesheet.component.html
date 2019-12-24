@@ -9,23 +9,25 @@
     <input type="submit" class="btn-orange" (click)="SetDates()" value="Set Dates" [disabled]="DateError" style="display: inline;width: 10%;" />
     <input type="submit" class="btn-orange" (click)="ClearDateSheet()" value="Clear"  style="display: inline;width: 10%;margin: 0 !important;" />
 </div>
-<p *ngIf="DateError" > {{DateError}} </p>
-<div style="padding:10px;">
-    <table border="1" class="Table-orng onPointer">
+<div class="err-div">
+    <ul class="error">
+        <li *ngIf="DateError" > {{DateError}} </li>
+     </ul>
+</div>
+<h5 style="height: 5%;" >
+    <strong style="float: left;">MY SCHOOL</strong><strong style="float: right;">Date: {{Today}}</strong> 
+</h5> 
+<div style="padding:10px;padding-top: 0% !important;border-top:none ;">
+    <table border="1" class="Table-orng onPointer" style="border-top:none;border-color:coral">
         <thead>
-              <tr>
-                  <td colspan="16" style="padding: 5px;" ><strong style="float: left;">MY SCHOOL</strong><strong style="float: right;">Date: {{Today}}</strong> </td>
-              </tr>
+              <td>
+                Dates
+              </td>
+           <td  *ngFor = "let class of Classes">
+                <strong>{{class.name}}th {{class.section | uppercase}}</strong>    
+           </td>
         </thead>
         <tbody>
-            <tr style="background-color: coral;color: white;" >
-                <td>
-                     Dates
-                </td>
-                <td *ngFor = "let class of Classes">
-                     <strong>{{class.name}}th {{class.section | uppercase}} {{class.id}} </strong>    
-                </td>
-            </tr>
             <tr *ngFor="let item of Dates" id="datesheet" >
                 <td style="font-weight:900;">
                       {{item.date | date: 'dd/MM/yy'}}
@@ -34,27 +36,30 @@
                     
                 </td>
             </tr>
-            <tr *ngIf="this.Dates.length === 0" >
-                 <td colspan="16" style="text-align: center;" class="text-orng" >
-                       Select dates from above to create datesheet
-                 </td>
-            </tr>
         </tbody>
     </table>
-    <ng-template #FormTemplate>
+    <div *ngIf="this.Dates.length === 0" >
+        <strong  style="text-align: center; background-color: white !important;color: coral;display: block;border: coral solid 1px;padding: 1%; " class="text-orng" >
+              Select dates from above to create datesheet
+        </strong>   
+    </div>
+        <ng-template #FormTemplate>
         <div>
             <i style="text-align: right" class="fa fa-close" style="float: right" aria-hidden="true" (click)="modalRef.hide()" ></i>
         </div>
             <div style="border-bottom: solid 1px">
-              <p class="text-center" style="color: coral;display: block;text-align: center;" >Set Paper for <strong> {{PaperClass.name}} </strong> on <strong> {{PaperDate}} </strong> </p>
+                <p class="text-center" style="display: block;color: coral;" >Set Paper for <strong style="background-color: white;color: coral;" > {{PaperClass.name}}th </strong> on <strong style="background-color: white;color: coral;" > {{PaperDate}} </strong> </p>
             </div>
             <div class="modal-body" >
-                    <form [formGroup]="Form" (submit) = "onSubmit()" >
+                    <form [formGroup]="Form" >
                         <input formControlName="Class"  />
                         <input formControlName="Date"  />
                         <div style="display: block;padding-left: 80px;padding-right: 80px">
                             <select  style="width: 100%;border-radius: 3px" class="input-small" formControlName = "Subject" >
-                                <option *ngFor="let course of courses" [value] = "course.id" > 
+                                <option value ="" > 
+                                     Select Subject
+                                  </option>
+                                <option *ngFor="let course of courses" value ={{course.id}} > 
                                   {{course.name| uppercase}} {{course.id}}
                                 </option>
                               </select>                        
@@ -62,8 +67,10 @@
                         <br/>
                         <div style="display: block;padding-left: 80px;padding-right: 80px">
                             <select  style="width: 100%;border-radius: 3px" class="input-small" formControlName = "Teacher" >
-                            
-                                <option *ngFor="let teacher of teachers" [value] = "teacher.id" > 
+                                <option value ="" > 
+                                   Select Teacher     
+                                </option>
+                                <option *ngFor="let teacher of teachers" value ={{teacher.id}} > 
                                   {{teacher.name| uppercase}} {{teacher.id}} 
                                 </option>
                               </select>                        
@@ -76,3 +83,13 @@
             </div>
           </ng-template>
 </div>
+
+<style>
+    strong , h5
+    {
+        background-color: coral;
+        color: white;
+        margin: 0%;
+        vertical-align: middle;
+    }
+ </style>
