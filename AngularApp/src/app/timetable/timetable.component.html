@@ -96,7 +96,7 @@
                 <form [formGroup]="Form">
                     <div style="display: block;padding-left: 80px;padding-right: 80px">
                         <select  style="width: 100%;border-radius: 3px" class="input-small"  formControlName = "Subject" (change)="changecourse($event)">
-                            <option>
+                            <option value = "" >
                                 Select Subject
                             </option>
                             <option *ngFor="let course of courses" [value] = "course.id" > 
@@ -107,7 +107,7 @@
                     <br/>
                     <div style="display: block;padding-left: 80px;padding-right: 80px">
                         <select  style="width: 100%;border-radius: 3px" class="input-small" formControlName = "Teacher" (change)="changeteahcer($event)">                        
-                            <option>
+                            <option value="" >
                                 Select Teacher
                             </option>
                             <option *ngFor="let teacher of teachers" [value] = "teacher.id" > 

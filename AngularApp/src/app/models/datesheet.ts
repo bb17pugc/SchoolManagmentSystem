@@ -1,7 +1,8 @@
 export class Datesheet 
 {
-    public Class : any;
-    public date : any;
-    public Subject : any;
-    public Teacher : any;
+    public id : Number;
+    public class : any;
+    public subject : any;
+    public teacher : any;
+    public date : Date;
 }

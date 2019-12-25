@@ -22,7 +22,7 @@ Add(Form)
 {
   var body = 
   {
-    ID : Form.value.ID != 0?Form.value.ID : 0,
+    ID : Form.value.ID > 0?Form.value.ID : 0,
     Name : Form.value.Name,
     Father : Form.value.Father,
     ClassId : Form.value.Class,
@@ -39,12 +39,12 @@ Clear()
   this.Students$ = null;
 }
 
-List()
+List() : Observable<Student[]>
 {
   this.Clear();
     if(!this.Students$)
     {
-      return this.http.get<Student[]>(this.BaseUrl+'/List').pipe(shareReplay());
+      this.Students$ = this.http.get<Student[]>(this.BaseUrl+'/List').pipe(shareReplay());
     }
     return this.Students$;
 }

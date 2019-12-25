@@ -4,14 +4,16 @@ using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Api.Migrations
 {
     [DbContext(typeof(AuthDb))]
-    partial class AuthDbModelSnapshot : ModelSnapshot
+    [Migration("20191224071051_addtbldatesheet")]
+    partial class addtbldatesheet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,14 +67,6 @@ namespace Api.Migrations
                     b.Property<int?>("ClassID");
 
                     b.Property<string>("Date");
-
-                    b.Property<string>("DateSheetName")
-                        .IsRequired();
-
-                    b.Property<string>("EndDate")
-                        .IsRequired();
-
-                    b.Property<string>("StartDate");
 
                     b.Property<int?>("SubjectID");
 

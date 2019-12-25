@@ -63,8 +63,8 @@ export class TimetableComponent implements OnInit {
       Class : [''],
       Section : [''],
       Period : [''],
-      Teacher : ['Select Teacher' , Validators.required],
-      Subject : [ 'Select Subject' , Validators.required],
+      Teacher : ['' , Validators.required],
+      Subject : [ '' , Validators.required],
     }); 
     this.GetClasses();
     this.List();
@@ -76,6 +76,7 @@ export class TimetableComponent implements OnInit {
     this.Courses$.subscribe((List : any[] ) => 
       { 
         this.courses = List.filter(a => a.classes.name === this.CourseClass);
+
       });
   }
   GetTeachers()

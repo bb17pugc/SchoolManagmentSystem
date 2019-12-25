@@ -25,6 +25,7 @@ namespace Api.Models
         public DbSet<PeriodDetail> PeriodDetail { get; set; }
         public DbSet<SubAccountsDetails> SubAccounts { get; set; }
         public DbSet<Students> Students { get; set; }
-        public DbSet<MarkslistData> Markslists { get; set; } 
+        public DbSet<MarkslistData> Markslists { get; set; }
+        public DbSet<DateSheet> DateSheet { get; set; }
     }
 }

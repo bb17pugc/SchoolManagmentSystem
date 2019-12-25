@@ -28,7 +28,7 @@ export class CreatestudentlistComponent implements OnInit {
   Students$ : Observable<Student[]>;
   Students : Studentsarray[] = []; 
   Form : FormGroup;
-  CourseClass : string = "N/A" ;
+  CourseClass : number = 0 ;
   ClassSubject : string = "N/A";
   StudentName : string = "N/A";
   Total : number;

@@ -19,7 +19,7 @@ export class TeacherService {
   {
       var body = 
       {
-         ID : Form.value.ID != 0?Form.value.ID : 0,
+         ID : Form.value.ID > 0?Form.value.ID : 0,
          Name : Form.value.Name,
          Cnic : Form.value.Cnic,
          Education : Form.value.Education,

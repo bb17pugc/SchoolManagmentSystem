@@ -19,7 +19,7 @@ export class MarkslistService {
   {
       var body = 
       {
-          ID : Form.value.ID,
+          ID : Form.value.ID > 0 ? Form.value.ID : 0,
           Class : Form.value.Class,
           Subject : Form.value.Subject,
           Student : Form.value.Student,
@@ -29,11 +29,11 @@ export class MarkslistService {
       console.log(body);
      return this.http.post(this.BaseUrl + '/Add' , body , {headers : this.ReqHeaders});
   }
-  List()
+  List() : Observable<Getmarkslists[]>
   {
       if(!this.MarksList$)
       {
-         return this.http.get<Getmarkslists[]>(this.BaseUrl + '/List').pipe(shareReplay());  
+         this.MarksList$ = this.http.get<Getmarkslists[]>(this.BaseUrl + '/List').pipe(shareReplay());  
       }
       return this.MarksList$;
   }

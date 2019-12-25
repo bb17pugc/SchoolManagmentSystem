@@ -208,7 +208,7 @@ apper .dataTables_paginate .paginate_button.disabled,
   
   input , button , .Class-dropdown , textarea
   {
-      border :0.5px solid coral !important;
+      border :1.5px double coral !important;
       margin : 03% !important;
       padding-left : 10px;
       border-radius : 3px;

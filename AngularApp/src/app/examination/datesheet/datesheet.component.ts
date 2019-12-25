@@ -13,9 +13,10 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CourseModel } from 'src/app/models/course-model';
 import { TeacherService } from 'src/app/services/teacher.service';
 import { CourseserviceService } from 'src/app/services/courseservice.service';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, take } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Datesheet } from 'src/app/models/datesheet';
+import { DatesheetService } from 'src/app/services/datesheet.service';
 
 @Component({
   selector: 'app-datesheet',
@@ -27,14 +28,12 @@ private  Destroyed : ReplaySubject<boolean> = new ReplaySubject(1);
 @ViewChild('FormTemplate' , {static : true}) FormTemplate : TemplateRef<any>;
 Classes$ : Observable<ClassModel[]>;
 Classes  : ClassModel[];
-CurrentDate :Date = new Date();
-Today : any;
-CurrentYear : any;
 StartDate : Date = new Date();
 EndDate : Date = new Date();
 Dates : DateVal[]=[];
-DateError : any ;
+DateError : string ;
 CountClasses : any;
+Today : Date;
 PaperDate :any;
 PaperClass : any;
 Title : string = "Time Table";
@@ -45,8 +44,10 @@ Courses$ : Observable<CourseModel[]>;
 courses : CourseModel[] = [];
 CourseClass : any;
 Form : FormGroup;
-DateSheetData : Datesheet[];
-  constructor(private fb : FormBuilder  , private modalservice : BsModalService , private teacherserv : TeacherService , private coursesserv : CourseserviceService  , private datePipe: DatePipe , private ClassesServ  : AddService , private sort : Sorting) 
+DateSheet$ : Observable<Datesheet[]>;
+DateSheet :Datesheet[] = [];
+DateSheetName : string=null;
+  constructor(private datesheetserv : DatesheetService , private fb : FormBuilder  , private modalservice : BsModalService , private teacherserv : TeacherService , private coursesserv : CourseserviceService  , private datePipe: DatePipe , private ClassesServ  : AddService , private sort : Sorting) 
   {
 
   }
@@ -55,47 +56,64 @@ DateSheetData : Datesheet[];
   {
     
     this.Form = this.fb.group({
-      Class : ['' , [Validators.required]],
-      Date : ['' , [Validators.required]],
-      Subject : ['' , [Validators.required]],
-      Teacher : ['' , [Validators.required]],
-   });
-    this.Today = this.CurrentDate.toDateString();
+      ID : [0],
+      Class : ['' , Validators.required],
+      Date : ['' , Validators.required],
+      Subject : ['' , Validators.required],
+      Teacher : ['' , Validators.required],
+      StartDate : ['' , Validators.required],
+      EndDate : ['' , Validators.required],
+      DateSheetName : ['' , Validators.required],
+    });
+    this.Today = new Date();
     this.GetClasses();
-    this.GetCourses();
     this.GetTeachers();
-    this.CurrentYear = this.CurrentDate.getFullYear();
-    this.Dates = JSON.parse(this.GetDates());    
+    this.Dates = JSON.parse(this.GetDates()); 
+    this.GetDateSheet();   
   }
-  
-SetStartDates(val)
-{
-  if(val !=  null)
-  {
-    this.StartDate = new Date(Date.parse(val));
-  }
-}
 onSubmit()
 {
-  this.DateSheetData.push({
-     Class : this.Form.get('Class').value ,
-     date : this.Form.get('Date').value , 
-     Subject : this.Form.get('Subject').value ,
-     Teacher : this.Form.get('Teacher').value ,     
-  });
-  this.Form.reset();
-  console.log(this.DateSheetData);
+  this.datesheetserv.Add(this.Form).pipe(takeUntil(this.Destroyed)).subscribe(
+    res =>
+    {
+        alert(res);
+        this.GetDateSheet();
+    } 
+    ,
+     (err : HttpErrorResponse) =>
+      {
+          console.log(err.error);
+      }
+      );
   this.modalRef.hide();
+}
+GetDateSheet() : void
+{ 
+    this.DateSheet$ = this.datesheetserv.List();
+    this.DateSheet$.pipe(takeUntil(this.Destroyed)).subscribe((res : Datesheet[]) =>
+     {
+        this.DateSheet = res;    
+        console.log(this.DateSheet);           
+     }
+      ,
+       (err : HttpErrorResponse) =>
+    {
+
+    });
 }
 SetSubDetails(item : any ,classVal : any)
 {
-   this.Form.reset();
+   this.StartDate = new Date(Date.parse(localStorage.getItem('StartDate')));
    this.PaperClass = classVal;
    this.CourseClass = classVal.name;
    this.PaperDate = this.datePipe.transform(item, 'dd-MM-yyyy');
    this.modalRef = this.modalservice.show(this.FormTemplate);
    this.Form.controls['Class'].setValue(classVal.id);
-   this.Form.controls['Date'].setValue(this.PaperDate);   
+   this.Form.controls['Date'].setValue(this.PaperDate);
+   this.Form.controls['StartDate'].setValue(this.StartDate);
+   this.Form.controls['EndDate'].setValue(this.EndDate);
+   this.Form.controls['DateSheetName'].setValue(this.DateSheetName + new Date().toLocaleTimeString());      
+   this.GetCourses(); 
   }
 GetCourses()
 {
@@ -103,7 +121,7 @@ GetCourses()
   this.Courses$ = this.coursesserv.GetList();
   this.Courses$.pipe(takeUntil(this.Destroyed)).subscribe((List : any[] ) => 
     {
-      this.courses = List.filter(a => a.classes.name === this.CourseClass)
+      this.courses = List.filter(a => a.classes.name === this.CourseClass); 
     });
 }
 GetTeachers()
@@ -114,44 +132,44 @@ GetTeachers()
     }); 
 }
 
-SetEndDates(val)
-{
-  this.ClearDateSheet();
-  if( val != null)
-  {
-
-    if(new Date(Date.parse(val)) <= this.StartDate)
-    {      
-      this.DateError = "End date must be greater than start date";
-      console.log(this.DateError);
-    }
-    else
-    {
-      this.EndDate = new Date(Date.parse(val));
-      this.DateError = "";
-    }
-  }
-}
 SetDates()
-{      
-  var i= 0;
-  while(this.StartDate < this.EndDate)
+{ 
+  if(this.DateSheetName === null)
   {
-      this.Dates.push({
-      date : this.StartDate.setDate(this.StartDate.getDate()+i),
-       });
-     i=1;
+    alert("write date sheet name");
+  }   
+  else
+  {
+    this.StartDate = new Date(Date.parse(this.datePipe.transform(this.StartDate, 'yyyy-MM-dd')));        
+    this.EndDate = new Date(Date.parse(this.datePipe.transform(this.EndDate, 'yyyy-MM-dd')));
+    localStorage.setItem('StartDate' , this.StartDate.toString());    
+    if(this.EndDate >= this.StartDate)
+   {
+    this.DateError = ""; 
+    var i= 0;
+    while(this.StartDate < this.EndDate)
+    {
+        this.Dates.push({
+        date : this.StartDate.setDate(this.StartDate.getDate()+i),
+         });
+       i=1;
+    }
+   } 
+   else
+   {
+    this.DateError = "End date must be greater than start date";    
   }
-  this.StoreData(); 
+  }  
+  
 }
 ClearDateSheet()
 {
   sessionStorage.removeItem('DateSheet');
   this.Dates.length = 0;
-}
-StoreData()
-{
-  sessionStorage.setItem('DateSheet' ,  JSON.stringify(this.Dates));
+  this.StartDate = null;
+  this.EndDate = null;
+  this.DateError = ""; 
+  this.Form.reset();
 }
 GetDates()
 {
@@ -171,7 +189,6 @@ GetDates()
     this.Classes$.pipe(takeUntil(this.Destroyed)).subscribe((res : any)=>
     {
           this.Classes = res;
-          console.log(this.Classes);
           this.CountClasses = this.Classes.length;
           this.Classes.sort(this.sort.SortData("name" , "asc" , "number"));    
         } ,

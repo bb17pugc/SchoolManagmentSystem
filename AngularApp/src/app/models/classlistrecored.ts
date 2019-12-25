@@ -1,6 +1,8 @@
+import { ClassModel } from './class-model';
+
 export class Classlistrecored 
 {
-    class : any;
+    class : ClassModel;
     subject : any;
     totalmarks : number;
 }
