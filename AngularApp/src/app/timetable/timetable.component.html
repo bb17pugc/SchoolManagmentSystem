@@ -56,7 +56,7 @@
                                         <div class="border" *ngFor="let p of period.p1" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}" ><strong>{{p.course.name | uppercase}}</strong><br/><p  style="display: block;" >{{p.teacher.name}}</p></div>    
                                     </td>
                                     <td  (click)= "SetPeriod(period.class.name , 2 , period.class.section)" >
-                                        <div class="border" *ngFor="let p of period.p2" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}" ><strong>{{p.course.name | uppercase}}</strong><br/><p  style="display: block;" >{{p.teacher.name}}</p></div>    
+                                        <div class="border" *ngFor="let p of period.p2" (click)="Edit(p.id)" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}" ><strong>{{p.course.name | uppercase}}</strong><br/><p>{{p.teacher.name}}</p></div>    
                                     </td>
                                     <td (click)= "SetPeriod(period.class.name , 3 , period.class.section)" >
                                         <div class="border" *ngFor="let p of period.p3" (click)="Edit(p.id)" [ngClass]="{'showdetails' :p.teacher.id === TeacherDetail}" (mouseover)="GetTeacherId(p.teacher.id)" (mouseout)="GetTeacherId(0)" ><strong>{{p.course.name | uppercase}}</strong><br/><p  style="display: block;" >{{p.teacher.name}}</p></div>    
@@ -136,6 +136,13 @@
         color:white;
         transition: 1s;
     }
+    
+    strong
+    {
+        padding: 0% 9% 0% 9% ;
+        font-size: 12px;
+    }
+
     td div
     {
         overflow: auto ;

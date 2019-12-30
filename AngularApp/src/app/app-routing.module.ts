@@ -12,21 +12,21 @@ import { AddTeacherComponent } from './add/teachers/add-teacher/add-teacher.comp
 import { ListComponent } from './add/teachers/list/list.component';
 import { TimetableComponent } from './timetable/timetable.component';
 import { SubaccountsComponent } from './add/subaccounts/subaccounts.component';
-import { StudentComponent } from './add/student/student.component';
-import { AddstudentComponent } from './add/student/addstudent/addstudent.component';
-import { ListStudentsComponent } from './add/student/list/list.component';
+import { AddstudentComponent } from './add/students/addstudent/addstudent.component';
+import { ListStudentsComponent } from './add/students/list/list.component';
 import { ExaminationComponent } from './examination/examination.component';
-import { DatesheetComponent } from './examination/datesheet/datesheet.component';
+import { DatesheetComponent } from './examination/datesheets/datesheet/datesheet.component';
 import { MarklistsComponent } from './examination/marklists/marklists.component';
 import { CreatestudentlistComponent } from './examination/createstudentlist/createstudentlist.component';
+import { ListDateSheetComponent } from './examination/datesheets/list/list.component';
 const routes: Routes = [
 
   {path:'home' , component:HomeComponent  ,canActivate: [AuthGuard] },
   { path: 'teachers-timetable', component: TimetableComponent ,canActivate: [AuthGuard] },
-  {path : "date-sheet" , component : StudentComponent , canActivate : [AuthGuard]} ,
   {path : "examination" , component : ExaminationComponent , 
     children : 
     [{path : "datesheet" , component : DatesheetComponent  , canActivate : [AuthGuard]}
+    ,{path : "view-datesheet" , component : ListDateSheetComponent , canActivate : [AuthGuard]}
     , {path : "markslists" , component : MarklistsComponent , canActivate : [AuthGuard]}
     , {path : "createstudentlist" , component : CreatestudentlistComponent , canActivate : [AuthGuard]}  
   ]

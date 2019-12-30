@@ -30,14 +30,14 @@ import { TimetableService } from './services/timetable.service';
 import { PrintService } from './services/print.service';
 import { SubaccountsComponent } from './add/subaccounts/subaccounts.component';
 import { StudentService } from './services/student.service';
-import { AddstudentComponent } from './add/student/addstudent/addstudent.component';
-import { ListStudentsComponent } from './add/student/list/list.component';
-import { StudentComponent } from './add/student/student.component';
+import { AddstudentComponent } from './add/students/addstudent/addstudent.component';
+import { ListStudentsComponent } from './add/students/list/list.component';
 import { ExaminationComponent } from './examination/examination.component';
-import { DatesheetComponent } from './examination/datesheet/datesheet.component';
+import { DatesheetComponent } from './examination/datesheets/datesheet/datesheet.component';
 import { DatePipe } from '@angular/common';
 import { MarklistsComponent } from './examination/marklists/marklists.component';
 import { CreatestudentlistComponent } from './examination/createstudentlist/createstudentlist.component';
+import { ListDateSheetComponent } from './examination/datesheets/list/list.component';
 
 
 @NgModule({
@@ -55,13 +55,13 @@ import { CreatestudentlistComponent } from './examination/createstudentlist/crea
     AddTeacherComponent,
     TimetableComponent,
     SubaccountsComponent,
-    AddstudentComponent,
-    StudentComponent,
+    AddstudentComponent,    
     ListStudentsComponent,
     ExaminationComponent,
     DatesheetComponent,
     MarklistsComponent,
     CreatestudentlistComponent,
+    ListDateSheetComponent
   ],
   exports : [],
   imports: [

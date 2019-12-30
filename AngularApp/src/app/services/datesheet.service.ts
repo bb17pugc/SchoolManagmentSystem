@@ -28,7 +28,6 @@ export class DatesheetService {
           EndDate : Form.value.EndDate,
           DateSheetName : Form.value.DateSheetName,
        };
-       console.log(body);
        return this.http.post( this.BaseUrl+'/Add' , body ,  { headers : this.reqheaders });
    }
    //method to list of datesheet papers from api
@@ -40,6 +39,10 @@ export class DatesheetService {
           this.DateSheet$ = this.http.get<Datesheet[]>(this.BaseUrl+'/List').pipe(shareReplay());          
       }
        return this.DateSheet$
+   }
+   Edit(name : string)
+   {
+      return this.http.get<any[]>(this.BaseUrl + '/Edit/'+name ,{headers : this.reqheaders});   
    }
    Clear() : void
    {

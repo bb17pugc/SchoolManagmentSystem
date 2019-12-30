@@ -19,7 +19,7 @@ namespace Api.Controllers
         {
             authDb = db;
         }
-        //method to get the list of papers 
+        //method to get the list of datesheet
         public async Task<object> List()
         {
             var List = await Task.Run( () => authDb.DateSheet.Include(a => a.Class).Include(a => a.Subject).Include(a => a.Teacher).ToList());
@@ -42,18 +42,23 @@ namespace Api.Controllers
                     EndDate = dateSheet.EndDate,
                     DateSheetName = dateSheet.DateSheetName,
                 };
-                if(model.ID > 0 )
+                if(authDb.DateSheet.Any(a => a.Class == model.Class && a.Date == model.Date))
                 {
-                    await Task.Run(() => authDb.Entry(model).State = EntityState.Modified);
+                    await Task.Run(() => authDb.RemoveRange(authDb.DateSheet.Where(a => a.Class == model.Class && a.Date == model.Date).ToList()));
+                    await authDb.SaveChangesAsync(); 
                 }
-                else
-                {
+
                     await Task.Run(() => authDb.AddAsync(model));
-                }
                 await authDb.SaveChangesAsync();
                 return Ok("success");
             }
             return BadRequest(ModelState);
+        }
+        //get datesheet by name for edit 
+        [Route("{name}")]
+        public async Task<object> Edit(string name)
+        {
+            return Ok(await Task.Run(() => authDb.DateSheet.Where(a => a.DateSheetName == name).Include(a => a.Class).Include(a => a.Subject).Include(a => a.Teacher).ToList()));
         }
     }
 }

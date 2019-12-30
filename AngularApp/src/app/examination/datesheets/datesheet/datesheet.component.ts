@@ -17,6 +17,8 @@ import { takeUntil, take } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Datesheet } from 'src/app/models/datesheet';
 import { DatesheetService } from 'src/app/services/datesheet.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { join } from 'path';
 
 @Component({
   selector: 'app-datesheet',
@@ -46,8 +48,10 @@ CourseClass : any;
 Form : FormGroup;
 DateSheet$ : Observable<Datesheet[]>;
 DateSheet :Datesheet[] = [];
+data :Datesheet[];
 DateSheetName : string=null;
-  constructor(private datesheetserv : DatesheetService , private fb : FormBuilder  , private modalservice : BsModalService , private teacherserv : TeacherService , private coursesserv : CourseserviceService  , private datePipe: DatePipe , private ClassesServ  : AddService , private sort : Sorting) 
+EditMode :boolean=false;
+  constructor( private route : Router ,  private actroute : ActivatedRoute , private datesheetserv : DatesheetService , private fb : FormBuilder  , private modalservice : BsModalService , private teacherserv : TeacherService , private coursesserv : CourseserviceService  , private datePipe: DatePipe , private ClassesServ  : AddService , private sort : Sorting) 
   {
 
   }
@@ -69,15 +73,30 @@ DateSheetName : string=null;
     this.GetClasses();
     this.GetTeachers();
     this.Dates = JSON.parse(this.GetDates()); 
-    this.GetDateSheet();   
+    this.GetLocalStorage();       
+   // get the datesheetname from url coming from datesheetlist comp.  
+    this.actroute.queryParams.subscribe(
+      a => {
+        if(a.datesheetname !== undefined)
+        {
+           this.EditMode = true;
+           this.Edit(a.datesheetname);
+        }
+      }
+    );
+  }
+  //method to get values from local storage
+  GetLocalStorage()
+  {
+      this.DateSheetName = (localStorage.getItem('DateSheetName') === undefined) ?null:localStorage.getItem('DateSheetName');
   }
 onSubmit()
 {
   this.datesheetserv.Add(this.Form).pipe(takeUntil(this.Destroyed)).subscribe(
     res =>
     {
-        alert(res);
-        this.GetDateSheet();
+        this.Form.reset();
+        this.ResetAfterSubmit();
     } 
     ,
      (err : HttpErrorResponse) =>
@@ -87,13 +106,22 @@ onSubmit()
       );
   this.modalRef.hide();
 }
-GetDateSheet() : void
+//method to obtain the lists of past datesheets
+Edit(name : string) : void
 { 
-    this.DateSheet$ = this.datesheetserv.List();
+    this.DateSheet$ = this.datesheetserv.Edit(name);
     this.DateSheet$.pipe(takeUntil(this.Destroyed)).subscribe((res : Datesheet[]) =>
      {
-        this.DateSheet = res;    
-        console.log(this.DateSheet);           
+         this.data=res.filter(
+        (thing, i, arr) => arr.findIndex(t => t.dateSheetName === thing.dateSheetName) === i
+      );     
+      this.StartDate = new Date(Date.parse(this.data[0].startDate.toString()));
+      this.EndDate =  new Date(Date.parse(this.data[0].endDate.toString()));;
+      this.DateSheetName = this.data[0].dateSheetName;      
+      this.DateSheet = res;
+      console.log(this.DateSheet);
+      this.EditDateSheet();
+      localStorage.setItem('DateSheetName' , this.DateSheetName);
      }
       ,
        (err : HttpErrorResponse) =>
@@ -101,7 +129,14 @@ GetDateSheet() : void
 
     });
 }
-SetSubDetails(item : any ,classVal : any)
+//reset values after submittting the data
+ResetAfterSubmit()
+{
+  this.PaperClass = null;
+  this.CourseClass = null;
+  this.PaperDate = null;  
+}
+SetSubDetails(item : any ,classVal : any )
 {
    this.StartDate = new Date(Date.parse(localStorage.getItem('StartDate')));
    this.PaperClass = classVal;
@@ -110,9 +145,9 @@ SetSubDetails(item : any ,classVal : any)
    this.modalRef = this.modalservice.show(this.FormTemplate);
    this.Form.controls['Class'].setValue(classVal.id);
    this.Form.controls['Date'].setValue(this.PaperDate);
-   this.Form.controls['StartDate'].setValue(this.StartDate);
-   this.Form.controls['EndDate'].setValue(this.EndDate);
-   this.Form.controls['DateSheetName'].setValue(this.DateSheetName + new Date().toLocaleTimeString());      
+   this.Form.controls['StartDate'].setValue(this.datePipe.transform(this.StartDate, 'yyyy-MM-dd'));
+   this.Form.controls['EndDate'].setValue(this.datePipe.transform(this.EndDate, 'yyyy-MM-dd'));   
+   this.Form.controls['DateSheetName'].setValue((this.DateSheetName === undefined)?localStorage.getItem('DateSheetName') : this.DateSheetName);      
    this.GetCourses(); 
   }
 GetCourses()
@@ -131,7 +166,28 @@ GetTeachers()
          this.teachers = list;
     }); 
 }
-
+//method to edit datesheet
+EditDateSheet()
+{
+  localStorage.setItem('StartDate' , this.StartDate.toString());    
+  localStorage.setItem('DateSheetName' , this.DateSheetName); 
+  if(this.EndDate >= this.StartDate)
+  {
+   this.DateError = ""; 
+   var i= 0;
+   while(this.StartDate < this.EndDate)
+   {
+       this.Dates.push({
+       date : this.StartDate.setDate(this.StartDate.getDate()+i),
+        });
+      i=1;
+   }
+  } 
+  else
+  {
+   this.DateError = "End date must be greater than start date";    
+ }
+}
 SetDates()
 { 
   if(this.DateSheetName === null)
@@ -140,10 +196,10 @@ SetDates()
   }   
   else
   {
+    this.DateSheetName = this.DateSheetName + new Date().toLocaleTimeString().split(":").join("");;
     this.StartDate = new Date(Date.parse(this.datePipe.transform(this.StartDate, 'yyyy-MM-dd')));        
     this.EndDate = new Date(Date.parse(this.datePipe.transform(this.EndDate, 'yyyy-MM-dd')));
-    localStorage.setItem('StartDate' , this.StartDate.toString());    
-    if(this.EndDate >= this.StartDate)
+    if(this.EndDate >= this.StartDate  && this.StartDate >= this.Today )
    {
     this.DateError = ""; 
     var i= 0;
@@ -157,19 +213,25 @@ SetDates()
    } 
    else
    {
-    this.DateError = "End date must be greater than start date";    
-  }
+    this.DateSheetName = null;
+    this.DateError = "End date must be greater than start date or start date not less than today date";    
+   }
   }  
   
 }
 ClearDateSheet()
 {
-  sessionStorage.removeItem('DateSheet');
+  sessionStorage.removeItem('DateSheet');  
+  sessionStorage.removeItem('DateSheetName');
+  this.DateSheetName = null;
   this.Dates.length = 0;
   this.StartDate = null;
   this.EndDate = null;
-  this.DateError = ""; 
+  this.DateError = null; 
   this.Form.reset();
+  this.EditMode = false;
+  this.route.navigate(['examination/datesheet']);
+  
 }
 GetDates()
 {
@@ -190,7 +252,8 @@ GetDates()
     {
           this.Classes = res;
           this.CountClasses = this.Classes.length;
-          this.Classes.sort(this.sort.SortData("name" , "asc" , "number"));    
+          this.Classes.sort(this.sort.SortData("name" , "asc" , "number"));   
+          document.getElementById('headerrow').setAttribute('colspan' , (this.Classes.length + 1).toString()); 
         } ,
      (err : HttpErrorResponse) =>
       {

@@ -97,7 +97,7 @@ export class AddClassesComponent implements OnInit {
     this.searchText = value;
   }
 
-  ConfirmDelete(id)
+  ConfirmDelete(id : number)
   {
     this.ItemDeleteId = id;
     this.modalRef = this.modalService.show(this.editmodal);
@@ -106,14 +106,13 @@ export class AddClassesComponent implements OnInit {
   Delete()
   {
       this.appserv.Delete(this.ItemDeleteId).subscribe(
-       res =>
+       (res : any) =>
        {
           this.ListClasses();
        } 
-       , err =>
+       , (err : HttpErrorResponse )=>
         {
-            alert(err.error);
-            
+            console.log(err.message);            
         });
   }
 

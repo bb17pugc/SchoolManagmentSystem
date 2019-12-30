@@ -14,6 +14,15 @@ html {
      float: right;
      top: 0;
   }
+
+  input:disabled , button:disabled
+  {
+     background-color: lightgray !important;
+     opacity: 1px !important;
+     border: none !important;
+     cursor: not-allowed !important;
+  }
+
   .dataTable tr
   {
     text-align: center;
@@ -208,7 +217,7 @@ apper .dataTables_paginate .paginate_button.disabled,
   
   input , button , .Class-dropdown , textarea
   {
-      border :1.5px double coral !important;
+      border :1px solid coral !important;
       margin : 03% !important;
       padding-left : 10px;
       border-radius : 3px;
