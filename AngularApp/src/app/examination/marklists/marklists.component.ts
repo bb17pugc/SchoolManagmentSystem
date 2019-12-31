@@ -29,23 +29,13 @@ export class MarklistsComponent implements OnInit {
   @ViewChild('dataContainer' , {static : true} ) dataContainer: ElementRef;
 
   private Destroyed : ReplaySubject<boolean> = new ReplaySubject(1);
-  Students$ : Observable<Student[]>;
-  Students : Studentsarray[] = []; 
   Classes$ : Observable<ClassModel[]>;
   Classes : ClassModel[] = [];
   Form :  FormGroup;   
   CourseClass : any;
   ClassSubject : any;
   Courses$ : Observable<CourseModel[]>;
-  courses : CourseModel[] = [];
-  ClassData : ClassModel = new ClassModel(); 
-  ShowStudents : string = "";
-  ArrayInd : number = 0;                                                                                      
-  StudentName: any ;
-  StudentData : any;
-  CurrentStudent : Currentstudent = new Currentstudent();
-  data : any;
-  StudentCount : number;
+  courses : CourseModel[] = [];                                                                                           
   ClassListRecored : Classlistrecored = new Classlistrecored();
   constructor(private fb : FormBuilder , private route : Router  ,private coursesserv : CourseserviceService  , private datePipe: DatePipe , private ClassesServ  : AddService , private sort : Sorting) 
   {
@@ -76,8 +66,8 @@ export class MarklistsComponent implements OnInit {
     if(this.Form.valid)
     {
         this.ClassListRecored.totalmarks = this.Form.controls['Total'].value;
-        this.route.navigate(['/examination/createstudentlist'] , {queryParams : {data : JSON.stringify(this.ClassListRecored)}})
-        console.log(this.ClassListRecored);
+        this.route.navigate(['/examination/createstudentlist'] , {queryParams : {data : JSON.stringify(this.ClassListRecored)}});
+       
 
     }  
   }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            

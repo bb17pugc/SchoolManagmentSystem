@@ -49,6 +49,6 @@ GetDateSheet() : void
 //method to send datesheetname to other method for edit purpose
 Edit(val : string) : void
 {
-   this.route.navigate(['/examination/datesheet'] , {queryParams : {datesheetname : val}});
+   this.route.navigate(['/examination/edit-datesheet'] , {queryParams : {datesheetname : val}});
 }
 }

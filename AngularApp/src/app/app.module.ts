@@ -38,6 +38,7 @@ import { DatePipe } from '@angular/common';
 import { MarklistsComponent } from './examination/marklists/marklists.component';
 import { CreatestudentlistComponent } from './examination/createstudentlist/createstudentlist.component';
 import { ListDateSheetComponent } from './examination/datesheets/list/list.component';
+import { EditComponent } from './examination/datesheets/edit/edit.component';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { ListDateSheetComponent } from './examination/datesheets/list/list.compo
     DatesheetComponent,
     MarklistsComponent,
     CreatestudentlistComponent,
-    ListDateSheetComponent
+    ListDateSheetComponent,
+    EditComponent
   ],
   exports : [],
   imports: [

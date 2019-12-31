@@ -19,6 +19,7 @@ import { DatesheetComponent } from './examination/datesheets/datesheet/datesheet
 import { MarklistsComponent } from './examination/marklists/marklists.component';
 import { CreatestudentlistComponent } from './examination/createstudentlist/createstudentlist.component';
 import { ListDateSheetComponent } from './examination/datesheets/list/list.component';
+import { EditComponent } from './examination/datesheets/edit/edit.component';
 const routes: Routes = [
 
   {path:'home' , component:HomeComponent  ,canActivate: [AuthGuard] },
@@ -29,6 +30,8 @@ const routes: Routes = [
     ,{path : "view-datesheet" , component : ListDateSheetComponent , canActivate : [AuthGuard]}
     , {path : "markslists" , component : MarklistsComponent , canActivate : [AuthGuard]}
     , {path : "createstudentlist" , component : CreatestudentlistComponent , canActivate : [AuthGuard]}  
+    , {path : "edit-datesheet" , component : EditComponent , canActivate : [AuthGuard]}  
+ 
   ]
   ,
   canActivate : [AuthGuard]

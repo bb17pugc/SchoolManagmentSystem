@@ -37,7 +37,7 @@ namespace Api.Controllers
         }
         public async Task<Object> List()
         {
-            var List = await Task.Run(() => authDb.Courses.Include(a => a.Classes).ToList());
+            var List = await Task.Run(() => authDb.Courses.Where(a => a.Classes != null).Include(a => a.Classes).ToList());
             return Ok(List);
         }
         [Route("{id}")]
