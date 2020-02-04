@@ -6,7 +6,7 @@
       <input class="input-small" type="hidden" formControlName="ID" />
       <input class="input-small" type="text" formControlName="Name" placeholder="subject name e.g : math" #NameInput />
       <select style="border-color: coral;border-radius: 3px" class="input-small" formControlName = "Class">
-        <option value="">
+        <option value="" selected>
               Select Class
         </option>
         <option *ngFor="let item of Classes" value={{item.id}} > 

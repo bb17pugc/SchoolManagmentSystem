@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 
 namespace Api.Models
 {
+    public class InitData
+    {
+        public int ID { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        public string Start { get; set; }
+        [DataType(DataType.Date)]
+        public string End { get; set; }
+    }
     public class DateSheetViewModel
     {
         public int ID { get; set; }

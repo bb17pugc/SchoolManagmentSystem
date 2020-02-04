@@ -97,7 +97,7 @@ GetStudents()
                      id : element.id ,
                      name : element.name ,
                      father : element.father ,
-                     class : (element.class === null) ? "N/A ": element.class.name ,
+                     class : (element.class === null) ? "": element.class.name ,
                      section : (element.class === null) ? "": element.class.section,
                      dateOfBirth : element.dateOfBirth ,                     
                    });

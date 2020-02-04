@@ -25,9 +25,23 @@ namespace Api.Controllers
             var List = await Task.Run( () => authDb.DateSheet.Include(a => a.Class).Include(a => a.Subject).Include(a => a.Teacher).ToList());
             return Ok(List);
         }
-
+        [Route("{id}")]
+        public async Task<Object> GetDateSheet(int id)
+        {
+            return await Task.Run(()=>authDb.DateSheetInitial.Where(a=>a.ID == id).FirstOrDefault());
+        }
+        public async Task<Object> Add(InitData model)
+        {
+            if (ModelState.IsValid)
+            {
+                await authDb.DateSheetInitial.AddAsync(model);
+                await authDb.SaveChangesAsync();
+                return Ok( model.ID);
+            }
+            return BadRequest(ModelState);
+        }
         //creating method to add data coming from angular project through url
-        public async Task<Object> Add(DateSheetViewModel dateSheet)
+        public async Task<Object> Adds(DateSheetViewModel dateSheet)
         {
             if(ModelState.IsValid)
             {

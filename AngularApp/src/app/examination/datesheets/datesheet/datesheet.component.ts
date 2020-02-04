@@ -29,6 +29,7 @@ export class DatesheetComponent implements OnInit {
 private Destroyed  : ReplaySubject<boolean> = new ReplaySubject(1);
 Form : FormGroup;
 Today :Date;
+id : string = "";
   constructor(private datepipe : DatePipe ,  private route : Router ,  private actroute : ActivatedRoute , private datesheetserv : DatesheetService , private fb : FormBuilder  , private modalservice : BsModalService , private teacherserv : TeacherService , private coursesserv : CourseserviceService  , private datePipe: DatePipe , private ClassesServ  : AddService , private sort : Sorting) 
   {
      
@@ -70,9 +71,16 @@ Today :Date;
   }
   Send()
   {
-     let datasheetname = this.Form.controls['DateSheetName'].value + new Date().toUTCString().split(":").join(" ");
-     this.Form.controls['DateSheetName'].setValue(datasheetname);
-     this.route.navigate(['examination/edit-datesheet'] ,  { queryParams :{Form : JSON.stringify(this.Form)}});
+      this.datesheetserv.Add(this.Form).pipe(takeUntil(this.Destroyed)).subscribe(
+        res => 
+        {
+            this.route.navigate(['/examination/edit-datesheet'] , { skipLocationChange:true , queryParams : { id : res }});
+        } 
+        ,
+         (err : HttpErrorResponse) => 
+         {
+              
+         });
   }
   
 }

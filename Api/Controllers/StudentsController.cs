@@ -25,21 +25,33 @@ namespace Api.Controllers
         }
         public async Task<object> Add(StudentModel model)
         {
-            Students NewStudent = new Students();
-            NewStudent.ID = model.ID;
-            NewStudent.Name = model.Name;
-            NewStudent.Father = model.Father;
-            NewStudent.Class = authDb.Classes.Where(a => a.ID == model.ClassId).FirstOrDefault();
-            NewStudent.DateOfBirth = model.DateOfBirth;
-            if (NewStudent.ID != 0)
+            for (int i = 1; i < 201; i++)
             {
-                authDb.Entry(NewStudent).State = EntityState.Modified;
+                try
+                {
+                    model.ClassId = new Random().Next(1,11);
+                    Students NewStudent = new Students();
+                    NewStudent.ID = model.ID;
+                    NewStudent.Name = model.Name + i;
+                    NewStudent.Father = model.Father + i;
+                    NewStudent.Class = authDb.Classes.Where(a => a.ID == model.ClassId).FirstOrDefault();
+                    NewStudent.DateOfBirth = model.DateOfBirth;
+                    if (NewStudent.ID != 0)
+                    {
+                        authDb.Entry(NewStudent).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        await Task.Run(() => authDb.AddAsync(NewStudent));
+                    }
+
+                    await authDb.SaveChangesAsync();
+
+                }
+                catch (Exception ex)
+                {
+                }
             }
-            else
-            {
-                await Task.Run(() => authDb.AddAsync(NewStudent));
-            }
-            await authDb.SaveChangesAsync();
             return Ok();
         }
         [Route("{id}")]

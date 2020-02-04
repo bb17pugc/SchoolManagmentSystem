@@ -66,16 +66,10 @@ export class EditComponent implements OnInit {
     this.GetTeachers();   
    // get the datesheetname from url coming from datesheetlist comp.  
     this.actroute.queryParams.subscribe(
-      a => {
-        if(a.datesheetname !== undefined)
+      data => {
+        if(data)
         {
-           this.DateSheetName = a.datesheetname;
-           this.Form.controls['DateSheetName'].setValue(this.DateSheetName);
-           this.Edit(a.datesheetname);     
-        }
-        else if(a.Form !== undefined)
-        {
-           console.log(JSON.parse(a.Form));
+             this.GetDateSheet(data.id);
         }
         else
         {
@@ -90,6 +84,21 @@ export class EditComponent implements OnInit {
 {
   this.route.navigate(['examination/datesheet']);  
 }
+GetDateSheet(id)
+{
+    this.datesheetserv.GetDateSheet(id).pipe(takeUntil(this.Destroyed)).subscribe(
+      res =>
+      {
+        this.StartDate = res.start;
+        this.EndDate = res.end;
+        this.SetDates();
+        console.log(res);
+      } 
+      ,
+       err=>
+       {});  
+
+}
 //method to edit the datesheet
   Edit(name : string) : void
 { 
@@ -98,7 +107,8 @@ export class EditComponent implements OnInit {
      {
          this.data=res.filter(
         (thing, i, arr) => arr.findIndex(t => t.dateSheetName === thing.dateSheetName) === i
-      );     
+      );
+      console.log(this.data);     
       this.StartDate = new Date(Date.parse(this.data[0].startDate.toString()));
       this.EndDate =  new Date(Date.parse(this.data[0].endDate.toString()));           
       this.DateSheet = res;

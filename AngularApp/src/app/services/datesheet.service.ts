@@ -19,15 +19,12 @@ export class DatesheetService {
    {
        var body=
        {
-          ID : Form.value.ID > 0?Form.value.ID : 0,
-          Class : Form.value.Class,
-          Date : Form.value.Date,
-          Subject : Form.value.Subject,
-          Teacher : Form.value.Teacher,
-          StartDate : Form.value.StartDate,
-          EndDate : Form.value.EndDate,
-          DateSheetName : Form.value.DateSheetName,
+          ID : 0,
+          Name : Form.value.DateSheetName,
+          Start : Form.value.StartDate,
+          End : Form.value.EndDate
        };
+       console.log(body);
        return this.http.post( this.BaseUrl+'/Add' , body ,  { headers : this.reqheaders });
    }
    //method to list of datesheet papers from api
@@ -47,5 +44,9 @@ export class DatesheetService {
    Clear() : void
    {
       this.DateSheet$ = null; 
+   }
+   GetDateSheet(id)
+   {
+         return this.http.get<any>(this.BaseUrl+'/GetDateSheet/'+id , {headers :this.reqheaders });
    }
 }

@@ -89,8 +89,7 @@ Edit(id)
    this.courseserv.Edit(id).pipe(takeUntil(this.Destroyed)).subscribe((res : any) =>
      {
         this.Form.controls['ID'].setValue(res.id);
-        this.Form.controls['Name'].setValue(res.name);
-        this.Form.controls['Class'].setValue(res.class); 
+        this.Form.controls['Name'].setValue(res.name); 
         this.EditMode = "true";
         this.Title = "Edit Subject " + res.name + " for " + res.class;
       } 
@@ -107,7 +106,6 @@ List()
        this.Courses$.subscribe(res => 
          {
            this.courses =res;
-           console.log(this.courses);
            this.TotalPages = this.courses.length / this.PageSize;
            this.TotalPages = Math.ceil(this.TotalPages);
          }); 
@@ -148,7 +146,6 @@ ClassesList()
      this.Classes$ = this.classserv.GetClasses();
      this.Classes$.pipe(takeUntil(this.Destroyed)).subscribe((res : ClassModel[]) => {            
             this.Classes = res.filter(obj => !unique[obj.name] && (unique[obj.name] = true));
-            
      } );     
 }
 ConfirmDelete(id)
