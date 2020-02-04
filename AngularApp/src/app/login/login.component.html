@@ -1,0 +1,19 @@
+<h3 class="text-orng text-center">Login Here</h3>
+<div class="jumbotron">
+  <div class="text-center">
+    <form [formGroup]="Form" (submit)="onSubmit(Form)">
+      <input formControlName="UserName" type="text" class="input-small" placeholder="email" required>
+      <br />
+      <input formControlName="Password" type="password" class="input-small" placeholder="password" />
+      <br />
+      <button type="submit" class="btn-orange" [disabled]="Form.invalid">Login</button>
+    </form>
+  </div>
+  <div class="err-div">
+    <ul class="error">
+      <li *ngIf="Form.get('UserName').touched && ( Form.get('UserName').errors?.required || Form.get('UserName').errors?.email)">Email is incorrect</li>
+      <li *ngIf="Form.get('Password').touched && Form.get('Password').errors?.required">Password required</li>
+      <li *ngIf="LoginError" >{{LoginError}}</li>
+    </ul>
+  </div>
+</div>

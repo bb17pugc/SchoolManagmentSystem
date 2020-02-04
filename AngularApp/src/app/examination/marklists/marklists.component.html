@@ -1,0 +1,35 @@
+<h4 class="text-orng">Marks Lists for Examination</h4>
+<hr class="line-orng">
+<h6 class="text-orng">Select class and subject for the list</h6>
+<div style="text-align: center;">
+<Form [formGroup] = "Form">
+         <div *ngIf="!ShowStudents" >
+            <select  style="border-color: coral;border-radius: 3px;width: 20% !important" class="input-small" formControlName = "Class" (click)="changeclass($event)" >
+                  <option value="" > 
+                      Select Class
+                </option>
+                  <option *ngFor="let item of Classes" value="{{item.id}}"> 
+                        {{item.name}}th {{item.section | uppercase }} 
+                  </option>
+                </select>
+                <select style="border-color: coral;border-radius: 3px;width: 20% !important;margin-left: 2%;" class="input-small" formControlName = "Subject" (click)="changesubject($event)" >
+                  <option value="" >  
+                      Select Subject
+                </option>
+                  <option *ngFor="let item of courses" value="{{item.id}}"> 
+                        {{item.name | uppercase}}
+                  </option>
+                </select>
+                <input type="number" placeholder="Total" formControlName= "Total" title="Enter Total Marks" class="input-small" style="width:10% !important;" /> 
+             <input class="btn-orange" [disabled]="Form.invalid" style="margin-top: 0 !important;width: 20%;" type="submit" value="Create List" (click)="onSubmit()" />                                    
+
+         </div>
+    
+      </Form>
+</div>
+<div class="err-div">
+      <ul class="error">
+        <li *ngIf="Form.get('Total').touched && Form.get('Total').errors?.min">invalid marks</li>
+      </ul>
+    </div>
+ 

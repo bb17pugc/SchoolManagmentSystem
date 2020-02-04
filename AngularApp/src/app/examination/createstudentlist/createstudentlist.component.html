@@ -1,0 +1,74 @@
+<h4 class="text-orng">{{Title}}</h4>
+<hr class="line-orng">
+<div style="color: white;text-align: center;background-color: coral;margin-bottom: 2%;">
+      <label>Class: <strong>{{CourseClass}}th</strong></label>       
+      <label style="margin-left: 5%;" >Subject: <strong>{{ClassSubject}}</strong></label>
+      <label style="margin-left: 5%;" >Total Marks: <strong>{{Total}}</strong></label>
+      <label style="margin-left: 5%;">Students :<strong>{{StudentCount}}</strong> </label>  
+</div>
+<Form [formGroup] = "Form" style="text-align: center;" >
+    <strong style="float: left;margin-left: 3px;color: coral;">Enter marks:</strong>
+    <br/>
+    <div class="text-align:center" style="color: coral;">
+        <input type="hidden"  formControlName="ID" />
+        <strong style="margin-right: 1%;" >Name:</strong>
+        <input Type="text"  class="input-small" value= {{StudentName}} style="margin: 0% !important;width: 15%;" disabled #lblStudentName />
+        <strong  style="margin-right: 1%;margin-left: 1%;" >Roll No:</strong>
+        <input  type="text" formControlName="Student" class="input-small" style="margin: 0% !important;width: 15%;" disabled />                      
+    </div>
+    <br/>
+    <input  type="number" formControlName="Marks" class="input-small" autofocus style="margin: 0% !important;width: 10%;" />           
+    <input class="btn-orange" [disabled]="Form.invalid"  style="width: 10%;margin: 0px 10px 0px 10px !important;" type="submit" value="Add" (click)="AddMarks()" />                                    
+    <button class="btn-orange" (click)="GoBack()" style="margin-left: 1% !important;width: 10%;margin-top: 0% !important" >Back</button>  
+</Form>
+<div class="err-div">
+    <ul class="error">
+      <li *ngIf="Form.get('Marks').errors?.max">Enter marks less than {{Total}}</li>
+      <li *ngIf="Form.get('Marks').errors?.min">invalid marks</li>
+    </ul>
+</div>
+<hr class="line-orng" style="margin: 0% !important;height: 0.1%;" >
+<h4 class="text-orng">Lists</h4>
+<hr class="line-orng">
+<div  class="full-width" style="max-height : 600px;height : 600px;">
+    <table class="Table-orng">
+      <thead>
+        <tr>
+          <th> <i class="fa fa-sort"  ></i> Roll No </th>
+          <th> <i class="fa fa-sort"  ></i> Names </th>
+          <th> <i class="fa fa-sort"  ></i> Marks</th>
+          <th> <i class="fa fa-sort"  ></i> Class</th>
+          <th> <i class="fa fa-sort"  ></i> Subject</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+  <tbody *ngFor="let item of MarksList">
+      <tr>    
+          <td>{{item.students.id}}</td>
+          <td>{{item.students.name}}</td>
+          <td>{{item.marks}}</td>
+          <td>{{item.classes.name}}th</td>
+          <td>{{item.course.name}}</td>          
+          <td> <button class="btn btn-success" (click)="Edit(item.id)" >Edit</button> </td> 
+          <td> <button class="btn btn-danger" (click)="Delete(item.id)" >Delete</button> </td> 
+      
+        </tr>
+      </tbody>
+      <tfoot>
+          <tr>
+              <td colspan="7" style="text-align: center">
+                  End of Contents
+              </td>
+          </tr>
+      </tfoot>
+    </table>
+  </div>
+  <ng-template #EditTemplate>
+    <h5 class="modal-body text-center">
+      Are you sure to complete this operation?
+  </h5>
+
+  </ng-template>
+
+

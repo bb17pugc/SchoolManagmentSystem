@@ -1,0 +1,68 @@
+<h4 class="text-orng">{{Title}}</h4>
+<hr class="line-orng">
+<div class="full-width" style="padding-right: 2%">
+    <div style="padding-left: 10px;width: 30%;float: left;display: table-cell;vertical-align: bottom">
+        <div style="width: 100%">
+            <label class="full-width" > showing page {{CurrentPage}} of {{TotalPages}}</label>
+        </div>
+        <button class="btn-pagination extra-padding" *ngIf="CurrentPage > 1" (click)="previouspage()" >
+          previous  
+        </button>
+        <button class="btn-pagination" *ngIf="CurrentPage < TotalPages" (click)="nextpage()" >
+            next  
+        </button> 
+       </div>
+    <div style="float: right;width: 40%" >
+        <input [(ngModel)]="searchText" class="input-small full-width " placeholder="search by name" />  
+    </div>
+
+  </div>
+  
+<div  class="full-width" style="max-height : 600px;height : 600px;">
+    <table class="Table-orng">
+      <thead>
+        <tr>
+          <th> <i class="fa fa-sort" (click) = "SortBy('name')" ></i> Name </th>
+          <th> <i class="fa fa-sort" (click) = "SortBy('cnic')" ></i> CNIC </th>
+          <th> <i class="fa fa-sort" (click) = "SortBy('education')" ></i> Qualification </th>
+          <th> <i class="fa fa-sort" (click) = "SortBy('institute')" ></i> Institute</th>
+          <th> <i class="fa fa-sort" (click) = "SortBy('completionDate')" ></i> Completion</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+  <tbody *ngFor="let teacher of teachers | slice : SkipEl | filter:searchText let i = index ">
+      <tr id="tblteacherid" *ngIf="i < PageSize">    
+          <td>{{teacher.name | uppercase}}</td>
+          <td>{{teacher.cnic}}</td>
+          <td>{{teacher.education}}</td>
+          <td>{{teacher.institute}}</td>
+          <td>{{teacher.completionDate | date: 'longDate' }}</td>
+          <td> <button class="btn btn-success" (click)="Edit(teacher.id)" >Edit</button> </td> 
+          <td> <button class="btn btn-danger " (click) = "ConfirmDelete(teacher.id)" >Delete</button> </td>
+        </tr>
+      </tbody>
+      <tfoot>
+          <tr>
+              <td colspan="7" style="text-align: center">
+                  End of Contents
+              </td>
+          </tr>
+      </tfoot>
+    </table>
+  </div>
+  <ng-template #editTemplate>
+    <div>
+        <i class="fa fa-close" style="float: right;" aria-hidden="true" (click)="modalRef.hide()" ></i>
+      <h4 class="modal-title text-center">Confirm Delete operation</h4>
+    </div>
+    <h5 class="modal-body text-center">
+        Are you sure to complete this operation?
+    </h5>
+    <div> 
+        <button class="btn btn-primary" (click)="modalRef.hide()"  style="width: 20%;float:right" >no</button>
+        <button class="btn btn-danger" (click)="modalRef.hide()" (click)="Delete()" style="width: 20%;float:right;">yes</button>
+    </div>
+  </ng-template>
+  
+  

@@ -1,0 +1,36 @@
+
+<h6 class="text-orng" style="margin-top: 4%;">Fill up the following</h6>
+<div style="margin-top: 0px !important;padding-left: 5px;padding-right: 5px;" >
+   <form [formGroup]="Form"  >
+    <input placeholder="write date sheet name here" formControlName="DateSheetName" type="text" style="margin: 0% 0% 1% 0% !important;display: block;padding: 1%;width: 100% ;" />
+    <p class="text-orng" >Start:</p>
+    <input  type="date"  class="input-small" formControlName="StartDate" style="margin: 0px !important;width:30%;margin-left: 1% !important;"/>
+    <p class="text-orng" style="margin-left: 1% !important;">End:</p>
+    <input type="date" formControlName="EndDate"  style="margin-top: 0px !important;width:30%;margin: 0 !important;margin-left: 1% !important;" class="input-small"/>
+    <input type="submit" class="btn-orange" (click)="Send()"  [disabled]="Form.invalid" value="Set Dates" style="width:10%;margin: 0% 0% 0% 2% !important ;" />   
+   </form>
+  </div>
+<div class="err-div">
+    <ul class="error">
+        <li *ngIf="Form.get('DateSheetName').errors?.required" > Date sheet name is required </li>
+        <li *ngIf="Form.get('EndDate').errors?.DateError" > Start date must be less than end date and start also be greater than today's date </li>
+     </ul>
+</div>
+
+<style>
+    strong , h5
+    {
+        margin: 0%;
+        vertical-align: middle;
+    }
+    td
+    {
+        vertical-align:middle;
+        padding: 1% 0% 1% 0% !important ;
+    }
+    i:hover
+    {
+        color: black !important;
+        background-color:lavenderblush !important;
+    }
+ </style>

@@ -1,0 +1,43 @@
+<div class="full-width" style="padding-right: 2%">
+    <div style="padding-left: 10px;width: 30%;float: left;display: table-cell;vertical-align: bottom">
+        <div style="width: 100%">
+            <label class="full-width" > showing page {{CurrentPage}} of {{TotalPages}}</label>
+        </div>
+        <button class="btn-pagination extra-padding" *ngIf="CurrentPage > 1" (click)="previouspage()" >
+          previous  
+        </button>
+        <button class="btn-pagination" *ngIf="CurrentPage < TotalPages" (click)="nextpage()" >
+            next  
+        </button> 
+       </div>
+    <div style="float: right;width: 40%" >
+        <input [(ngModel)]="searchText" class="input-small full-width " placeholder="search by name " />  
+    </div>
+
+  </div>
+  
+<div style="max-height : 600px;height : 600px;">
+    <table class="Table-orng" border="1" style="table-layout: auto !important" >
+      <thead>
+        <tr>
+          <th> Name </th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+  <tbody *ngFor="let item of DateSheet">
+      <tr>      
+        <td>{{item.dateSheetName | uppercase}}</td>
+        <td> <button class="btn btn-success" (click)="Edit(item.dateSheetName)"  >Edit</button> </td> 
+        <td> <button class="btn btn-danger "  >Delete</button> </td>
+        </tr>
+      </tbody>
+      <tfoot>
+          <tr>
+              <td colspan="7" style="text-align: center">
+                  End of Contents
+              </td>
+          </tr>
+      </tfoot>
+    </table>
+  </div>

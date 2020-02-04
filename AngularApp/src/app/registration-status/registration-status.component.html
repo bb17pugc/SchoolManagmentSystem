@@ -1,0 +1,18 @@
+<div class="text-center" *ngIf="registration">
+    <h2 class="text-center text-orng">Registered Successfully!</h2>
+    <h5 class="text-center text-orng">Confirm your email</h5>
+    <h4 class="text-center">
+      Your have registered successfully !
+      We have sent a confirmation link to your account,
+      go to your mail email account to verify your email
+      click below
+    </h4>
+    <a href="https://accounts.google.com/ServiceLogin?service=mail&passive=true&rm=false&continue=https://mail.google.com/mail/?tab%3Dwm%26ogbl&scc=1&ltmpl=default&ltmplcache=2&emr=1&osid=1#" class="btn-orange">Click & go to your email account</a>
+  </div>
+  <div *ngIf="!registration">
+    <h4 class="text-center">
+      {{message}}
+    </h4>
+  </div>
+  
+  

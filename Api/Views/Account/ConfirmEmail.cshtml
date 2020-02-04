@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewData["Title"] = "ConfirmEmail";
+}
+
+<style>
+    button  , a
+    {
+       background-color : darkseagreen;
+       color : white;
+       padding : 10px;
+       border-radius : 5px;
+       border : none;
+    }
+
+        a
+        {
+            color : white;
+            text-decoration : none;
+        }
+
+    div
+    {
+        padding : 20px;
+         border : thin solid coral;
+    }
+    h2 {
+        font-weight : lighter;
+        font-style : normal;
+        font-size : 40px;
+    }
+</style>
+
+@if (ViewBag.message == true)
+{
+<div style="text-align : center">
+    <h2>Your email is confirmed ! thanks for your corporatoin</h2>
+    <a href="https://localhost:44356/login">Go to login</a>
+
+</div>
+}
+else
+{
+    <h2>Your email may not confirmed!</h2>
+    <p>
+        Enter your valid email then we will send a confirmation link to your associated gmail
+        account , the link will help you to confirm your email and authorization
+
+    </p>
+
+}
