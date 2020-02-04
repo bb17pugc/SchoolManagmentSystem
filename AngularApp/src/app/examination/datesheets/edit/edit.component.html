@@ -22,7 +22,7 @@
                 <td style="font-weight:900;">
                       {{item.date | date:'dd-MM-yyyy'}}
                 </td>                
-                <td *ngFor="let class of Classes" (click) = "SetSubDetails(item.date  , class)" >
+                <td *ngFor="let class of Classes" (click) = "SetSubDetails(item.date  , class)" title="set paper for {{class.name}}th" >
                     <div *ngFor="let paper of DateSheet">                                          
                         <div *ngIf="class.id === paper.class.id && (item.date | date:'dd-MM-yyyy') === paper.date" >                            
                             <div >

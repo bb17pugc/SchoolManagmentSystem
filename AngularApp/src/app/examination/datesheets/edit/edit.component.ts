@@ -89,8 +89,8 @@ GetDateSheet(id)
     this.datesheetserv.GetDateSheet(id).pipe(takeUntil(this.Destroyed)).subscribe(
       res =>
       {
-        this.StartDate = res.start;
-        this.EndDate = res.end;
+        this.StartDate =  new Date(Date.parse(res.start));
+        this.EndDate = new Date(Date.parse(res.end));
         this.SetDates();
         console.log(res);
       } 
@@ -100,26 +100,26 @@ GetDateSheet(id)
 
 }
 //method to edit the datesheet
-  Edit(name : string) : void
-{ 
-    this.DateSheet$ = this.datesheetserv.Edit(name);
-    this.DateSheet$.pipe(takeUntil(this.Destroyed)).subscribe((res : Datesheet[]) =>
-     {
-         this.data=res.filter(
-        (thing, i, arr) => arr.findIndex(t => t.dateSheetName === thing.dateSheetName) === i
-      );
-      console.log(this.data);     
-      this.StartDate = new Date(Date.parse(this.data[0].startDate.toString()));
-      this.EndDate =  new Date(Date.parse(this.data[0].endDate.toString()));           
-      this.DateSheet = res;
-      this.SetDates();
-     }
-      ,
-       (err : HttpErrorResponse) =>
-    {
+//   Edit(name : string) : void
+// { 
+//     this.DateSheet$ = this.datesheetserv.Edit(name);
+//     this.DateSheet$.pipe(takeUntil(this.Destroyed)).subscribe((res : Datesheet[]) =>
+//      {
+//          this.data=res.filter(
+//         (thing, i, arr) => arr.findIndex(t => t.dateSheetName === thing.dateSheetName) === i
+//       );
+//       console.log(this.data);     
+//       this.StartDate = new Date(Date.parse(this.data[0].startDate.toString()));
+//       this.EndDate =  new Date(Date.parse(this.data[0].endDate.toString()));           
+//       this.DateSheet = res;
+//       this.SetDates();
+//      }
+//       ,
+//        (err : HttpErrorResponse) =>
+//     {
 
-    });
-}
+//     });
+// }
 //reset variables after submitting the data
 ResetAfterSubmit()
 {
