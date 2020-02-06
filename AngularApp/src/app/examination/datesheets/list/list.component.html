@@ -1,3 +1,7 @@
+<h2 class="text-orng" >
+     Datesheets for exams
+</h2>
+<hr class="line-orng" >
 <div class="full-width" style="padding-right: 2%">
     <div style="padding-left: 10px;width: 30%;float: left;display: table-cell;vertical-align: bottom">
         <div style="width: 100%">
@@ -17,19 +21,23 @@
   </div>
   
 <div style="max-height : 600px;height : 600px;">
-    <table class="Table-orng" border="1" style="table-layout: auto !important" >
+    <table class="Table-orng onPointer" border="0" style="table-layout: auto !important" >
       <thead>
         <tr>
-          <th> Name </th>
+          <th><i class="fa fa-sort" (click) = "SortBy('name' , 'string')" ></i> Name </th>
+          <th><i class="fa fa-sort" (click) = "SortBy('start' , 'string')" ></i> Start Date </th>
+          <th><i class="fa fa-sort" (click) = "SortBy('end' , 'string')" ></i> End Date </th>
           <th></th>
           <th></th>
         </tr>
       </thead>
-  <tbody *ngFor="let item of DateSheet">
-      <tr>      
-        <td>{{item.dateSheetName | uppercase}}</td>
-        <td> <button class="btn btn-success" (click)="Edit(item.dateSheetName)"  >Edit</button> </td> 
-        <td> <button class="btn btn-danger "  >Delete</button> </td>
+  <tbody *ngFor="let item of DateSheet | slice : SkipEl | filter:searchText ; let i = index">
+      <tr *ngIf="i < PageSize" >      
+        <td title="datesheet: {{item.name}}" >{{item.name | uppercase}}</td>
+        <td title="form : {{item.start | date:'dd-MMMM-yyyy'}}" >{{item.start | date:'dd-MMMM-yyyy'}}</td>
+        <td title="To : {{item.end | date:'dd-MMMM-yyyy'}}" >{{item.end | date:'dd-MMMM-yyyy'}}</td>
+        <td> <button class="btn btn-success" (click)="Edit(item.id)"  >Edit</button> </td> 
+        <td> <button class="btn btn-danger " (click)="ConfirmDelete(item.id)" >Delete</button> </td>
         </tr>
       </tbody>
       <tfoot>
@@ -41,3 +49,23 @@
       </tfoot>
     </table>
   </div>
+  <ng-template #DeleteTemplate>
+    <div>
+        <i class="fa fa-close" aria-hidden="true" (click)="modelRef.hide()" ></i>
+      <h4 class="modal-title text-center">Confirm Delete operation</h4>
+    </div>
+    <h5 class="modal-body text-center">
+        Are you sure to complete this operation?
+    </h5>
+    <div> 
+        <button class="btn btn-primary" (click)="modelRef.hide()"  style="width: 20%;float:right" >no</button>
+        <button class="btn btn-danger" (click)="Delete()" style="width: 20%;float:right;">yes</button>
+    </div>
+  </ng-template>
+<style>
+   tbody , td
+   {
+     padding: 0px !important;
+     font-size: 14px !important;
+   }
+</style>

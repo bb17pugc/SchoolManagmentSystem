@@ -16,6 +16,8 @@ import { takeUntil } from 'rxjs/operators';
 import { Teahcer } from 'src/app/models/teahcer';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CourseModel } from 'src/app/models/course-model';
+import * as CryptoJS from 'crypto-js';
+
 
 @Component({
   selector: 'app-edit',
@@ -35,9 +37,6 @@ export class EditComponent implements OnInit {
   Courses$ : Observable<CourseModel[]>;
  courses : CourseModel[] = [];
   PaperClass : any;
-  DateSheet$ : Observable<Datesheet[]>;
-  DateSheet :Datesheet[] = [];
-  data :Datesheet[];
   Form : FormGroup;
   DateSheetName : string;
   StartDate : Date = new Date();
@@ -46,7 +45,9 @@ export class EditComponent implements OnInit {
   DateError: string;
   CountClasses: number;
   modalRef : BsModalRef;
-  
+  plainText:string = "i am boy";  
+  encryptText: string;  
+  encPassword: string = "ars1234.";
   constructor(private route : Router ,  private actroute : ActivatedRoute , private datesheetserv : DatesheetService , private fb : FormBuilder  , private modalservice : BsModalService , private teacherserv : TeacherService , private coursesserv : CourseserviceService  , private datePipe: DatePipe , private ClassesServ  : AddService , private sort : Sorting) { }
 
   ngOnInit() 
@@ -59,17 +60,19 @@ export class EditComponent implements OnInit {
       Teacher : ['' , Validators.required],
       StartDate : ['' , Validators.required],
       EndDate : ['' , Validators.required],
-      DateSheetName : ['' , Validators.required],
+      DateSheetHeader : ['' , Validators.required],
     });
     this.Today =  new Date(Date.parse( this.datePipe.transform(this.Today , "yyyy-MM-dd")));
     this.GetClasses();
-    this.GetTeachers();   
+    this.GetTeachers();
+    this.GetCourses();   
    // get the datesheetname from url coming from datesheetlist comp.  
     this.actroute.queryParams.subscribe(
       data => {
+          let id = CryptoJS.AES.decrypt(data.id, this.encPassword.trim()).toString(CryptoJS.enc.Utf8);
         if(data)
         {
-             this.GetDateSheet(data.id);
+             this.GetDateSheet(id);
         }
         else
         {
@@ -91,35 +94,14 @@ GetDateSheet(id)
       {
         this.StartDate =  new Date(Date.parse(res.start));
         this.EndDate = new Date(Date.parse(res.end));
+        this.Form.controls['DateSheetHeader'].setValue(res.id);
         this.SetDates();
-        console.log(res);
       } 
       ,
        err=>
        {});  
 
 }
-//method to edit the datesheet
-//   Edit(name : string) : void
-// { 
-//     this.DateSheet$ = this.datesheetserv.Edit(name);
-//     this.DateSheet$.pipe(takeUntil(this.Destroyed)).subscribe((res : Datesheet[]) =>
-//      {
-//          this.data=res.filter(
-//         (thing, i, arr) => arr.findIndex(t => t.dateSheetName === thing.dateSheetName) === i
-//       );
-//       console.log(this.data);     
-//       this.StartDate = new Date(Date.parse(this.data[0].startDate.toString()));
-//       this.EndDate =  new Date(Date.parse(this.data[0].endDate.toString()));           
-//       this.DateSheet = res;
-//       this.SetDates();
-//      }
-//       ,
-//        (err : HttpErrorResponse) =>
-//     {
-
-//     });
-// }
 //reset variables after submitting the data
 ResetAfterSubmit()
 {
@@ -134,8 +116,8 @@ SetDates()
   if(this.EndDate >= this.StartDate)
   {
    this.DateError = ""; 
-   var i= 0;
-   while(this.StartDate < this.EndDate)
+   var i= 1;
+   while(this.StartDate <= this.EndDate)
    {
        this.Dates.push({
        date : this.StartDate.setDate(this.StartDate.getDate()+i),
@@ -175,7 +157,6 @@ GetTeachers()
 //set the peper detail to add data to the database
 SetSubDetails(item : any ,classVal : any )
 {
-   this.StartDate = new Date(Date.parse(localStorage.getItem('StartDate')));
    this.PaperClass = classVal;
    this.CourseClass = classVal.name;
    this.PaperDate = this.datePipe.transform(item, 'dd-MM-yyyy');
@@ -183,14 +164,13 @@ SetSubDetails(item : any ,classVal : any )
    this.Form.controls['Class'].setValue(classVal.id);
    this.Form.controls['Date'].setValue(this.PaperDate);
    this.Form.controls['StartDate'].setValue(this.datePipe.transform(this.StartDate, 'yyyy-MM-dd'));
-   this.Form.controls['EndDate'].setValue(this.datePipe.transform(this.EndDate, 'yyyy-MM-dd'));   
-   this.Form.controls['DateSheetName'].setValue(this.DateSheetName);      
+   this.Form.controls['EndDate'].setValue(this.datePipe.transform(this.EndDate, 'yyyy-MM-dd'));        
    this.GetCourses(); 
+   console.log(this.Form);
   }
   //method to get the courses from the database
   GetCourses()
   {
-    this.CourseClass = this.CourseClass;
     this.Courses$ = this.coursesserv.GetList();
     this.Courses$.pipe(takeUntil(this.Destroyed)).subscribe((List : any[] ) => 
       {
@@ -218,5 +198,9 @@ ngOnDestroyed()
 {
    this.Destroyed.next(true);
    this.Destroyed.complete();
+}
+see()
+{
+    alert();
 }
 }

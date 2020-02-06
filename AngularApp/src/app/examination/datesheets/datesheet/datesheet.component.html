@@ -1,14 +1,20 @@
 
 <h6 class="text-orng" style="margin-top: 4%;">Fill up the following</h6>
 <div style="margin-top: 0px !important;padding-left: 5px;padding-right: 5px;" >
-   <form [formGroup]="Form"  >
+   <form [formGroup]="Form"   >
     <input placeholder="write date sheet name here" formControlName="DateSheetName" type="text" style="margin: 0% 0% 1% 0% !important;display: block;padding: 1%;width: 100% ;" />
-    <p class="text-orng" >Start:</p>
-    <input  type="date"  class="input-small" formControlName="StartDate" style="margin: 0px !important;width:30%;margin-left: 1% !important;"/>
-    <p class="text-orng" style="margin-left: 1% !important;">End:</p>
-    <input type="date" formControlName="EndDate"  style="margin-top: 0px !important;width:30%;margin: 0 !important;margin-left: 1% !important;" class="input-small"/>
-    <input type="submit" class="btn-orange" (click)="Send()"  [disabled]="Form.invalid" value="Set Dates" style="width:10%;margin: 0% 0% 0% 2% !important ;" />   
-   </form>
+    <div style="display: flex ;vertical-align:middle;" >
+        <div style="display: flex;justify-content: center;flex-direction: column;align-content: center;">
+            <p class="text-orng" style="margin: 0px !important;" >Start:</p>
+        </div>
+        <input  type="date"  class="input-small" formControlName="StartDate" style="margin: 0px 0px 0px 0px !important;width:30%;"/>
+        <div style="display: flex;justify-content: center;flex-direction: column;align-content: center;">
+            <p class="text-orng" style="margin: 0px 0px 0px 10px !important;" >End:</p>
+        </div>
+        <input type="date" formControlName="EndDate"  style="margin-top: 0px !important;width:30%;margin: 0 !important;" class="input-small"/>
+        <input type="submit" class="btn-orange"  (click)="Send()"  [disabled]="Form.invalid" value="Set Dates" style="widows: 400px;margin: 0% 0% 0% 2% !important ;" />       
+    </div>
+    </form>
   </div>
 <div class="err-div">
     <ul class="error">

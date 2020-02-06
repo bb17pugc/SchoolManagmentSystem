@@ -22,7 +22,7 @@ namespace Api.Controllers
         //method to get the list of datesheet
         public async Task<object> List()
         {
-            var List = await Task.Run( () => authDb.DateSheet.Include(a => a.Class).Include(a => a.Subject).Include(a => a.Teacher).ToList());
+            var List = await Task.Run( () => authDb.DateSheetInitial.ToList());
             return Ok(List);
         }
         [Route("{id}")]
@@ -34,14 +34,19 @@ namespace Api.Controllers
         {
             if (ModelState.IsValid)
             {
+                var check = authDb.DateSheetInitial.Where(a => a.Start == model.Start && a.End == model.End).FirstOrDefault();
+                if (check != null)
+                {
+                    return BadRequest("datesheet is already created ");
+                }
                 await authDb.DateSheetInitial.AddAsync(model);
                 await authDb.SaveChangesAsync();
-                return Ok( model.ID);
+                return Ok(authDb.DateSheetInitial.Where(a => a.Start == model.Start && a.End == model.End).Select(a =>a.ID));
             }
             return BadRequest(ModelState);
         }
         //creating method to add data coming from angular project through url
-        public async Task<Object> Adds(DateSheetViewModel dateSheet)
+        public async Task<Object> AddDetail(DateSheetViewModel dateSheet)
         {
             if(ModelState.IsValid)
             {
@@ -73,6 +78,22 @@ namespace Api.Controllers
         public async Task<object> Edit(string name)
         {
             return Ok(await Task.Run(() => authDb.DateSheet.Where(a => a.DateSheetName == name).Include(a => a.Class).Include(a => a.Subject).Include(a => a.Teacher).ToList()));
+        }
+        [Route("{id}")]
+        public async Task<Object> Delete(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest("invalid id");
+            }
+            var recored = authDb.DateSheetInitial.Where(a => a.ID == id).FirstOrDefault();
+            if (recored != null)
+            {
+                authDb.Remove(recored);
+                await authDb.SaveChangesAsync();
+                return Ok("deleted successfully");
+            }
+            return BadRequest("no recored found");
         }
     }
 }

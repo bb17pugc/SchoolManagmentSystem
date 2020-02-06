@@ -20,7 +20,7 @@ export class ListStudentsComponent implements OnInit {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   Students$ : Observable<Student[]>;
   Students : Array<Student>=[];
-  @ViewChild('editTemplate' , {static : false}) edtitemplate : TemplateRef<any>;
+  @ViewChild('DeleteTemplate' , {static : false}) Deletetemplate : TemplateRef<any>;
   searchText : any;
   PageSize : number = 10;
   Title : string = "Students";
@@ -67,7 +67,7 @@ export class ListStudentsComponent implements OnInit {
   ConfirmDelete(id)
   {
       this.DeleteItemId = id;
-      this.modalRef = this.modalservice.show(this.edtitemplate);
+      this.modalRef = this.modalservice.show(this.Deletetemplate);
   }
   Edit(id)
   {
@@ -77,7 +77,6 @@ Delete()
 {
      this.StdServ.Delete(this.DeleteItemId).subscribe((res : any) =>
      {
-         alert(res);
          this.GetStudents();
      } ,
       (err : HttpErrorResponse) => 
@@ -90,21 +89,21 @@ GetStudents()
      this.Students$ = this.StdServ.List(); 
     this.Students$.pipe(takeUntil(this.destroyed$)).subscribe(res => 
       {
-            //this.Students = res;
+            this.Students.length=0;
             res.forEach((element : any) => {
-                 this.Students.push(
-                   {
-                     id : element.id ,
-                     name : element.name ,
-                     father : element.father ,
-                     class : (element.class === null) ? "": element.class.name ,
-                     section : (element.class === null) ? "": element.class.section,
-                     dateOfBirth : element.dateOfBirth ,                     
-                   });
+                  this.Students.push(
+                    {
+                      id : element.id ,
+                      name : element.name ,
+                      father : element.father ,
+                      class : (element.class === null) ? "": element.class.name ,
+                      section : (element.class === null) ? "": element.class.section,
+                      dateofbirth : (element.class === null) ? "": element.dateOfBirth ,                     
+                    });
             });
-            console.log(this.Students);
             this.TotalPages = this.Students.length / this.PageSize;
             this.TotalPages = Math.ceil(this.TotalPages); 
+            console.log(this.Students);
             
       }
        , 

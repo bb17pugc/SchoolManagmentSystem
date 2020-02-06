@@ -13,7 +13,7 @@ namespace Api.Models
         public string Father { get; set; }
         public Classes Class { get; set; }
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
     }
 
     public class StudentModel
@@ -23,7 +23,7 @@ namespace Api.Models
         public string Father { get; set; }
         public int ClassId { get; set; }
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
     }
 
 }

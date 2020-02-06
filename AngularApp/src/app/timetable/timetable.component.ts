@@ -57,7 +57,6 @@ export class TimetableComponent implements OnInit {
 
   ngOnInit() 
   {
-    
     this.Form = this.fb.group({
       ID : [0],
       Class : [''],

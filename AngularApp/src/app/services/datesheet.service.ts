@@ -24,8 +24,21 @@ export class DatesheetService {
           Start : Form.value.StartDate,
           End : Form.value.EndDate
        };
-       console.log(body);
        return this.http.post( this.BaseUrl+'/Add' , body ,  { headers : this.reqheaders });
+   }
+   AddFullDetails(Form)
+   {
+      var body = 
+      {
+         ID : Form.value.ID == 0 ? 0 : Form.value.ID,
+         Class : Form.value.Class,
+         Date : Form.value.Date,
+         Subject : Form.value.Subject,
+         Teacher : Form.value.Teacher,
+         StartDate : Form.value.StartDate,
+         EndDate : Form.value.EndDate,
+         DateSheetHeader : Form.value.DateSheetHeader,
+      };
    }
    //method to list of datesheet papers from api
    List() : Observable<Datesheet[]>
@@ -43,10 +56,15 @@ export class DatesheetService {
    }
    Clear() : void
    {
+
       this.DateSheet$ = null; 
    }
    GetDateSheet(id)
    {
          return this.http.get<any>(this.BaseUrl+'/GetDateSheet/'+id , {headers :this.reqheaders });
+   }
+   Delete(id)
+   {
+       return this.http.get<any>(this.BaseUrl+'/Delete/'+id , {headers : this.reqheaders});  
    }
 }

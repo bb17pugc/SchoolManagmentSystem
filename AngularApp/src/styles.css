@@ -186,10 +186,7 @@ input.disabled
   width: 100%;
   table-layout: fixed;
 }
-#tblteacherid td
-{
-   border-right:coral solid 1px; 
-}
+
 
 .dataTables_wr
 apper .dataTables_paginate .paginate_button.disabled,

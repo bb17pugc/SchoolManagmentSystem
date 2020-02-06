@@ -54,6 +54,7 @@ export class AddCourseComponent implements OnInit {
     Name : ['' , [Validators.required , Validators.pattern(unamePattern)]] , 
     Class : ['' , [Validators.required]] 
      });
+     console.log(this.Form);
    this.NameInput.nativeElement.focus(); 
    this.ClassesList();
    this.List();

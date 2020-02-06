@@ -19,6 +19,7 @@ import { Datesheet } from 'src/app/models/datesheet';
 import { DatesheetService } from 'src/app/services/datesheet.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { join } from 'path';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-datesheet',
@@ -29,7 +30,9 @@ export class DatesheetComponent implements OnInit {
 private Destroyed  : ReplaySubject<boolean> = new ReplaySubject(1);
 Form : FormGroup;
 Today :Date;
-id : string = "";
+id : string = "";  
+encPassword: string = "ars1234.";  
+
   constructor(private datepipe : DatePipe ,  private route : Router ,  private actroute : ActivatedRoute , private datesheetserv : DatesheetService , private fb : FormBuilder  , private modalservice : BsModalService , private teacherserv : TeacherService , private coursesserv : CourseserviceService  , private datePipe: DatePipe , private ClassesServ  : AddService , private sort : Sorting) 
   {
      
@@ -37,7 +40,6 @@ id : string = "";
 
   ngOnInit() 
   {     
-     this.Today = new Date(Date.parse( this.datePipe.transform(new Date() , "yyyy-MM-dd")));    
      this.Form=this.fb.group({
           DateSheetName : ['' , [Validators.required]],
           StartDate : ['' , [Validators.required]],
@@ -68,18 +70,20 @@ id : string = "";
           }
         }
       }
-  }
+    }
   Send()
   {
       this.datesheetserv.Add(this.Form).pipe(takeUntil(this.Destroyed)).subscribe(
         res => 
         {
-            this.route.navigate(['/examination/edit-datesheet'] , { skipLocationChange:true , queryParams : { id : res }});
+          let id = CryptoJS.AES.encrypt(res.toString() , this.encPassword).toString();
+    
+            this.route.navigate(['/examination/edit-datesheet'] , {queryParams : { id : id }});
         } 
         ,
          (err : HttpErrorResponse) => 
          {
-              
+              alert(err.error);
          });
   }
   
