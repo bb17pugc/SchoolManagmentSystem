@@ -26,6 +26,7 @@ namespace Api.Controllers
               return Ok( new { list = List.ToList() , notfree = NotFreeTeachers} );
      
         }
+   
         public async Task<Object> Add(PeriodRecored recored)
         {
             if(ModelState.IsValid)

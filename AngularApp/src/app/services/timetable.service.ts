@@ -25,6 +25,7 @@ export class TimetableService {
           Course : Form.value.Subject,
           Teacher : Form.value.Teacher
       };
+      alert(body.ID);
    return this.http.post(this.BaseUrl+'/TimeTable/Add' , body , {headers : this.reqheaders});
   }
   List()

@@ -23,6 +23,7 @@ namespace Api.Models
         [Required]
         public int Class { get; set; }
         [Required]
+        [DataType(DataType.Date)]
         public string Date { get; set; }
         [Required]
         public int Subject { get; set; }
@@ -33,7 +34,7 @@ namespace Api.Models
         [Required]
         public string EndDate { get; set; }
         [Required]
-        public string DateSheetName { get; set; }
+        public int DateSheetHeader { get; set; }
     }
     public class DateSheet
     {
@@ -41,13 +42,13 @@ namespace Api.Models
         public Classes Class { get; set; }
         public Course Subject { get; set; }
         public Teacher Teacher { get; set; }
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         public string Date { get; set; }
         [Required]
         public string StartDate { get; set; }
         [Required]
         public string EndDate { get; set; }
         [Required]
-        public string DateSheetName { get; set; }
+        public int DateSheetName { get; set; }
     }
 }

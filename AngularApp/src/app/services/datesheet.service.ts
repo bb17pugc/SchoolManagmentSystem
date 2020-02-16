@@ -30,7 +30,7 @@ export class DatesheetService {
    {
       var body = 
       {
-         ID : Form.value.ID == 0 ? 0 : Form.value.ID,
+         ID : Form.value.ID,
          Class : Form.value.Class,
          Date : Form.value.Date,
          Subject : Form.value.Subject,
@@ -39,6 +39,7 @@ export class DatesheetService {
          EndDate : Form.value.EndDate,
          DateSheetHeader : Form.value.DateSheetHeader,
       };
+      return this.http.post( this.BaseUrl+'/AddFullDetail' , body ,  { headers : this.reqheaders });
    }
    //method to list of datesheet papers from api
    List() : Observable<Datesheet[]>

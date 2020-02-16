@@ -40,6 +40,7 @@ export class EditComponent implements OnInit {
   Form : FormGroup;
   DateSheetName : string;
   StartDate : Date = new Date();
+  TempStartDate : Date = new Date();
   EndDate : Date = new Date();
   CourseClass: any;
   DateError: string;
@@ -65,8 +66,12 @@ export class EditComponent implements OnInit {
     this.Today =  new Date(Date.parse( this.datePipe.transform(this.Today , "yyyy-MM-dd")));
     this.GetClasses();
     this.GetTeachers();
-    this.GetCourses();   
+    this.GetCourses();
+    this.SetDateSheetDates();   
    // get the datesheetname from url coming from datesheetlist comp.  
+  }
+  SetDateSheetDates()
+  {
     this.actroute.queryParams.subscribe(
       data => {
           let id = CryptoJS.AES.decrypt(data.id, this.encPassword.trim()).toString(CryptoJS.enc.Utf8);
@@ -81,6 +86,7 @@ export class EditComponent implements OnInit {
         }
       }
     );
+  
   }
   //method to clear the datesheet and get back to create new
   ClearDateSheet()
@@ -92,10 +98,15 @@ GetDateSheet(id)
     this.datesheetserv.GetDateSheet(id).pipe(takeUntil(this.Destroyed)).subscribe(
       res =>
       {
+        this.TempStartDate =  new Date(Date.parse(res.start));
+        this.TempStartDate = new Date( this.TempStartDate.getTime() + Math.abs(this.TempStartDate.getTimezoneOffset()*60000) )  
         this.StartDate =  new Date(Date.parse(res.start));
+        this.StartDate = new Date( this.StartDate.getTime() + Math.abs(this.StartDate.getTimezoneOffset()*60000) ); 
         this.EndDate = new Date(Date.parse(res.end));
+        this.EndDate = new Date( this.EndDate.getTime() + Math.abs(this.EndDate.getTimezoneOffset()*60000) );
         this.Form.controls['DateSheetHeader'].setValue(res.id);
         this.SetDates();
+      
       } 
       ,
        err=>
@@ -112,15 +123,14 @@ ResetAfterSubmit()
 //method to set the start and end dates of papers
 SetDates()
 {
-  localStorage.setItem('StartDate' , this.StartDate.toString());    
-  if(this.EndDate >= this.StartDate)
+  if(this.EndDate >= this.TempStartDate)
   {
    this.DateError = ""; 
    var i= 1;
-   while(this.StartDate <= this.EndDate)
+   while(this.TempStartDate <= this.EndDate)
    {
        this.Dates.push({
-       date : this.StartDate.setDate(this.StartDate.getDate()+i),
+       date : this.TempStartDate.setDate(this.TempStartDate.getDate()+i),
         });
       i=1;
    }
@@ -166,7 +176,6 @@ SetSubDetails(item : any ,classVal : any )
    this.Form.controls['StartDate'].setValue(this.datePipe.transform(this.StartDate, 'yyyy-MM-dd'));
    this.Form.controls['EndDate'].setValue(this.datePipe.transform(this.EndDate, 'yyyy-MM-dd'));        
    this.GetCourses(); 
-   console.log(this.Form);
   }
   //method to get the courses from the database
   GetCourses()
@@ -180,7 +189,7 @@ SetSubDetails(item : any ,classVal : any )
   //method to add the current paper data to the database
   onSubmit()
 {
-  this.datesheetserv.Add(this.Form).pipe(takeUntil(this.Destroyed)).subscribe(
+  this.datesheetserv.AddFullDetails(this.Form).pipe(takeUntil(this.Destroyed)).subscribe(
     res =>
     {
         this.Form.untouched;
@@ -199,8 +208,5 @@ ngOnDestroyed()
    this.Destroyed.next(true);
    this.Destroyed.complete();
 }
-see()
-{
-    alert();
-}
+
 }

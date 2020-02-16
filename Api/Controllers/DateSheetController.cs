@@ -46,7 +46,7 @@ namespace Api.Controllers
             return BadRequest(ModelState);
         }
         //creating method to add data coming from angular project through url
-        public async Task<Object> AddDetail(DateSheetViewModel dateSheet)
+        public async Task<Object> AddFullDetail(DateSheetViewModel dateSheet)
         {
             if(ModelState.IsValid)
             {
@@ -59,7 +59,7 @@ namespace Api.Controllers
                     Date = dateSheet.Date,
                     StartDate = dateSheet.StartDate,
                     EndDate = dateSheet.EndDate,
-                    DateSheetName = dateSheet.DateSheetName,
+                    DateSheetName = dateSheet.DateSheetHeader,
                 };
                 if(authDb.DateSheet.Any(a => a.Class == model.Class && a.Date == model.Date))
                 {
@@ -74,11 +74,11 @@ namespace Api.Controllers
             return BadRequest(ModelState);
         }
         //get datesheet by name for edit 
-        [Route("{name}")]
-        public async Task<object> Edit(string name)
-        {
-            return Ok(await Task.Run(() => authDb.DateSheet.Where(a => a.DateSheetName == name).Include(a => a.Class).Include(a => a.Subject).Include(a => a.Teacher).ToList()));
-        }
+        //[Route("{name}")]
+        //public async Task<object> Edit(string name)
+        //{
+        //    return Ok(await Task.Run(() => authDb.DateSheet.Where(a => a.DateSheetName == name).Include(a => a.Class).Include(a => a.Subject).Include(a => a.Teacher).ToList()));
+        //}
         [Route("{id}")]
         public async Task<Object> Delete(int id)
         {
